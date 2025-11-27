@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Magic School</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Roboto:wght@400;700&display=swap');
+
+        :root {
+            --bg-body: #00d2ff;
+            --card-bg: #ffffff;
+            --primary: #00c853; 
+            --secondary: #ff6d00;
+            --accent: #6200ea;
+            --font-main: 'Fredoka', sans-serif;
+            --border-radius: 30px;
+            --shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-body);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.mode-adult {
+            background: #b0bec5;
+            --font-main: 'Roboto', sans-serif;
+            --border-radius: 15px;
+        }
+
+        .app-container {
+            width: 95%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 95vh;
+            overflow: hidden;
+            position: relative;
+            border: 5px solid white;
+        }
+
+        .scroll-content {
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-right: 2px;
+        }
+
+        /* --- HEADER & CONTROLS --- */
+        .mode-switcher { 
+            display: flex; background: #eee; padding: 4px; border-radius: 50px; 
+            margin-bottom: 5px; 
+        }
+        .switch-btn { 
+            flex: 1; padding: 8px; border: none; border-radius: 50px; cursor: pointer; 
+            font-weight: bold; background: transparent; color: #777; transition: 0.3s;
+        }
+        .switch-btn.active-kids { background: var(--secondary); color: white; }
+        .switch-btn.active-adult { background: #455a64; color: white; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; color: var(--primary); font-size: 1.8rem; }
+        .score-pill { 
+            background: #FFD700; color: #e65100; padding: 5px 15px; 
+            border-radius: 20px; font-weight: bold; cursor: pointer; border: 2px solid #ffca28;
+        }
+
+        /* --- NUEVA ZONA: ESTADÍSTICAS (EL CAMBIO QUE PEDISTE) --- */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .stat-oval {
+            flex: 1;
+            border: 2px solid black; /* Borde negro como el dibujo */
+            border-radius: 50px;     /* Forma ovalada */
+            background: white;
+            text-align: center;
+            padding: 5px 2px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-title {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 900;
+            color: #000;
+        }
+
+        /* --- BARRA JUEGOS --- */
+        .games-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        /* Ajuste de colores para que se parezca a tu captura */
+        .game-btn-purple { background: #6200ea; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold; }
+        .game-btn-pink { background: #e91e63; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+        .game-btn-green { background: #00c853; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+        .game-btn-blue { background: #546e7a; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+
+        .game-label { font-size: 0.8rem; margin-top: 2px; }
+        .game-icon { font-size: 1.5rem; }
+
+        /* --- INPUT --- */
+        .input-box { position: relative; }
+        textarea { 
+            width: 100%; height: 60px; border: 3px solid #e0e0e0; border-radius: 20px; 
+            padding: 15px 50px 15px 15px; font-size: 1.2rem; font-family: inherit; 
+            resize: none; outline: none; box-sizing: border-box; text-align: left;
+        }
+        textarea:focus { border-color: var(--secondary); }
+        
+        .mic-btn {
+            position: absolute; right: 10px; bottom: 10px;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--secondary); color: white; border: none; font-size: 1.2rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .mic-btn.active { background: #ff1744; animation: pulse 1s infinite; }
+
+        /* BOTÓN TRADUCIR GIGANTE */
+        .btn-translate { 
+            width: 100%; padding: 15px; border: none; border-radius: 50px; 
+            background: #00c853; color: white; font-size: 1.3rem; 
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #009624; 
+            transition: transform 0.1s; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-translate:active { transform: translateY(4px); box-shadow: none; }
+
+        /* RESULTADO */
+        .result-compact { background: #e8f5e9; border: 2px solid var(--primary); border-radius: 15px; padding: 10px; display: none; text-align: center; font-size: 1.3rem; color: #1b5e20; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .res-divider { color: #aaa; font-weight: normal; }
+
+        /* --- ZONA APRENDIZAJE --- */
+        .learning-zone { margin-top: 10px; display: flex; flex-direction: column; }
+        
+        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .tab-btn {
+            background: white; border: 2px solid #eee; border-radius: 15px; padding: 8px 10px;
+            min-width: 70px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+        }
+        .tab-btn.active { border-color: var(--secondary); background: #fff3e0; transform: scale(1.05); }
+        .tab-icon { font-size: 1.5rem; }
+        .tab-label { font-size: 0.7rem; font-weight: bold; color: #666; margin-top: 3px; }
+
+        .pagination { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; background: #f5f5f5; padding: 5px 10px; border-radius: 50px;}
+        .nav-btn { background: white; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        
+        .vocab-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .vocab-item {
+            background: white; border-radius: 15px; aspect-ratio: 1; display: flex;
+            align-items: center; justify-content: center; font-size: 1.8rem;
+            cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .vocab-item:active { transform: scale(0.9); background: var(--secondary); border-color: var(--secondary); }
+
+        /* --- MODALES --- */
+        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 40; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: #ff5252; color: white; border:none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 70; }
+        
+        /* JUEGO FRASE */
+        .game-card { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .phrase-es { font-size: 1.5rem; color: #555; margin-bottom: 20px; font-weight: bold; }
+        .phrase-en { font-size: 2rem; color: var(--primary); font-weight: bold; margin-top: 10px; animation: slideIn 0.5s; display: none; }
+        .countdown { font-size: 4rem; font-weight: bold; color: var(--secondary); animation: pulse 0.5s infinite; }
+        .phrase-controls { display: flex; gap: 10px; margin-top: 30px; width: 100%; }
+        .btn-replay { flex:1; background:#ff9800; border:none; padding:15px; border-radius:15px; color:white; font-size:1.5rem; cursor:pointer; }
+        .btn-next { flex:2; background:#00c853; border:none; padding:15px; border-radius:15px; color:white; font-weight:bold; font-size:1.2rem; cursor:pointer; }
+
+        /* FÚTBOL */
+        .soccer-field { width: 100%; height: 220px; background: #4caf50; border-radius: 10px; position: relative; margin-top: 20px; border: 3px solid white; overflow: hidden; display: flex; justify-content: center; }
+        .goal { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; top: 0; }
+        .ball { font-size: 3rem; position: absolute; bottom: 10px; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; }
+        .goalkeeper { font-size: 3.5rem; position: absolute; top: 40px; transition: 0.3s; z-index: 1; }
+        .soccer-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
+        .soccer-btn { padding: 15px; border: none; border-radius: 10px; background: #2196f3; color: white; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+
+        /* BIENVENIDA */
+        #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; border-radius: var(--border-radius); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
+        .photo-frame { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 6px solid var(--secondary); margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .start-btn { background: var(--secondary); color: white; padding: 15px 50px; border-radius: 50px; font-size: 1.5rem; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 5px 0 #e65100; }
+
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+        @keyframes slideIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+        .particle { position: absolute; pointer-events: none; animation: fall 3s linear forwards; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- BIENVENIDA -->
+        <div id="welcomeScreen">
+            <div class="photo-frame">
+                <img src="hola.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4322/4322992.png'" alt="Foto">
+            </div>
+            <h1 style="color:var(--primary); font-size:2rem; line-height:1.2; margin-bottom: 30px;">¡Bienvenido!<br>Aprende Jugando</h1>
+            <button class="start-btn" onclick="iniciarApp()">ENTRAR</button>
+        </div>
+
+        <!-- MODAL FRASE -->
+        <div id="phraseModal" class="modal">
+            <button class="close-modal" onclick="cerrarModal('phraseModal')">✖</button>
+            <h2 style="text-align:center; color:var(--secondary); margin-top: 20px;">🎲 Frase Mágica</h2>
+            <div class="game-card">
+                <div id="pEs" class="phrase-es">...</div>
+                <div id="pCount" class="countdown" style="display:none;">3</div>
+                <div id="pEn" class="phrase-en">...</div>
+                <div id="pControls" class="phrase-controls" style="display:none;">
+                    <button class="btn-replay" onclick="repetirAudio()">🔁</button>
+                    <button class="btn-next" onclick="siguienteFrase()">Siguiente ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- APP CONTENT -->
+        <div class="scroll-content">
+            
+            <div class="mode-switcher">
+                <button id="btnKids" class="switch-btn active-kids" onclick="setMode('kids')">🦄 NIÑOS</button>
+                <button id="btnAdult" class="switch-btn" onclick="setMode('adult')">👔 ADULTOS</button>
+            </div>
+
+            <div class="header">
+                <h1>Magic School</h1>
+                <div class="score-pill">⭐ <span id="puntos">0</span></div>
+            </div>
+
+            <!-- NUEVA FILA DE ESTADÍSTICAS (COMO TU DIBUJO) -->
+            <div class="stats-row">
+                <div class="stat-oval">
+                    <span class="stat-title">RACHA</span>
+                    <span class="stat-value" id="streakVal">1 🔥</span>
+                </div>
+                <div class="stat-oval">
+                    <span class="stat-title">PROGRESO</span>
+                    <span class="stat-value" id="progressVal">0%</span>
+                </div>
+                <div class="stat-oval">
+                    <span class="stat-title">ETAPA</span>
+                    <span class="stat-value" id="stageVal">1</span>
+                </div>
+            </div>
+
+            <!-- FILA DE JUEGOS (BOTONES CUADRADOS) -->
+            <div class="games-bar">
+                <button class="game-btn-purple" onclick="abrirReto()">
+                    <span class="game-icon">🗣️</span><span class="game-label">Reto</span>
+                </button>
+                <button class="game-btn-pink" onclick="abrirFrase()">
+                    <span class="game-icon">🎲</span><span class="game-label">Frase</span>
+                </button>
+                <button class="game-btn-green" onclick="iniciarFutbol()">
+                    <span class="game-icon">⚽</span><span class="game-label">Fútbol</span>
+                </button>
+                <button class="game-btn-blue" onclick="borrar()">
+                    <span class="game-icon">🧹</span><span class="game-label">Borrar</span>
+                </button>
+            </div>
+
+            <div class="input-box">
+                <textarea id="entrada" placeholder="Escribe o toca un icono..."></textarea>
+                <button class="mic-btn" id="btnMic" onclick="activarMicro()">🎤</button>
+            </div>
+
+            <button class="btn-translate" onclick="traducir()">✨ TRADUCIR</button>
+
+            <div id="resultado" class="result-compact">
+                <span id="resEs">...</span>
+                <span class="res-divider">──</span>
+                <span id="resEn" style="font-weight:900;">...</span>
+                <button onclick="repetir()" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🔊</button>
+            </div>
+
+            <div class="learning-zone">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="loadCat('greetings', this)"><span class="tab-icon">👋</span><span class="tab-label">Saludos</span></button>
+                    <button class="tab-btn" onclick="loadCat('abc', this)"><span class="tab-icon">🔤</span><span class="tab-label">ABC</span></button>
+                    <button class="tab-btn" onclick="loadCat('routines', this)"><span class="tab-icon">📅</span><span class="tab-label">Rutinas</span></button>
+                    <button class="tab-btn" onclick="loadCat('numbers', this)"><span class="tab-icon">1️⃣</span><span class="tab-label">Números</span></button>
+                    <button class="tab-btn" onclick="loadCat('colors', this)"><span class="tab-icon">🎨</span><span class="tab-label">Colores</span></button>
+                    <button class="tab-btn" onclick="loadCat('animals', this)"><span class="tab-icon">🦁</span><span class="tab-label">Animales</span></button>
+                    <button class="tab-btn" onclick="loadCat('fruits', this)"><span class="tab-icon">🍎</span><span class="tab-label">Frutas</span></button>
+                </div>
+
+                <div class="pagination">
+                    <button class="nav-btn" onclick="changePage(-1)">⬅</button>
+                    <span id="pageInfo" style="font-weight:bold; color:#555;">Pág 1</span>
+                    <button class="nav-btn" onclick="changePage(1)">➡</button>
+                </div>
+
+                <div id="vocabGrid" class="vocab-grid"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODALES -->
+    
+    <!-- FÚTBOL -->
+    <div id="soccerModal" class="modal">
+        <button class="close-modal" onclick="cerrarModal('soccerModal')">✖</button>
+        <h2 style="text-align:center; color:var(--primary);">⚽ Penalty English</h2>
+        <div class="soccer-field">
+            <div class="goal"></div>
+            <div class="goalkeeper" id="goalkeeper">🧤</div>
+            <div class="ball" id="ball">⚽</div>
+        </div>
+        <p id="soccerQ" style="text-align:center; font-size:1.2rem; font-weight:bold; margin:10px 0;">...</p>
+        <div class="soccer-options" id="soccerOpts"></div>
+    </div>
+
+    <!-- TIENDA -->
+    <div id="shopModal" class="modal">
+        <button class="close-modal" onclick="cerrarModal('shopModal')">✖</button>
+        <h2 style="text-align:center; color:var(--secondary);">🏪 Tienda</h2>
+        <p style="text-align:center;">Puntos: <span id="shopPointsVal">0</span> ⭐</p>
+        <div id="shopGrid" class="shop-grid"></div>
+    </div>
+
+    <!-- RETO -->
+    <div id="challengeModal" class="modal">
+        <button class="close-modal" onclick="cerrarModal('challengeModal')">✖</button>
+        <h2 style="text-align:center; color:var(--accent);">🗣️ Reto Voz</h2>
+        <div class="game-card">
+            <div id="cWord" style="font-size:2rem; font-weight:bold; margin-bottom:20px;">...</div>
+            <button onclick="activarReto()" style="width:80px; height:80px; border-radius:50%; background:var(--secondary); border:none; font-size:2.5rem; color:white;">🎤</button>
+            <p id="cStatus">Toca para hablar</p>
+        </div>
+    </div>
+
+    <script>
+        let puntos = parseInt(localStorage.getItem('pts')) || 0;
+        let racha = parseInt(localStorage.getItem('streak')) || 1;
+        let page = 0;
+        let cat = 'greetings';
+        let currentEn = "";
+        let playedPhrases = [];
+        let currentPhrase = null;
+        let isAdultMode = false;
+
+        // DB 50 ITEMS
+        const createItems = (base) => {
+            let res = [];
+            while(res.length < 50) res = res.concat(base);
+            return res.slice(0, 50);
+        };
+
+        const baseDB = {
+            greetings: [{i:'👋',w:'Hello',e:'Hola'},{i:'🚶',w:'Goodbye',e:'Adiós'},{i:'🌅',w:'Good Morning',e:'Buenos días'},{i:'🌙',w:'Good Night',e:'Buenas noches'}],
+            routines: [{i:'🥱',w:'Wake up',e:'Despertar'},{i:'🚿',w:'Shower',e:'Ducha'},{i:'🏫',w:'School',e:'Escuela'}],
+            colors: [{i:'🔴',w:'Red',e:'Rojo'},{i:'🔵',w:'Blue',e:'Azul'},{i:'🟢',w:'Green',e:'Verde'}],
+            animals: [{i:'🐶',w:'Dog',e:'Perro'},{i:'🐱',w:'Cat',e:'Gato'},{i:'🦁',w:'Lion',e:'León'}],
+            fruits: [{i:'🍎',w:'Apple',e:'Manzana'},{i:'🍌',w:'Banana',e:'Plátano'}],
+            abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(l => ({i:l, w:l, e:`Letra ${l}`}))
+        };
+
+        const db = {
+            greetings: createItems(baseDB.greetings),
+            routines: createItems(baseDB.routines),
+            colors: createItems(baseDB.colors),
+            animals: createItems(baseDB.animals),
+            fruits: createItems(baseDB.fruits),
+            abc: createItems(baseDB.abc)
+        };
+
+        const phrasesDB = [
+            {es:"El gato es negro", en:"The cat is black"}, {es:"Me gusta el helado", en:"I like ice cream"}
+        ];
+
+        const shopItems = [
+            {id: 1, name: "Chupeta", icon: "🍭", price: 50}, {id: 2, name: "Carro", icon: "🏎️", price: 100}
+        ];
+
+        window.onload = function() {
+            updateStats();
+            loadCat('greetings', document.querySelector('.tab-btn'));
+        };
+
+        function iniciarApp() {
+            let msg = new SpeechSynthesisUtterance("¡Bienvenido! Aprende jugando.");
+            msg.lang = 'es-ES';
+            window.speechSynthesis.speak(msg);
+            document.getElementById('welcomeScreen').style.display = 'none';
+        }
+
+        // --- SISTEMA DE ESTADISTICAS ---
+        function updateStats() {
+            document.getElementById('puntos').innerText = puntos;
+            if(document.getElementById('shopPointsVal')) document.getElementById('shopPointsVal').innerText = puntos;
+            
+            // Calculo de Etapa (Cada 100 puntos = 1 etapa)
+            let stage = Math.floor(puntos / 100) + 1;
+            document.getElementById('stageVal').innerText = stage;
+            
+            // Calculo de Progreso (Residuo de los 100)
+            let progress = puntos % 100;
+            document.getElementById('progressVal').innerText = progress + "%";
+            
+            document.getElementById('streakVal').innerText = racha + " 🔥";
+            
+            localStorage.setItem('pts', puntos);
+        }
+
+        // --- CATEGORIAS ---
+        function loadCat(category, btn) {
+            if(btn) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            cat = category;
+            page = 0;
+            renderGrid();
+        }
+
+        function changePage(dir) {
+            page += dir;
+            if(page < 0) page = 0;
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('vocabGrid');
+            grid.innerHTML = '';
+            
+            let items = [];
+            if(cat === 'numbers') items = getNumbers(page);
+            else {
+                let list = db[cat];
+                let start = page * 10;
+                if(start >= list.length) { page = 0; start = 0; }
+                items = list.slice(start, start + 10);
+            }
+
+            document.getElementById('pageInfo').innerText = `Pág ${page + 1}`;
+
+            items.forEach(item => {
+                let div = document.createElement('div');
+                div.className = 'vocab-item';
+                div.innerHTML = item.i;
+                div.onclick = () => showResult(item.w, item.e);
+                grid.appendChild(div);
+            });
+        }
+
+        function getNumbers(p) {
+            let start = p * 10 + 1;
+            let res = [];
+            for(let i=start; i<start+10; i++) {
+                res.push({i:i, w:i.toString(), e:i.toString()}); 
+            }
+            return res;
+        }
+
+        function showResult(en, es) {
+            document.getElementById('entrada').value = en;
+            let rBox = document.getElementById('resultado');
+            rBox.style.display = 'flex';
+            document.getElementById('resEs').innerText = es;
+            document.getElementById('resEn').innerText = en;
+            speak(en);
+            puntos += 5; updateStats();
+        }
+
+        function repetir() { if(currentEn) speak(currentEn); }
+        function borrar() { 
+            document.getElementById('entrada').value = ''; 
+            document.getElementById('resultado').style.display = 'none'; 
+        }
+
+        // --- JUEGOS ---
+        function abrirFrase() { document.getElementById('phraseModal').style.display = 'flex'; siguienteFrase(); }
+        function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function siguienteFrase() {
+            let available = phrasesDB.filter(p => !playedPhrases.includes(p.en));
+            if(available.length === 0) { playedPhrases = []; available = phrasesDB; }
+            currentPhrase = available[Math.floor(Math.random() * available.length)];
+            playedPhrases.push(currentPhrase.en);
+
+            document.getElementById('pEs').innerText = "¿Cómo se dice... " + currentPhrase.es + "?";
+            document.getElementById('pEs').style.display = 'block';
+            document.getElementById('pEn').style.display = 'none';
+            document.getElementById('pCount').style.display = 'none';
+            document.getElementById('pControls').style.display = 'none';
+            
+            let vozEs = new SpeechSynthesisUtterance("¿Cómo se dice... " + currentPhrase.es + "?");
+            vozEs.lang = 'es-ES';
+            vozEs.onend = () => { setTimeout(() => startCount(3), 500); };
+            window.speechSynthesis.speak(vozEs);
+        }
+
+        function startCount(sec) {
+            let c = sec;
+            document.getElementById('pCount').style.display = 'block';
+            document.getElementById('pCount').innerText = c;
+            let t = setInterval(() => {
+                c--; document.getElementById('pCount').innerText = c;
+                if(c <= 0) {
+                    clearInterval(t);
+                    document.getElementById('pCount').style.display = 'none';
+                    document.getElementById('pEn').innerText = currentPhrase.en;
+                    document.getElementById('pEn').style.display = 'block';
+                    document.getElementById('pControls').style.display = 'flex';
+                    speak(currentPhrase.en);
+                    lanzarConfeti();
+                }
+            }, 1000);
+        }
+
+        function repetirAudio() { if(currentPhrase) speak(currentPhrase.en); }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.pitch = isAdultMode ? 1.0 : 1.4;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function setMode(m) {
+            document.querySelectorAll('.switch-btn').forEach(b => b.classList.remove('active-kids','active-adult'));
+            if(m === 'kids') {
+                document.getElementById('btnKids').classList.add('active-kids');
+                document.body.className = '';
+                isAdultMode = false;
+            } else {
+                document.getElementById('btnAdult').classList.add('active-adult');
+                document.body.className = 'mode-adult';
+                isAdultMode = true;
+            }
+        }
+
+        function lanzarConfeti() {
+            for(let i=0; i<15; i++) {
+                let p = document.createElement("div");
+                p.innerHTML = ["✨","🎉","🎈"][Math.floor(Math.random()*3)];
+                p.className = "particle";
+                p.style.left = Math.random()*100+"%";
+                p.style.fontSize = (Math.random()*20+10)+"px";
+                p.style.animationDuration = (Math.random()*1+0.5)+"s";
+                document.body.appendChild(p);
+                setTimeout(()=>p.remove(),3000);
+            }
+        }
+        
+        async function traducir() {
+            let txt = document.getElementById('entrada').value;
+            if(!txt) return;
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${encodeURIComponent(txt)}`;
+            let res = await fetch(url);
+            let json = await res.json();
+            let trad = json[0].map(x=>x[0]).join('');
+            showResult(trad, txt);
+        }
+
+        function activarMicro() {
+            if (!('webkitSpeechRecognition' in window)) return alert("Usa Chrome");
+            let rec = new webkitSpeechRecognition();
+            rec.lang = 'es-ES';
+            rec.start();
+            document.getElementById('btnMic').classList.add('active');
+            rec.onresult = e => {
+                document.getElementById('entrada').value = e.results[0][0].transcript;
+                document.getElementById('btnMic').classList.remove('active');
+                traducir();
+            };
+        }
+
+        // FÚTBOL
+        function iniciarFutbol() {
+            document.getElementById('soccerModal').style.display = 'flex';
+            nuevoGol();
+        }
+        function nuevoGol() {
+            document.getElementById('ball').style.bottom = "10px";
+            document.getElementById('ball').style.left = "45%";
+            document.getElementById('goalkeeper').style.left = "45%";
+            
+            let item = baseDB.animals[Math.floor(Math.random()*baseDB.animals.length)];
+            document.getElementById('soccerQ').innerText = "¿Cómo se dice " + item.e + "?";
+            
+            let optsDiv = document.getElementById('soccerOpts');
+            optsDiv.innerHTML = `
+                <button class="soccer-btn" onclick="shoot(true)">${item.w}</button>
+                <button class="soccer-btn" style="background:#ff9800" onclick="shoot(false)">Error</button>
+            `;
+        }
+        function shoot(win) {
+            let ball = document.getElementById('ball');
+            let keeper = document.getElementById('goalkeeper');
+            if(win) {
+                ball.style.bottom = "150px";
+                ball.style.left = Math.random() > 0.5 ? "20%" : "80%";
+                keeper.style.left = Math.random() > 0.5 ? "80%" : "20%";
+                speak("Goal!");
+                puntos += 20; updateStats();
+                lanzarConfeti();
+                setTimeout(nuevoGol, 2000);
+            } else {
+                keeper.style.left = "45%";
+                ball.style.bottom = "50px";
+                speak("Oh no!");
+                setTimeout(nuevoGol, 1000);
+            }
+        }
+
+        function abrirReto() { document.getElementById('challengeModal').style.display='flex'; }
+        function activarReto() { alert('Escuchando...'); }
+        function abrirModal(id) { document.getElementById(id).style.display='flex'; if(id=='shopModal') renderShop(); }
+        
+        function renderShop() {
+            let grid = document.getElementById('shopGrid'); grid.innerHTML = '';
+            shopItems.forEach(item => {
+                let div = document.createElement('div');
+                div.className = 'shop-item';
+                div.innerHTML = `<div style="font-size:2rem">${item.icon}</div><div>${item.name}</div><div class="price-tag">${item.price}⭐</div>`;
+                grid.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
