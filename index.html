@@ -447,5 +447,218 @@
 
         function showResult(en, es) {
             document.getElementById('entrada').value = en;
-            let rBox = document.getE
+            let rBox = document.getElementById('resultado');
+            rBox.style.display = 'flex';
+            document.getElementById('resEs').innerText = es;
+            document.getElementById('resEn').innerText = en;
+            currentEn = en;
+            speak(en);
+            puntos += 5; updateStats();
+        }
 
+        function repetir() { if(currentEn) speak(currentEn); }
+        function borrar() { 
+            document.getElementById('entrada').value = ''; 
+            document.getElementById('resultado').style.display = 'none'; 
+        }
+
+        function abrirFrase() { document.getElementById('phraseModal').style.display = 'flex'; siguienteFrase(); }
+        function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function siguienteFrase() {
+            let available = phrasesDB.filter(p => !playedPhrases.includes(p.en));
+            if(available.length === 0) { playedPhrases = []; available = phrasesDB; }
+            currentPhrase = available[Math.floor(Math.random() * available.length)];
+            playedPhrases.push(currentPhrase.en);
+
+            document.getElementById('pEs').innerText = "¿Cómo se dice... " + currentPhrase.es + "?";
+            document.getElementById('pEs').style.display = 'block';
+            document.getElementById('pEn').style.display = 'none';
+            document.getElementById('pCount').style.display = 'none';
+            document.getElementById('pControls').style.display = 'none';
+            
+            let vozEs = new SpeechSynthesisUtterance("Cómo se dice... " + currentPhrase.es);
+            vozEs.lang = 'es-ES';
+            vozEs.onend = () => { setTimeout(() => startCount(3), 500); };
+            window.speechSynthesis.speak(vozEs);
+        }
+
+        function startCount(sec) {
+            let c = sec;
+            document.getElementById('pCount').style.display = 'block';
+            document.getElementById('pCount').innerText = c;
+            let t = setInterval(() => {
+                c--; document.getElementById('pCount').innerText = c;
+                if(c <= 0) {
+                    clearInterval(t);
+                    document.getElementById('pCount').style.display = 'none';
+                    document.getElementById('pEn').innerText = currentPhrase.en;
+                    document.getElementById('pEn').style.display = 'block';
+                    document.getElementById('pControls').style.display = 'flex';
+                    speak(currentPhrase.en);
+                    lanzarConfeti();
+                }
+            }, 1000);
+        }
+
+        function repetirAudio() { if(currentPhrase) speak(currentPhrase.en); }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.pitch = isAdultMode ? 1.0 : 1.4;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function setMode(m) {
+            document.querySelectorAll('.switch-btn').forEach(b => b.classList.remove('active-kids','active-adult'));
+            if(m === 'kids') {
+                document.getElementById('btnKids').classList.add('active-kids');
+                document.body.className = '';
+                isAdultMode = false;
+            } else {
+                document.getElementById('btnAdult').classList.add('active-adult');
+                document.body.className = 'mode-adult';
+                isAdultMode = true;
+            }
+        }
+
+        function lanzarConfeti() {
+            for(let i=0; i<15; i++) {
+                let p = document.createElement("div");
+                p.innerHTML = ["✨","🎉","🎈"][Math.floor(Math.random()*3)];
+                p.className = "particle";
+                p.style.left = Math.random()*100+"%";
+                p.style.fontSize = (Math.random()*20+10)+"px";
+                p.style.animationDuration = (Math.random()*1+0.5)+"s";
+                document.body.appendChild(p);
+                setTimeout(()=>p.remove(),3000);
+            }
+        }
+        
+        async function traducir() {
+            let txt = document.getElementById('entrada').value;
+            if(!txt) return;
+            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=es|en`;
+            try {
+                document.getElementById('resEn').innerText = "Cargando...";
+                document.getElementById('resultado').style.display = 'flex';
+                let res = await fetch(url);
+                let json = await res.json();
+                if(json.responseData && json.responseData.translatedText) {
+                    showResult(json.responseData.translatedText, txt);
+                } else {
+                    showResult("Error", "Intenta otra vez");
+                }
+            } catch (e) { showResult("Error de Red", "No se pudo traducir"); }
+        }
+
+        function activarMicro() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return alert("Tu navegador no soporta voz.");
+            let rec = new SpeechRecognition();
+            rec.lang = 'es-ES';
+            rec.continuous = false;
+            document.getElementById('btnMic').classList.add('active');
+            rec.start();
+            rec.onresult = e => {
+                let transcript = e.results[0][0].transcript;
+                document.getElementById('entrada').value = transcript;
+                document.getElementById('btnMic').classList.remove('active');
+                traducir();
+            };
+            rec.onerror = () => document.getElementById('btnMic').classList.remove('active');
+            rec.onend = () => document.getElementById('btnMic').classList.remove('active');
+        }
+
+        function iniciarFutbol() {
+            document.getElementById('soccerModal').style.display = 'flex';
+            nuevoGol();
+        }
+        function nuevoGol() {
+            document.getElementById('ball').style.bottom = "10px";
+            document.getElementById('ball').style.left = "45%";
+            document.getElementById('goalkeeper').style.left = "45%";
+            let item = baseDB.animals[Math.floor(Math.random()*baseDB.animals.length)];
+            document.getElementById('soccerQ').innerText = "¿Cómo se dice " + item.e + "?";
+            let wrong = baseDB.colors[Math.floor(Math.random()*baseDB.colors.length)].w;
+            let btns = [`<button class="soccer-btn" onclick="shoot(true)">${item.w}</button>`, `<button class="soccer-btn" style="background:#ff9800" onclick="shoot(false)">${wrong}</button>`];
+            btns.sort(() => Math.random() - 0.5);
+            document.getElementById('soccerOpts').innerHTML = btns.join('');
+        }
+        function shoot(win) {
+            let ball = document.getElementById('ball');
+            let keeper = document.getElementById('goalkeeper');
+            if(win) {
+                ball.style.bottom = "150px";
+                ball.style.left = Math.random() > 0.5 ? "20%" : "80%";
+                keeper.style.left = Math.random() > 0.5 ? "80%" : "20%";
+                speak("Goal!");
+                puntos += 20; updateStats();
+                lanzarConfeti();
+                setTimeout(nuevoGol, 2000);
+            } else {
+                keeper.style.left = "45%";
+                ball.style.bottom = "50px";
+                speak("Oh no!");
+                setTimeout(nuevoGol, 1000);
+            }
+        }
+
+        // --- LÓGICA DEL RETO ACTUALIZADA ---
+        function abrirReto() { 
+            document.getElementById('challengeModal').style.display='flex'; 
+            siguienteReto();
+        }
+
+        function siguienteReto() {
+            // Elige una palabra al azar (Animales, Colores o Frutas)
+            let cats = [...baseDB.animals, ...baseDB.colors, ...baseDB.fruits];
+            let item = cats[Math.floor(Math.random()*cats.length)];
+            currentChallengeWord = item.w;
+            
+            document.getElementById('cWord').innerText = currentChallengeWord;
+            document.getElementById('cStatus').innerText = "Escucha y repite...";
+            
+            // Decir la palabra automáticamente al cambiar
+            setTimeout(() => speak(currentChallengeWord), 500);
+        }
+
+        function escucharReto() {
+            speak(currentChallengeWord);
+        }
+        
+        function activarReto() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SpeechRecognition) return alert("Navegador no soportado");
+            
+            let rec = new SpeechRecognition();
+            rec.lang = 'en-US'; // Escuchar inglés
+            rec.start();
+            document.getElementById('cStatus').innerText = "🎤 Escuchando...";
+            
+            rec.onresult = e => {
+                let dicho = e.results[0][0].transcript.toLowerCase();
+                let objetivo = currentChallengeWord.toLowerCase();
+                
+                // Comprobación flexible (si la palabra dicha está contenida en lo que se escuchó)
+                if(dicho.includes(objetivo) || objetivo.includes(dicho)) {
+                    document.getElementById('cStatus').innerText = "¡Correcto! 🎉";
+                    lanzarConfeti();
+                    puntos += 50; updateStats();
+                    speak("Excellent!");
+                    setTimeout(siguienteReto, 2000); // Pasa al siguiente automático si aciertas
+                } else {
+                    document.getElementById('cStatus').innerText = "Dijiste: " + dicho + ". Intenta de nuevo.";
+                    speak("Try again");
+                }
+            };
+
+            rec.onerror = () => {
+                document.getElementById('cStatus').innerText = "No te escuché. Toca el micro otra vez.";
+            };
+        }
+    </script>
+</body>
+</html>
