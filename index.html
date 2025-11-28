@@ -174,7 +174,6 @@
         .soccer-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
         .soccer-btn { padding: 15px; border: none; border-radius: 10px; background: #2196f3; color: white; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
 
-        /* ESTILO NUEVO PARA LOS CONTROLES DEL RETO */
         .reto-controls {
             display: flex; align-items: center; gap: 15px; margin-top: 20px;
         }
@@ -303,7 +302,6 @@
 
     <!-- MODALES -->
     
-    <!-- FÚTBOL -->
     <div id="soccerModal" class="modal">
         <button class="close-modal" onclick="cerrarModal('soccerModal')">✖</button>
         <h2 style="text-align:center; color:var(--primary);">⚽ Penalty English</h2>
@@ -316,7 +314,6 @@
         <div class="soccer-options" id="soccerOpts"></div>
     </div>
 
-    <!-- RETO ACTUALIZADO (Con botones Escuchar y Siguiente) -->
     <div id="challengeModal" class="modal">
         <button class="close-modal" onclick="cerrarModal('challengeModal')">✖</button>
         <h2 style="text-align:center; color:var(--accent);">🗣️ Escucha y Repite</h2>
@@ -341,37 +338,57 @@
         let playedPhrases = [];
         let currentPhrase = null;
         let isAdultMode = false;
-        let currentChallengeWord = ""; // Para el reto
+        let currentChallengeWord = "";
 
-        const createItems = (base) => {
-            let res = [];
-            while(res.length < 50) res = res.concat(base);
-            return res.slice(0, 50);
-        };
-
+        // BASE DE DATOS AMPLIADA (MASSIVE UPDATE)
         const baseDB = {
-            greetings: [{i:'👋',w:'Hello',e:'Hola'},{i:'🚶',w:'Goodbye',e:'Adiós'},{i:'🌅',w:'Good Morning',e:'Buenos días'},{i:'🌙',w:'Good Night',e:'Buenas noches'},{i:'🙏',w:'Thank you',e:'Gracias'}],
-            routines: [{i:'🥱',w:'Wake up',e:'Despertar'},{i:'🚿',w:'Shower',e:'Ducha'},{i:'🏫',w:'School',e:'Escuela'},{i:'🛌',w:'Sleep',e:'Dormir'}],
-            colors: [{i:'🔴',w:'Red',e:'Rojo'},{i:'🔵',w:'Blue',e:'Azul'},{i:'🟢',w:'Green',e:'Verde'},{i:'🟡',w:'Yellow',e:'Amarillo'}],
-            animals: [{i:'🐶',w:'Dog',e:'Perro'},{i:'🐱',w:'Cat',e:'Gato'},{i:'🦁',w:'Lion',e:'León'},{i:'🐘',w:'Elephant',e:'Elefante'}],
-            fruits: [{i:'🍎',w:'Apple',e:'Manzana'},{i:'🍌',w:'Banana',e:'Plátano'},{i:'🍇',w:'Grapes',e:'Uvas'},{i:'🍊',w:'Orange',e:'Naranja'}],
+            greetings: [
+                {i:'👋',w:'Hello',e:'Hola'},{i:'🚶',w:'Goodbye',e:'Adiós'},{i:'🌅',w:'Good Morning',e:'Buenos días'},{i:'🌙',w:'Good Night',e:'Buenas noches'},{i:'🙏',w:'Thank you',e:'Gracias'},
+                {i:'😃',w:'How are you?',e:'¿Cómo estás?'},{i:'🤝',w:'Nice to meet you',e:'Gusto en conocerte'},{i:'🤔',w:'Excuse me',e:'Disculpa'},{i:'🥳',w:'Welcome',e:'Bienvenido'},
+                {i:'👀',w:'See you later',e:'Nos vemos luego'},{i:'👍',w:'Yes',e:'Sí'},{i:'👎',w:'No',e:'No'},{i:'🤷',w:'Maybe',e:'Tal vez'},{i:'🆗',w:'Okay',e:'Está bien'},{i:'😊',w:'Please',e:'Por favor'}
+            ],
+            routines: [
+                {i:'🥱',w:'Wake up',e:'Despertar'},{i:'🚿',w:'Shower',e:'Ducha'},{i:'🏫',w:'School',e:'Escuela'},{i:'🛌',w:'Sleep',e:'Dormir'},
+                {i:'🦷',w:'Brush teeth',e:'Cepillar dientes'},{i:'🍳',w:'Breakfast',e:'Desayuno'},{i:'🥪',w:'Lunch',e:'Almuerzo'},{i:'🍝',w:'Dinner',e:'Cena'},
+                {i:'📚',w:'Study',e:'Estudiar'},{i:'🎮',w:'Play',e:'Jugar'},{i:'📺',w:'Watch TV',e:'Ver TV'},{i:'📖',w:'Read',e:'Leer'},{i:'🚌',w:'Go to work',e:'Ir al trabajo'}
+            ],
+            colors: [
+                {i:'🔴',w:'Red',e:'Rojo'},{i:'🔵',w:'Blue',e:'Azul'},{i:'🟢',w:'Green',e:'Verde'},{i:'🟡',w:'Yellow',e:'Amarillo'},
+                {i:'🟣',w:'Purple',e:'Morado'},{i:'🟠',w:'Orange',e:'Naranja'},{i:'👚',w:'Pink',e:'Rosa'},{i:'⚫',w:'Black',e:'Negro'},
+                {i:'⚪',w:'White',e:'Blanco'},{i:'🟤',w:'Brown',e:'Café'},{i:'🐀',w:'Grey',e:'Gris'},{i:'🥇',w:'Gold',e:'Dorado'}
+            ],
+            animals: [
+                {i:'🐶',w:'Dog',e:'Perro'},{i:'🐱',w:'Cat',e:'Gato'},{i:'🦁',w:'Lion',e:'León'},{i:'🐘',w:'Elephant',e:'Elefante'},
+                {i:'🐯',w:'Tiger',e:'Tigre'},{i:'🐻',w:'Bear',e:'Oso'},{i:'🐴',w:'Horse',e:'Caballo'},{i:'🐮',w:'Cow',e:'Vaca'},
+                {i:'🐷',w:'Pig',e:'Cerdo'},{i:'🐵',w:'Monkey',e:'Mono'},{i:'🐦',w:'Bird',e:'Pájaro'},{i:'🐠',w:'Fish',e:'Pez'},
+                {i:'🐇',w:'Rabbit',e:'Conejo'},{i:'🐍',w:'Snake',e:'Serpiente'},{i:'🦒',w:'Giraffe',e:'Jirafa'},{i:'🐊',w:'Crocodile',e:'Cocodrilo'}
+            ],
+            fruits: [
+                {i:'🍎',w:'Apple',e:'Manzana'},{i:'🍌',w:'Banana',e:'Plátano'},{i:'🍇',w:'Grapes',e:'Uvas'},{i:'🍊',w:'Orange',e:'Naranja'},
+                {i:'🍓',w:'Strawberry',e:'Fresa'},{i:'🍍',w:'Pineapple',e:'Piña'},{i:'🍉',w:'Watermelon',e:'Sandía'},{i:'🍒',w:'Cherry',e:'Cereza'},
+                {i:'🍐',w:'Pear',e:'Pera'},{i:'🍋',w:'Lemon',e:'Limón'},{i:'🥭',w:'Mango',e:'Mango'},{i:'🥑',w:'Avocado',e:'Aguacate'}
+            ],
             abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(l => ({i:l, w:l, e:`Letra ${l}`}))
-        };
-
-        const db = {
-            greetings: createItems(baseDB.greetings),
-            routines: createItems(baseDB.routines),
-            colors: createItems(baseDB.colors),
-            animals: createItems(baseDB.animals),
-            fruits: createItems(baseDB.fruits),
-            abc: createItems(baseDB.abc)
         };
 
         const phrasesDB = [
             {es:"El gato es negro", en:"The cat is black"}, 
             {es:"Me gusta el helado", en:"I like ice cream"},
             {es:"Hola amigo", en:"Hello friend"},
-            {es:"El sol es amarillo", en:"The sun is yellow"}
+            {es:"El sol es amarillo", en:"The sun is yellow"},
+            {es:"Mi nombre es...", en:"My name is..."},
+            {es:"Yo tengo un perro", en:"I have a dog"},
+            {es:"Ella es mi hermana", en:"She is my sister"},
+            {es:"¿Dónde está el baño?", en:"Where is the bathroom?"},
+            {es:"Yo quiero agua", en:"I want water"},
+            {es:"Buenos días mamá", en:"Good morning mom"},
+            {es:"El coche es rojo", en:"The car is red"},
+            {es:"Me gusta jugar", en:"I like to play"},
+            {es:"La manzana es roja", en:"The apple is red"},
+            {es:"Hace mucho calor", en:"It is very hot"},
+            {es:"Yo soy feliz", en:"I am happy"},
+            {es:"Abre la puerta", en:"Open the door"},
+            {es:"Vamos a la escuela", en:"Let's go to school"}
         ];
 
         window.onload = function() {
@@ -419,8 +436,9 @@
             let items = [];
             if(cat === 'numbers') items = getNumbers(page);
             else {
-                let list = db[cat];
+                let list = baseDB[cat];
                 let start = page * 10;
+                // Ajuste para listas infinitas o finitas
                 if(start >= list.length) { page = 0; start = 0; }
                 items = list.slice(start, start + 10);
             }
@@ -576,13 +594,23 @@
             document.getElementById('soccerModal').style.display = 'flex';
             nuevoGol();
         }
+
+        // FÚTBOL MEJORADO: AHORA SACA PREGUNTAS DE TODAS PARTES
         function nuevoGol() {
             document.getElementById('ball').style.bottom = "10px";
             document.getElementById('ball').style.left = "45%";
             document.getElementById('goalkeeper').style.left = "45%";
-            let item = baseDB.animals[Math.floor(Math.random()*baseDB.animals.length)];
+            
+            // Elegir categoría aleatoria
+            let cats = [...baseDB.animals, ...baseDB.colors, ...baseDB.fruits, ...baseDB.routines, ...baseDB.greetings];
+            let item = cats[Math.floor(Math.random()*cats.length)];
+            
             document.getElementById('soccerQ').innerText = "¿Cómo se dice " + item.e + "?";
-            let wrong = baseDB.colors[Math.floor(Math.random()*baseDB.colors.length)].w;
+            
+            // Generar respuesta incorrecta
+            let wrong = cats[Math.floor(Math.random()*cats.length)].w;
+            while(wrong === item.w) { wrong = cats[Math.floor(Math.random()*cats.length)].w; } // Evitar duplicados
+
             let btns = [`<button class="soccer-btn" onclick="shoot(true)">${item.w}</button>`, `<button class="soccer-btn" style="background:#ff9800" onclick="shoot(false)">${wrong}</button>`];
             btns.sort(() => Math.random() - 0.5);
             document.getElementById('soccerOpts').innerHTML = btns.join('');
@@ -606,35 +634,30 @@
             }
         }
 
-        // --- LÓGICA DEL RETO ACTUALIZADA ---
+        // RETO MEJORADO: USA TODO EL VOCABULARIO
         function abrirReto() { 
             document.getElementById('challengeModal').style.display='flex'; 
             siguienteReto();
         }
 
         function siguienteReto() {
-            // Elige una palabra al azar (Animales, Colores o Frutas)
-            let cats = [...baseDB.animals, ...baseDB.colors, ...baseDB.fruits];
+            let cats = [...baseDB.animals, ...baseDB.colors, ...baseDB.fruits, ...baseDB.routines, ...baseDB.greetings];
             let item = cats[Math.floor(Math.random()*cats.length)];
             currentChallengeWord = item.w;
             
             document.getElementById('cWord').innerText = currentChallengeWord;
             document.getElementById('cStatus').innerText = "Escucha y repite...";
-            
-            // Decir la palabra automáticamente al cambiar
             setTimeout(() => speak(currentChallengeWord), 500);
         }
 
-        function escucharReto() {
-            speak(currentChallengeWord);
-        }
+        function escucharReto() { speak(currentChallengeWord); }
         
         function activarReto() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if(!SpeechRecognition) return alert("Navegador no soportado");
             
             let rec = new SpeechRecognition();
-            rec.lang = 'en-US'; // Escuchar inglés
+            rec.lang = 'en-US';
             rec.start();
             document.getElementById('cStatus').innerText = "🎤 Escuchando...";
             
@@ -642,23 +665,20 @@
                 let dicho = e.results[0][0].transcript.toLowerCase();
                 let objetivo = currentChallengeWord.toLowerCase();
                 
-                // Comprobación flexible (si la palabra dicha está contenida en lo que se escuchó)
                 if(dicho.includes(objetivo) || objetivo.includes(dicho)) {
                     document.getElementById('cStatus').innerText = "¡Correcto! 🎉";
                     lanzarConfeti();
                     puntos += 50; updateStats();
                     speak("Excellent!");
-                    setTimeout(siguienteReto, 2000); // Pasa al siguiente automático si aciertas
+                    setTimeout(siguienteReto, 2000);
                 } else {
                     document.getElementById('cStatus').innerText = "Dijiste: " + dicho + ". Intenta de nuevo.";
                     speak("Try again");
                 }
             };
-
-            rec.onerror = () => {
-                document.getElementById('cStatus').innerText = "No te escuché. Toca el micro otra vez.";
-            };
+            rec.onerror = () => { document.getElementById('cStatus').innerText = "No te escuché. Toca el micro otra vez."; };
         }
     </script>
 </body>
 </html>
+
