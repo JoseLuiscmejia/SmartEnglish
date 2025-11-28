@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Magic School</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Roboto:wght@400;700&display=swap');
@@ -22,10 +22,12 @@
             font-family: var(--font-main);
             background: var(--bg-body);
             margin: 0;
+            /* Usamos dvh para móviles */
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            overscroll-behavior: none;
         }
 
         body.mode-adult {
@@ -44,10 +46,12 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            height: 95vh;
+            height: 95vh; /* Altura fija para evitar scroll de body */
+            height: 95dvh; /* Soporte mejorado móviles */
             overflow: hidden;
             position: relative;
             border: 5px solid white;
+            box-sizing: border-box;
         }
 
         .scroll-content {
@@ -57,12 +61,13 @@
             flex-direction: column;
             gap: 15px;
             padding-right: 2px;
+            padding-bottom: 20px;
         }
 
         /* --- HEADER & CONTROLS --- */
         .mode-switcher { 
             display: flex; background: #eee; padding: 4px; border-radius: 50px; 
-            margin-bottom: 5px; 
+            margin-bottom: 5px; flex-shrink: 0;
         }
         .switch-btn { 
             flex: 1; padding: 8px; border: none; border-radius: 50px; cursor: pointer; 
@@ -71,64 +76,39 @@
         .switch-btn.active-kids { background: var(--secondary); color: white; }
         .switch-btn.active-adult { background: #455a64; color: white; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;}
         h1 { margin: 0; color: var(--primary); font-size: 1.8rem; }
         .score-pill { 
             background: #FFD700; color: #e65100; padding: 5px 15px; 
             border-radius: 20px; font-weight: bold; cursor: pointer; border: 2px solid #ffca28;
         }
 
-        /* --- NUEVA ZONA: ESTADÍSTICAS (EL CAMBIO QUE PEDISTE) --- */
+        /* --- ESTADÍSTICAS --- */
         .stats-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 5px;
+            display: flex; justify-content: space-between; gap: 10px; margin-bottom: 5px; flex-shrink: 0;
         }
-        
         .stat-oval {
-            flex: 1;
-            border: 2px solid black; /* Borde negro como el dibujo */
-            border-radius: 50px;     /* Forma ovalada */
-            background: white;
-            text-align: center;
-            padding: 5px 2px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            flex: 1; border: 2px solid black; border-radius: 50px; background: white;
+            text-align: center; padding: 5px 2px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
         }
-
-        .stat-title {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 1px;
-        }
-
-        .stat-value {
-            font-size: 1rem;
-            font-weight: 900;
-            color: #000;
-        }
+        .stat-title { font-size: 0.6rem; text-transform: uppercase; font-weight: bold; color: #333; letter-spacing: 1px; }
+        .stat-value { font-size: 1rem; font-weight: 900; color: #000; }
 
         /* --- BARRA JUEGOS --- */
-        .games-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        /* Ajuste de colores para que se parezca a tu captura */
-        .game-btn-purple { background: #6200ea; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold; }
-        .game-btn-pink { background: #e91e63; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
-        .game-btn-green { background: #00c853; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
-        .game-btn-blue { background: #546e7a; color: white; border-radius: 15px; border:none; min-width: 80px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
-
-        .game-label { font-size: 0.8rem; margin-top: 2px; }
-        .game-icon { font-size: 1.5rem; }
+        .games-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; flex-shrink: 0;}
+        .game-btn-purple { background: #6200ea; color: white; border-radius: 15px; border:none; min-width: 75px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold; }
+        .game-btn-pink { background: #e91e63; color: white; border-radius: 15px; border:none; min-width: 75px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+        .game-btn-green { background: #00c853; color: white; border-radius: 15px; border:none; min-width: 75px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+        .game-btn-blue { background: #546e7a; color: white; border-radius: 15px; border:none; min-width: 75px; height: 60px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:bold;}
+        .game-label { font-size: 0.7rem; margin-top: 2px; }
+        .game-icon { font-size: 1.4rem; }
 
         /* --- INPUT --- */
-        .input-box { position: relative; }
+        .input-box { position: relative; flex-shrink: 0;}
         textarea { 
             width: 100%; height: 60px; border: 3px solid #e0e0e0; border-radius: 20px; 
-            padding: 15px 50px 15px 15px; font-size: 1.2rem; font-family: inherit; 
+            padding: 15px 50px 15px 15px; font-size: 1.1rem; font-family: inherit; 
             resize: none; outline: none; box-sizing: border-box; text-align: left;
         }
         textarea:focus { border-color: var(--secondary); }
@@ -137,42 +117,41 @@
             position: absolute; right: 10px; bottom: 10px;
             width: 40px; height: 40px; border-radius: 50%;
             background: var(--secondary); color: white; border: none; font-size: 1.2rem;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
         .mic-btn.active { background: #ff1744; animation: pulse 1s infinite; }
 
-        /* BOTÓN TRADUCIR GIGANTE */
         .btn-translate { 
-            width: 100%; padding: 15px; border: none; border-radius: 50px; 
-            background: #00c853; color: white; font-size: 1.3rem; 
+            width: 100%; padding: 12px; border: none; border-radius: 50px; 
+            background: #00c853; color: white; font-size: 1.2rem; 
             font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #009624; 
             transition: transform 0.1s; display: flex; justify-content: center; align-items: center; gap: 10px;
+            flex-shrink: 0;
         }
         .btn-translate:active { transform: translateY(4px); box-shadow: none; }
 
-        /* RESULTADO */
-        .result-compact { background: #e8f5e9; border: 2px solid var(--primary); border-radius: 15px; padding: 10px; display: none; text-align: center; font-size: 1.3rem; color: #1b5e20; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .result-compact { background: #e8f5e9; border: 2px solid var(--primary); border-radius: 15px; padding: 10px; display: none; text-align: center; font-size: 1.2rem; color: #1b5e20; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .res-divider { color: #aaa; font-weight: normal; }
 
         /* --- ZONA APRENDIZAJE --- */
-        .learning-zone { margin-top: 10px; display: flex; flex-direction: column; }
+        .learning-zone { margin-top: 10px; display: flex; flex-direction: column; flex: 1; }
         
         .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .tab-btn {
             background: white; border: 2px solid #eee; border-radius: 15px; padding: 8px 10px;
-            min-width: 70px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+            min-width: 65px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
         }
         .tab-btn.active { border-color: var(--secondary); background: #fff3e0; transform: scale(1.05); }
-        .tab-icon { font-size: 1.5rem; }
-        .tab-label { font-size: 0.7rem; font-weight: bold; color: #666; margin-top: 3px; }
+        .tab-icon { font-size: 1.4rem; }
+        .tab-label { font-size: 0.65rem; font-weight: bold; color: #666; margin-top: 3px; }
 
         .pagination { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; background: #f5f5f5; padding: 5px 10px; border-radius: 50px;}
         .nav-btn { background: white; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         
-        .vocab-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .vocab-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding-bottom: 20px;}
         .vocab-item {
             background: white; border-radius: 15px; aspect-ratio: 1; display: flex;
-            align-items: center; justify-content: center; font-size: 1.8rem;
+            align-items: center; justify-content: center; font-size: 1.6rem;
             cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s;
             border: 1px solid transparent;
         }
@@ -180,9 +159,8 @@
 
         /* --- MODALES --- */
         .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 40; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: #ff5252; color: white; border:none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 70; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: #ff5252; color: white; border:none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 70; }
         
-        /* JUEGO FRASE */
         .game-card { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .phrase-es { font-size: 1.5rem; color: #555; margin-bottom: 20px; font-weight: bold; }
         .phrase-en { font-size: 2rem; color: var(--primary); font-weight: bold; margin-top: 10px; animation: slideIn 0.5s; display: none; }
@@ -191,7 +169,6 @@
         .btn-replay { flex:1; background:#ff9800; border:none; padding:15px; border-radius:15px; color:white; font-size:1.5rem; cursor:pointer; }
         .btn-next { flex:2; background:#00c853; border:none; padding:15px; border-radius:15px; color:white; font-weight:bold; font-size:1.2rem; cursor:pointer; }
 
-        /* FÚTBOL */
         .soccer-field { width: 100%; height: 220px; background: #4caf50; border-radius: 10px; position: relative; margin-top: 20px; border: 3px solid white; overflow: hidden; display: flex; justify-content: center; }
         .goal { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; top: 0; }
         .ball { font-size: 3rem; position: absolute; bottom: 10px; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; }
@@ -199,15 +176,14 @@
         .soccer-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
         .soccer-btn { padding: 15px; border: none; border-radius: 10px; background: #2196f3; color: white; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
 
-        /* BIENVENIDA */
         #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; border-radius: var(--border-radius); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        .photo-frame { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 6px solid var(--secondary); margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .photo-frame { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 6px solid var(--secondary); margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: #eee;}
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
         .start-btn { background: var(--secondary); color: white; padding: 15px 50px; border-radius: 50px; font-size: 1.5rem; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 5px 0 #e65100; }
 
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
         @keyframes slideIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-        .particle { position: absolute; pointer-events: none; animation: fall 3s linear forwards; }
+        .particle { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 999;}
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
     </style>
 </head>
@@ -218,6 +194,7 @@
         <!-- BIENVENIDA -->
         <div id="welcomeScreen">
             <div class="photo-frame">
+                <!-- Se ha agregado una imagen de respaldo por si hola.jpg falla -->
                 <img src="hola.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4322/4322992.png'" alt="Foto">
             </div>
             <h1 style="color:var(--primary); font-size:2rem; line-height:1.2; margin-bottom: 30px;">¡Bienvenido!<br>Aprende Jugando</h1>
@@ -252,7 +229,6 @@
                 <div class="score-pill">⭐ <span id="puntos">0</span></div>
             </div>
 
-            <!-- NUEVA FILA DE ESTADÍSTICAS (COMO TU DIBUJO) -->
             <div class="stats-row">
                 <div class="stat-oval">
                     <span class="stat-title">RACHA</span>
@@ -268,7 +244,6 @@
                 </div>
             </div>
 
-            <!-- FILA DE JUEGOS (BOTONES CUADRADOS) -->
             <div class="games-bar">
                 <button class="game-btn-purple" onclick="abrirReto()">
                     <span class="game-icon">🗣️</span><span class="game-label">Reto</span>
@@ -336,22 +311,14 @@
         <div class="soccer-options" id="soccerOpts"></div>
     </div>
 
-    <!-- TIENDA -->
-    <div id="shopModal" class="modal">
-        <button class="close-modal" onclick="cerrarModal('shopModal')">✖</button>
-        <h2 style="text-align:center; color:var(--secondary);">🏪 Tienda</h2>
-        <p style="text-align:center;">Puntos: <span id="shopPointsVal">0</span> ⭐</p>
-        <div id="shopGrid" class="shop-grid"></div>
-    </div>
-
     <!-- RETO -->
     <div id="challengeModal" class="modal">
         <button class="close-modal" onclick="cerrarModal('challengeModal')">✖</button>
         <h2 style="text-align:center; color:var(--accent);">🗣️ Reto Voz</h2>
         <div class="game-card">
-            <div id="cWord" style="font-size:2rem; font-weight:bold; margin-bottom:20px;">...</div>
+            <div id="cWord" style="font-size:2rem; font-weight:bold; margin-bottom:20px;">Cat</div>
             <button onclick="activarReto()" style="width:80px; height:80px; border-radius:50%; background:var(--secondary); border:none; font-size:2.5rem; color:white;">🎤</button>
-            <p id="cStatus">Toca para hablar</p>
+            <p id="cStatus" style="margin-top:10px;">Toca para pronunciar</p>
         </div>
     </div>
 
@@ -365,7 +332,6 @@
         let currentPhrase = null;
         let isAdultMode = false;
 
-        // DB 50 ITEMS
         const createItems = (base) => {
             let res = [];
             while(res.length < 50) res = res.concat(base);
@@ -373,11 +339,11 @@
         };
 
         const baseDB = {
-            greetings: [{i:'👋',w:'Hello',e:'Hola'},{i:'🚶',w:'Goodbye',e:'Adiós'},{i:'🌅',w:'Good Morning',e:'Buenos días'},{i:'🌙',w:'Good Night',e:'Buenas noches'}],
-            routines: [{i:'🥱',w:'Wake up',e:'Despertar'},{i:'🚿',w:'Shower',e:'Ducha'},{i:'🏫',w:'School',e:'Escuela'}],
-            colors: [{i:'🔴',w:'Red',e:'Rojo'},{i:'🔵',w:'Blue',e:'Azul'},{i:'🟢',w:'Green',e:'Verde'}],
-            animals: [{i:'🐶',w:'Dog',e:'Perro'},{i:'🐱',w:'Cat',e:'Gato'},{i:'🦁',w:'Lion',e:'León'}],
-            fruits: [{i:'🍎',w:'Apple',e:'Manzana'},{i:'🍌',w:'Banana',e:'Plátano'}],
+            greetings: [{i:'👋',w:'Hello',e:'Hola'},{i:'🚶',w:'Goodbye',e:'Adiós'},{i:'🌅',w:'Good Morning',e:'Buenos días'},{i:'🌙',w:'Good Night',e:'Buenas noches'},{i:'🙏',w:'Thank you',e:'Gracias'}],
+            routines: [{i:'🥱',w:'Wake up',e:'Despertar'},{i:'🚿',w:'Shower',e:'Ducha'},{i:'🏫',w:'School',e:'Escuela'},{i:'🛌',w:'Sleep',e:'Dormir'}],
+            colors: [{i:'🔴',w:'Red',e:'Rojo'},{i:'🔵',w:'Blue',e:'Azul'},{i:'🟢',w:'Green',e:'Verde'},{i:'🟡',w:'Yellow',e:'Amarillo'}],
+            animals: [{i:'🐶',w:'Dog',e:'Perro'},{i:'🐱',w:'Cat',e:'Gato'},{i:'🦁',w:'Lion',e:'León'},{i:'🐘',w:'Elephant',e:'Elefante'}],
+            fruits: [{i:'🍎',w:'Apple',e:'Manzana'},{i:'🍌',w:'Banana',e:'Plátano'},{i:'🍇',w:'Grapes',e:'Uvas'},{i:'🍊',w:'Orange',e:'Naranja'}],
             abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(l => ({i:l, w:l, e:`Letra ${l}`}))
         };
 
@@ -391,11 +357,10 @@
         };
 
         const phrasesDB = [
-            {es:"El gato es negro", en:"The cat is black"}, {es:"Me gusta el helado", en:"I like ice cream"}
-        ];
-
-        const shopItems = [
-            {id: 1, name: "Chupeta", icon: "🍭", price: 50}, {id: 2, name: "Carro", icon: "🏎️", price: 100}
+            {es:"El gato es negro", en:"The cat is black"}, 
+            {es:"Me gusta el helado", en:"I like ice cream"},
+            {es:"Hola amigo", en:"Hello friend"},
+            {es:"El sol es amarillo", en:"The sun is yellow"}
         ];
 
         window.onload = function() {
@@ -404,31 +369,23 @@
         };
 
         function iniciarApp() {
-            let msg = new SpeechSynthesisUtterance("¡Bienvenido! Aprende jugando.");
+            // Se requiere interacción para el audio en móviles
+            let msg = new SpeechSynthesisUtterance("Bienvenido a Magic School");
             msg.lang = 'es-ES';
             window.speechSynthesis.speak(msg);
             document.getElementById('welcomeScreen').style.display = 'none';
         }
 
-        // --- SISTEMA DE ESTADISTICAS ---
         function updateStats() {
             document.getElementById('puntos').innerText = puntos;
-            if(document.getElementById('shopPointsVal')) document.getElementById('shopPointsVal').innerText = puntos;
-            
-            // Calculo de Etapa (Cada 100 puntos = 1 etapa)
             let stage = Math.floor(puntos / 100) + 1;
             document.getElementById('stageVal').innerText = stage;
-            
-            // Calculo de Progreso (Residuo de los 100)
             let progress = puntos % 100;
             document.getElementById('progressVal').innerText = progress + "%";
-            
             document.getElementById('streakVal').innerText = racha + " 🔥";
-            
             localStorage.setItem('pts', puntos);
         }
 
-        // --- CATEGORIAS ---
         function loadCat(category, btn) {
             if(btn) {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -484,6 +441,7 @@
             rBox.style.display = 'flex';
             document.getElementById('resEs').innerText = es;
             document.getElementById('resEn').innerText = en;
+            currentEn = en;
             speak(en);
             puntos += 5; updateStats();
         }
@@ -494,7 +452,6 @@
             document.getElementById('resultado').style.display = 'none'; 
         }
 
-        // --- JUEGOS ---
         function abrirFrase() { document.getElementById('phraseModal').style.display = 'flex'; siguienteFrase(); }
         function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
@@ -510,7 +467,7 @@
             document.getElementById('pCount').style.display = 'none';
             document.getElementById('pControls').style.display = 'none';
             
-            let vozEs = new SpeechSynthesisUtterance("¿Cómo se dice... " + currentPhrase.es + "?");
+            let vozEs = new SpeechSynthesisUtterance("Cómo se dice... " + currentPhrase.es);
             vozEs.lang = 'es-ES';
             vozEs.onend = () => { setTimeout(() => startCount(3), 500); };
             window.speechSynthesis.speak(vozEs);
@@ -570,30 +527,70 @@
             }
         }
         
+        // --- FUNCIÓN DE TRADUCCIÓN CORREGIDA ---
         async function traducir() {
             let txt = document.getElementById('entrada').value;
             if(!txt) return;
-            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${encodeURIComponent(txt)}`;
-            let res = await fetch(url);
-            let json = await res.json();
-            let trad = json[0].map(x=>x[0]).join('');
-            showResult(trad, txt);
+            
+            // Usamos MyMemory API que suele permitir CORS mejor que Google
+            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=es|en`;
+            
+            try {
+                document.getElementById('resEn').innerText = "Cargando...";
+                document.getElementById('resultado').style.display = 'flex';
+                
+                let res = await fetch(url);
+                let json = await res.json();
+                
+                if(json.responseData && json.responseData.translatedText) {
+                    let trad = json.responseData.translatedText;
+                    showResult(trad, txt);
+                } else {
+                    showResult("Error", "Intenta otra vez");
+                }
+            } catch (e) {
+                console.error(e);
+                showResult("Error de Red", "No se pudo traducir");
+            }
         }
 
+        // --- MICRÓFONO CORREGIDO (COMPATIBLE) ---
         function activarMicro() {
-            if (!('webkitSpeechRecognition' in window)) return alert("Usa Chrome");
-            let rec = new webkitSpeechRecognition();
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                alert("Tu navegador no soporta reconocimiento de voz. Usa Chrome o Safari actualizado.");
+                return;
+            }
+
+            let rec = new SpeechRecognition();
             rec.lang = 'es-ES';
-            rec.start();
+            rec.continuous = false;
+            rec.interimResults = false;
+
             document.getElementById('btnMic').classList.add('active');
+            
+            rec.start();
+
             rec.onresult = e => {
-                document.getElementById('entrada').value = e.results[0][0].transcript;
+                let transcript = e.results[0][0].transcript;
+                document.getElementById('entrada').value = transcript;
                 document.getElementById('btnMic').classList.remove('active');
                 traducir();
             };
+
+            rec.onerror = e => {
+                console.log("Error micro:", e.error);
+                document.getElementById('btnMic').classList.remove('active');
+                alert("No te escuché bien, intenta de nuevo.");
+            };
+            
+            rec.onend = () => {
+                document.getElementById('btnMic').classList.remove('active');
+            };
         }
 
-        // FÚTBOL
+        // --- JUEGO DE FÚTBOL ---
         function iniciarFutbol() {
             document.getElementById('soccerModal').style.display = 'flex';
             nuevoGol();
@@ -607,10 +604,18 @@
             document.getElementById('soccerQ').innerText = "¿Cómo se dice " + item.e + "?";
             
             let optsDiv = document.getElementById('soccerOpts');
-            optsDiv.innerHTML = `
-                <button class="soccer-btn" onclick="shoot(true)">${item.w}</button>
-                <button class="soccer-btn" style="background:#ff9800" onclick="shoot(false)">Error</button>
-            `;
+            
+            // Generar opción incorrecta aleatoria
+            let wrong = baseDB.colors[Math.floor(Math.random()*baseDB.colors.length)].w;
+            
+            let btns = [
+                `<button class="soccer-btn" onclick="shoot(true)">${item.w}</button>`,
+                `<button class="soccer-btn" style="background:#ff9800" onclick="shoot(false)">${wrong}</button>`
+            ];
+            // Mezclar botones
+            btns.sort(() => Math.random() - 0.5);
+            
+            optsDiv.innerHTML = btns.join('');
         }
         function shoot(win) {
             let ball = document.getElementById('ball');
@@ -631,19 +636,39 @@
             }
         }
 
-        function abrirReto() { document.getElementById('challengeModal').style.display='flex'; }
-        function activarReto() { alert('Escuchando...'); }
-        function abrirModal(id) { document.getElementById(id).style.display='flex'; if(id=='shopModal') renderShop(); }
+        function abrirReto() { 
+            document.getElementById('challengeModal').style.display='flex'; 
+            // Seleccionar palabra al azar
+            let word = baseDB.animals[Math.floor(Math.random()*baseDB.animals.length)].w;
+            document.getElementById('cWord').innerText = word;
+            document.getElementById('cStatus').innerText = "Toca el micro y di: " + word;
+        }
         
-        function renderShop() {
-            let grid = document.getElementById('shopGrid'); grid.innerHTML = '';
-            shopItems.forEach(item => {
-                let div = document.createElement('div');
-                div.className = 'shop-item';
-                div.innerHTML = `<div style="font-size:2rem">${item.icon}</div><div>${item.name}</div><div class="price-tag">${item.price}⭐</div>`;
-                grid.appendChild(div);
-            });
+        function activarReto() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SpeechRecognition) return alert("Navegador no soportado");
+            
+            let rec = new SpeechRecognition();
+            rec.lang = 'en-US'; // Escuchar inglés para el reto
+            rec.start();
+            document.getElementById('cStatus').innerText = "Escuchando...";
+            
+            rec.onresult = e => {
+                let dicho = e.results[0][0].transcript.toLowerCase();
+                let objetivo = document.getElementById('cWord').innerText.toLowerCase();
+                
+                if(dicho.includes(objetivo)) {
+                    document.getElementById('cStatus').innerText = "¡Correcto! 🎉";
+                    lanzarConfeti();
+                    puntos += 50; updateStats();
+                    speak("Excellent!");
+                    setTimeout(() => cerrarModal('challengeModal'), 2000);
+                } else {
+                    document.getElementById('cStatus').innerText = "Dijiste: " + dicho + ". Intenta otra vez.";
+                }
+            };
         }
     </script>
 </body>
 </html>
+
