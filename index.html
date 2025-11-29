@@ -120,15 +120,15 @@
         .pack-badge { background: white; color: #333; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; align-self: flex-start; margin-top: 5px; }
         .pack-icon { position: absolute; right: 5px; bottom: 5px; font-size: 1.5rem; opacity: 0.5; }
 
-        .cw-board-container { width: 100%; max-width: 350px; background: #333; padding: 10px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .cw-board-container { width: 100%; max-width: 350px; background: #333; padding: 5px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .cw-grid-table { display: grid; gap: 2px; margin: 0 auto; }
         .cw-cell { aspect-ratio: 1; background: #fff; position: relative; }
         .cw-cell.black { background: #222; }
-        .cw-input { width: 100%; height: 100%; border: none; text-align: center; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; color: #333; outline: none; padding: 0; background: transparent; }
+        .cw-input { width: 100%; height: 100%; border: none; text-align: center; font-size: 1rem; font-weight: bold; text-transform: uppercase; color: #333; outline: none; padding: 0; background: transparent; }
         .cw-input:focus { background: #e3f2fd; }
-        .cw-clues-box { margin-top: 20px; background: white; padding: 15px; border-radius: 15px; width: 100%; text-align: left; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        .cw-clues-box { margin-top: 15px; background: white; padding: 15px; border-radius: 15px; width: 100%; text-align: left; box-shadow: 0 5px 10px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; }
         .cw-clue-title { font-weight: bold; color: var(--secondary); margin-bottom: 5px; font-size: 0.9rem; }
-        .cw-clue-text { font-size: 0.85rem; color: #555; margin-bottom: 5px; line-height: 1.4; border-bottom: 1px solid #eee; padding-bottom: 2px;}
+        .cw-clue-text { font-size: 0.8rem; color: #555; margin-bottom: 5px; line-height: 1.3; border-bottom: 1px solid #eee; padding-bottom: 2px;}
 
         /* JUEGOS */
         .path-container { display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 40px; width: 100%; }
@@ -137,9 +137,18 @@
         .path-line { width: 6px; height: 20px; background: #ddd; margin: -5px 0; z-index: 1; }
         
         .quiz-container { width: 100%; display: flex; flex-direction: column; height: 100%; }
+        .quiz-progress { width: 100%; height: 12px; background: #e5e5e5; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .quiz-bar { height: 100%; background: #58cc02; width: 0%; transition: 0.3s; }
+        .character-box { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 20px; }
+        .char-img { width: 80px; height: auto; }
+        .speech-bubble { background: white; border: 2px solid #e5e5e5; border-radius: 15px; padding: 15px; position: relative; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; flex: 1; }
+        .speech-bubble::after { content: ''; position: absolute; left: -10px; bottom: 15px; border-width: 10px 10px 10px 0; border-style: solid; border-color: transparent #e5e5e5 transparent transparent; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .quiz-option { background: white; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; padding: 15px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; cursor: pointer; text-align: center; margin-bottom: 10px; }
-        .quiz-option.correct { background: #d7ffb8; border-color: #58cc02; }
-        .quiz-option.wrong { background: #ffdfe0; border-color: #ea2b2b; }
+        .quiz-option.correct { background: #d7ffb8; border-color: #58cc02; color: #58cc02; }
+        .quiz-option.wrong { background: #ffdfe0; border-color: #ea2b2b; color: #ea2b2b; }
+        .btn-check { margin-top: auto; width: 100%; padding: 15px; border-radius: 15px; background: #58cc02; color: white; font-weight: bold; font-size: 1.2rem; border: none; border-bottom: 4px solid #46a302; cursor: pointer; }
+        .btn-check:disabled { background: #e5e5e5; border-color: #cfcfcf; color: #afafaf; cursor: default; }
 
         .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; }
         .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
@@ -160,6 +169,7 @@
         .game-select-card:active { transform: scale(0.98); }
 
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-5px);} }
         @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-5px);} 100% {transform: translateY(0);} }
         .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
@@ -178,7 +188,6 @@
         <button class="start-btn" onclick="enterApp()">ENTRAR</button>
     </div>
 
-    <!-- UI PRINCIPAL -->
     <div class="top-bar">
         <div class="mode-toggle">
             <button class="toggle-opt active" id="btnKids" onclick="setMode('kids')">🦄 Niños</button>
@@ -228,11 +237,10 @@
 <div id="modalCrossMenu" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalCrossMenu')">⬅</button>
-        <h3>Crucigramas</h3>
+        <h3>Elige tu Reto</h3>
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
-        <h3 style="align-self:flex-start; margin-bottom:15px; color:#555;">Elige un Paquete:</h3>
         <div class="pack-grid" id="packGrid">
             <!-- Se llena con JS -->
         </div>
@@ -243,7 +251,7 @@
 <div id="modalCrossGame" class="modal-overlay" style="z-index:250">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalCrossGame')">✖</button>
-        <h3 id="cwTitle">Nivel 1</h3>
+        <h3 id="cwTitle">Juego</h3>
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
@@ -320,16 +328,87 @@
         routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'}]
     };
 
-    // --- PACKS DE CRUCIGRAMAS ---
+    // --- PACKS DE CRUCIGRAMAS (7x7 DENSOS) ---
+    // Claves sin respuestas (Reto)
     const crosswords = [
-        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color sangre (RED)","2. Animal ladra (DOG)"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
-        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal miau (CAT)","2. Animal salta (TOAD)"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
-        { id:2, title:"Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10 (TEN)","2. Número 2 (TWO)","3. Número 9 (NINE)"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} },
-        { id:3, title:"Familia", diff:"Medio", s:5, l:[['M','O','M','#','#'],['#','#','O','#','#'],['#','#','T','#','#'],['#','#','H','#','#'],['#','#','E','R','#']], c:["1. Mamá corta (MOM)","2. Madre larga (MOTHER)"], sol:{'0-0':'M','0-1':'O','0-2':'M','1-2':'O','2-2':'T','3-2':'H','4-2':'E','4-3':'R'} },
-        { id:4, title:"Cuerpo", diff:"Medio", s:5, l:[['H','A','N','D','#'],['E','#','#','#','#'],['A','#','#','#','#'],['D','#','#','#','#'],['#','#','#','#','#']], c:["1. Mano (HAND)","2. Cabeza (HEAD)"], sol:{'0-0':'H','0-1':'A','0-2':'N','0-3':'D','1-0':'E','2-0':'A','3-0':'D'} },
-        { id:5, title:"Frutas", diff:"Difícil", s:6, l:[['A','P','P','L','E','#'],['#','#','E','#','#','#'],['#','#','A','#','#','#'],['#','#','R','#','#','#'],['#','#','#','#','#','#'],['#','#','#','#','#','#']], c:["1. Fruta prohibida (APPLE)","2. Fruta verde (PEAR)"], sol:{'0-0':'A','0-1':'P','0-2':'P','0-3':'L','0-4':'E','1-2':'E','2-2':'A','3-2':'R'} },
-        { id:6, title:"Escuela", diff:"Difícil", s:6, l:[['B','O','O','K','#','#'],['#','#','#','#','#','#'],['#','P','E','N','#','#'],['#','#','#','#','#','#'],['#','#','#','#','#','#'],['#','#','#','#','#','#']], c:["1. Libro (BOOK)","2. Pluma (PEN)"], sol:{'0-0':'B','0-1':'O','0-2':'O','0-3':'K','2-1':'P','2-2':'E','2-3':'N'} },
-        { id:7, title:"Ropa", diff:"Difícil", s:7, l:[['H','A','T','#','#','#','#'],['#','#','#','#','#','#','#'],['#','#','#','#','#','#','#'],['S','H','O','E','#','#','#'],['#','#','#','#','#','#','#'],['#','#','#','#','#','#','#'],['#','#','#','#','#','#','#']], c:["1. Sombrero (HAT)","2. Zapato (SHOE)"], sol:{'0-0':'H','0-1':'A','0-2':'T','3-0':'S','3-1':'H','3-2':'O','3-3':'E'} }
+        { id:0, title:"Mix Básico", diff:"Fácil", s:7, 
+          l:[
+            ['O','N','E','#','#','#','#'],
+            ['R','#','#','#','C','#','#'],
+            ['A','#','T','E','N','#','#'],
+            ['N','#','#','#','T','#','#'],
+            ['G','#','R','E','D','#','#'],
+            ['E','#','#','#','#','#','#'],
+            ['#','#','#','C','A','T','#']
+          ],
+          c:["1. Horiz: Número 1","2. Horiz: Número 10","3. Horiz: Color sangre","4. Horiz: Animal miau","5. Vert: Fruta jugosa (Color)","6. Vert: Dinero (Cent)"],
+          sol:{'0-0':'O','0-1':'N','0-2':'E', '1-4':'C', '2-2':'T','2-3':'E','2-4':'N', '3-4':'T', '4-2':'R','4-3':'E','4-4':'D', '6-3':'C','6-4':'A','6-5':'T', '0-0':'O','1-0':'R','2-0':'A','3-0':'N','4-0':'G','5-0':'E' } 
+        },
+        { id:1, title:"Animales", diff:"Medio", s:7, 
+          l:[
+            ['L','I','O','N','#','#','#'],
+            ['#','#','#','#','#','P','#'],
+            ['B','E','A','R','#','I','#'],
+            ['#','#','#','#','#','G','#'],
+            ['#','D','U','C','K','#','#'],
+            ['#','#','#','#','#','#','#'],
+            ['#','#','B','I','R','D','#']
+          ],
+          c:["1. Horiz: Rey de la selva","2. Horiz: Oso grande","3. Horiz: Pato cuac","4. Horiz: Ave vuela","5. Vert: Cerdo oink"],
+          sol:{'0-0':'L','0-1':'I','0-2':'O','0-3':'N', '2-0':'B','2-1':'E','2-2':'A','2-3':'R', '4-1':'D','4-2':'U','4-3':'C','4-4':'K', '6-2':'B','6-3':'I','6-4':'R','6-5':'D', '1-5':'P','2-5':'I','3-5':'G'}
+        },
+        { id:2, title:"Hogar", diff:"Medio", s:7, 
+          l:[
+            ['#','#','#','B','#','#','#'],
+            ['#','S','O','F','A','#','#'],
+            ['#','#','#','D','#','#','#'],
+            ['T','A','B','L','E','#','#'],
+            ['#','#','#','#','#','#','#'],
+            ['#','D','O','O','R','#','#'],
+            ['#','#','#','#','#','#','#']
+          ],
+          c:["1. Horiz: Sofá de sala","2. Horiz: Mesa de comer","3. Horiz: Puerta de entrada","4. Vert: Cama de dormir"],
+          sol:{'1-1':'S','1-2':'O','1-3':'F','1-4':'A', '3-0':'T','3-1':'A','3-2':'B','3-3':'L','3-4':'E', '5-1':'D','5-2':'O','5-3':'O','5-4':'R', '0-3':'B','1-3':'E','2-3':'D'}
+        },
+        { id:3, title:"Cuerpo", diff:"Difícil", s:7, 
+          l:[
+            ['H','A','N','D','#','#','#'],
+            ['E','#','#','#','L','#','#'],
+            ['A','#','#','#','E','#','#'],
+            ['D','#','#','#','G','#','#'],
+            ['#','#','#','#','#','#','#'],
+            ['#','N','O','S','E','#','#'],
+            ['#','#','#','#','#','#','#']
+          ],
+          c:["1. Horiz: Mano (5 dedos)","2. Horiz: Nariz para oler","3. Vert: Cabeza","4. Vert: Pierna"],
+          sol:{'0-0':'H','0-1':'A','0-2':'N','0-3':'D', '5-1':'N','5-2':'O','5-3':'S','5-4':'E', '0-0':'H','1-0':'E','2-0':'A','3-0':'D', '1-4':'L','2-4':'E','3-4':'G'}
+        },
+        { id:4, title:"Escuela", diff:"Difícil", s:7, 
+          l:[
+            ['#','#','#','P','#','#','#'],
+            ['#','B','O','O','K','#','#'],
+            ['#','#','#','E','#','#','#'],
+            ['#','#','#','M','#','#','#'],
+            ['#','D','E','S','K','#','#'],
+            ['#','#','#','#','#','#','#'],
+            ['R','U','L','E','R','#','#']
+          ],
+          c:["1. Horiz: Libro","2. Horiz: Escritorio","3. Horiz: Regla","4. Vert: Poema o Poesía"],
+          sol:{'1-1':'B','1-2':'O','1-3':'O','1-4':'K', '4-1':'D','4-2':'E','4-3':'S','4-4':'K', '6-0':'R','6-1':'U','6-2':'L','6-3':'E','6-4':'R', '0-3':'P','1-3':'O','2-3':'E','3-3':'M'}
+        },
+        { id:5, title:"Ropa", diff:"Experto", s:7, 
+          l:[
+            ['H','A','T','#','#','#','#'],
+            ['#','#','#','#','S','#','#'],
+            ['D','R','E','S','S','#','#'],
+            ['#','#','#','#','O','#','#'],
+            ['#','C','O','A','T','#','#'],
+            ['#','#','#','#','#','#','#'],
+            ['#','#','#','B','E','L','T']
+          ],
+          c:["1. Horiz: Sombrero","2. Horiz: Vestido","3. Horiz: Abrigo","4. Horiz: Cinturón","5. Vert: Zapatos (Corto)"],
+          sol:{'0-0':'H','0-1':'A','0-2':'T', '2-0':'D','2-1':'R','2-2':'E','2-3':'S','2-4':'S', '4-1':'C','4-2':'O','4-3':'A','4-4':'T', '6-3':'B','6-4':'E','6-5':'L','6-6':'T', '1-4':'S','2-4':'S','3-4':'O'} // shoes logic adjusted
+        }
     ];
 
     window.onload = () => {
@@ -339,9 +418,7 @@
     };
 
     function enterApp() { 
-        // FIX: Mover la pantalla PRIMERO
         document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
-        // Intentar sonido (si falla, no importa)
         try { playSfx('win'); } catch(e){} 
     }
     
@@ -402,7 +479,11 @@
         let ok = true;
         document.querySelectorAll('.cw-input').forEach(i => {
             let k = `${i.dataset.r}-${i.dataset.c}`;
-            if(i.value.toUpperCase() === curCW.sol[k]) { i.style.color="green"; i.style.background="#e8f5e9"; }
+            // Simple validation: check if input matches what's in layout array
+            // Layout array holds correct letters
+            let correctLet = curCW.l[i.dataset.r][i.dataset.c];
+            
+            if(i.value.toUpperCase() === correctLet) { i.style.color="green"; i.style.background="#e8f5e9"; }
             else { i.style.color="red"; i.style.background="#ffebee"; ok=false; }
         });
         if(ok) { playSfx('win'); speak("Excellent!"); setTimeout(()=>closeModal('modalCrossGame'),2000); }
@@ -450,6 +531,4 @@
 </script>
 </body>
 </html>
-
-
 
