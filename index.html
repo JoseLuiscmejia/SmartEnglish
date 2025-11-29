@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- CONFIGURACIÓN PWA (APP INSTALABLE) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00bcd4">
     <title>Magic School Pro</title>
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Roboto:wght@400;700&display=swap');
 
         :root {
             --bg-body: #00bcd4;
-            --primary: #58cc02; /* Verde Duolingo */
+            --primary: #58cc02;
             --primary-dark: #46a302;
             --secondary: #ff9600;
             --accent: #ce82ff;
@@ -27,6 +35,7 @@
             align-items: center;
             overflow: hidden;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .app-shell {
@@ -38,7 +47,7 @@
             position: relative;
         }
 
-        /* BIENVENIDA */
+        /* PANTALLAS */
         #welcomeScreen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 200;
@@ -57,7 +66,6 @@
             font-weight: bold; box-shadow: 0 5px 0 var(--primary-dark);
         }
 
-        /* LAYOUT */
         .top-bar { background: #eee; padding: 5px; display: flex; justify-content: center; }
         .mode-toggle { background: white; border-radius: 20px; display: flex; padding: 4px; width: 95%; }
         .toggle-opt {
@@ -78,96 +86,46 @@
             flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px;
         }
 
-        /* TRADUCTOR */
-        .translator-card {
-            background: white; border-radius: 20px; padding: 15px;
-            border: 2px solid #b3e5fc;
-        }
-        .trans-input {
-            width: 100%; border: none; font-size: 1.2rem; outline: none;
-            border-bottom: 2px solid #eee; font-family: inherit; color: #333;
-            margin-bottom: 5px; text-align: center;
-        }
-        .trans-output {
-            font-size: 1.2rem; color: var(--primary); font-weight: bold; min-height: 1.5rem; text-align: center;
-        }
-        .btn-action-trans {
-            width: 100%; background: #039be5; color: white; border: none; padding: 10px;
-            border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer;
-        }
+        /* COMPONENTES */
+        .translator-card { background: white; border-radius: 20px; padding: 15px; border: 2px solid #b3e5fc; }
+        .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; font-family: inherit; color: #333; margin-bottom: 5px; text-align: center; }
+        .trans-output { font-size: 1.2rem; color: var(--primary); font-weight: bold; min-height: 1.5rem; text-align: center; }
+        .btn-action-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
-        /* MENU GRANDE */
         .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
-        .menu-btn {
-            background: white; border: 2px solid #eee; border-radius: 15px;
-            padding: 5px; text-align: center; cursor: pointer; height: 85px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .menu-btn { background: white; border: 2px solid #eee; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 85px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .menu-btn:active { transform: scale(0.95); background: #eee; }
         .menu-icon { font-size: 2rem; margin-bottom: 2px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; line-height: 1; }
-        
         .btn-ing { border-bottom: 4px solid #58cc02; }
         .btn-cro { border-bottom: 4px solid #ef5350; }
         .btn-che { border-bottom: 4px solid #ab47bc; }
         .btn-gam { border-bottom: 4px solid #ffca28; }
 
-        /* GRID INFERIOR */
         .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .tab-chip {
-            background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px;
-            white-space: nowrap; font-weight: bold; color: #666; cursor: pointer; font-size: 0.9rem;
-        }
+        .tab-chip { background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-weight: bold; color: #666; cursor: pointer; font-size: 0.9rem; }
         .tab-chip.active { background: var(--secondary); color: white; border-color: var(--secondary); }
 
         .vocab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 20px; }
-        .vocab-card {
-            aspect-ratio: 1; background: white; border-radius: 15px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; padding: 5px; text-align: center;
-        }
+        .vocab-card { aspect-ratio: 1; background: white; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; padding: 5px; text-align: center; }
         .vocab-card:active { background: #e0f2f1; transform: scale(0.9); }
         .v-icon { font-size: 1.8rem; }
         .v-word { font-size: 0.7rem; font-weight: bold; margin-top: 5px; color: #444; }
 
-        /* MODALES */
-        .modal-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f5f5f5; z-index: 150; display: none; flex-direction: column;
-            animation: slideUp 0.3s ease;
-        }
-        .modal-header {
-            background: white; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 3px solid #eee;
-        }
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
+        .modal-header { background: white; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #eee; }
         .back-btn { background: #eceff1; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
         /* ESTILOS: MAPA DE SECCIONES */
-        .path-container {
-            display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 40px; width: 100%;
-        }
-        .section-node {
-            width: 75px; height: 75px; border-radius: 50%;
-            background: #58cc02; border-bottom: 6px solid #46a302;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; transition: 0.1s; z-index: 2;
-        }
+        .path-container { display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 40px; width: 100%; }
+        .section-node { width: 75px; height: 75px; border-radius: 50%; background: #58cc02; border-bottom: 6px solid #46a302; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: 0.1s; z-index: 2; }
         .section-node:active { transform: translateY(4px); border-bottom: 2px solid #46a302; }
-        
         .section-node.locked { background: #e5e5e5; border-bottom: 6px solid #cfcfcf; pointer-events: none; }
         .section-node.locked .section-icon { opacity: 0.5; filter: grayscale(1); }
-        
         .section-node.current { background: #ff9600; border-bottom-color: #cc7a00; animation: bounce 2s infinite; }
-        
         .section-icon { font-size: 1.8rem; color: white; }
-        .section-label { 
-            position: absolute; bottom: -25px; background: white; padding: 2px 8px; 
-            border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #777; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); white-space: nowrap; z-index: 3;
-        }
-        
-        /* Conector */
+        .section-label { position: absolute; bottom: -25px; background: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #777; box-shadow: 0 2px 4px rgba(0,0,0,0.1); white-space: nowrap; z-index: 3; }
         .path-line { width: 6px; height: 20px; background: #ddd; margin: -5px 0; z-index: 1; }
 
         /* EXAMEN (QUIZ) */
@@ -176,68 +134,41 @@
         .quiz-bar { height: 100%; background: #58cc02; width: 0%; transition: 0.3s; }
         .character-box { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 20px; }
         .char-img { width: 80px; height: auto; }
-        .speech-bubble {
-            background: white; border: 2px solid #e5e5e5; border-radius: 15px; padding: 15px;
-            position: relative; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; flex: 1;
-        }
-        .speech-bubble::after {
-            content: ''; position: absolute; left: -10px; bottom: 15px;
-            border-width: 10px 10px 10px 0; border-style: solid; border-color: transparent #e5e5e5 transparent transparent;
-        }
-        
+        .speech-bubble { background: white; border: 2px solid #e5e5e5; border-radius: 15px; padding: 15px; position: relative; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; flex: 1; }
+        .speech-bubble::after { content: ''; position: absolute; left: -10px; bottom: 15px; border-width: 10px 10px 10px 0; border-style: solid; border-color: transparent #e5e5e5 transparent transparent; }
         .quiz-options { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .quiz-option {
-            background: white; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5;
-            padding: 15px; border-radius: 15px; font-size: 1.2rem; font-weight: bold;
-            color: #4b4b4b; cursor: pointer; text-align: center; transition: 0.1s;
-        }
+        .quiz-option { background: white; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; padding: 15px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; cursor: pointer; text-align: center; transition: 0.1s; }
         .quiz-option:active { transform: translateY(2px); border-bottom: 2px solid #e5e5e5; }
-        
         .quiz-option.correct { background: #d7ffb8; border-color: #58cc02; color: #58cc02; }
         .quiz-option.wrong { background: #ffdfe0; border-color: #ea2b2b; color: #ea2b2b; }
-
-        .btn-check {
-            margin-top: auto; width: 100%; padding: 15px; border-radius: 15px;
-            background: #58cc02; color: white; font-weight: bold; font-size: 1.2rem;
-            border: none; border-bottom: 4px solid #46a302; cursor: pointer;
-        }
+        .btn-check { margin-top: auto; width: 100%; padding: 15px; border-radius: 15px; background: #58cc02; color: white; font-weight: bold; font-size: 1.2rem; border: none; border-bottom: 4px solid #46a302; cursor: pointer; }
         .btn-check:disabled { background: #e5e5e5; border-color: #cfcfcf; color: #afafaf; cursor: default; }
 
-        /* OTROS JUEGOS */
+        /* JUEGOS */
         .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; }
         .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
         .goalkeeper { font-size: 3rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
         .ball { font-size: 2.5rem; position: absolute; bottom: 10px; left: 45%; transition: 0.5s; }
         .game-btn { padding: 15px; border: none; border-radius: 10px; background: #0277bd; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px;}
-
-        /* CRUCIGRAMA */
         .cw-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: #333; padding: 5px; border-radius: 5px; margin: 10px 0;}
         .cw-cell { aspect-ratio: 1; background: white; display: flex; align-items: center; justify-content: center; }
         .cw-cell.blk { background: #333; }
         .cw-input { width: 100%; height: 100%; border: none; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase; color: var(--accent); }
-
-        /* AHORCADO */
         .hm-word { font-size: 2rem; letter-spacing: 5px; font-weight: bold; margin: 20px 0; }
         .keyboard { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
         .key { width: 35px; height: 35px; background: white; border: 1px solid #ccc; border-radius: 5px; font-weight: bold; }
         .key:disabled { background: #ddd; color: #aaa; }
-
-        /* MEMORIA */
         .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
         .mem-card { aspect-ratio: 1; background: var(--accent); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; font-size: 0; transition: 0.3s; }
         .mem-card.flipped { background: white; border: 2px solid var(--accent); color: #333; font-size: 1.5rem; }
+        .game-select-card { width: 90%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        .game-select-card:active { transform: scale(0.98); }
 
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
         @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-5px);} }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-5px);} 100% {transform: translateY(0);} }
         .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-
-        .game-select-card {
-            width: 90%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px;
-            display: flex; align-items: center; justify-content: space-between;
-            border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;
-        }
-        .game-select-card:active { transform: scale(0.98); }
 
     </style>
 </head>
@@ -245,7 +176,7 @@
 
 <div class="app-shell">
     
-    <!-- BIENVENIDA -->
+    <!-- PANTALLA BIENVENIDA -->
     <div id="welcomeScreen">
         <div class="photo-frame">
             <img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" alt="User">
@@ -255,7 +186,7 @@
         <button class="start-btn" onclick="enterApp()">ENTRAR</button>
     </div>
 
-    <!-- TOP BAR -->
+    <!-- BARRA SUPERIOR -->
     <div class="top-bar">
         <div class="mode-toggle">
             <button class="toggle-opt active" id="btnKids" onclick="setMode('kids')">🦄 Niños</button>
@@ -263,7 +194,7 @@
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- CABECERA -->
     <div class="header">
         <h2 class="logo">MagicSchool</h2>
         <div class="stats">
@@ -281,7 +212,7 @@
             <button class="btn-action-trans" onclick="doTranslate()">TRADUCIR</button>
         </div>
 
-        <!-- MENÚ PRINCIPAL -->
+        <!-- MENÚ DE 4 BOTONES -->
         <div class="menu-row">
             <div class="menu-btn btn-ing" onclick="openStages()">
                 <div class="menu-icon">🗺️</div>
@@ -301,7 +232,7 @@
             </div>
         </div>
 
-        <!-- GRID VOCABULARIO -->
+        <!-- VOCABULARIO INFERIOR -->
         <div>
             <div class="tabs-container">
                 <div class="tab-chip active" onclick="loadGrid('greetings', this)">Saludos</div>
@@ -310,6 +241,8 @@
                 <div class="tab-chip" onclick="loadGrid('fruits', this)">Frutas</div>
                 <div class="tab-chip" onclick="loadGrid('colors', this)">Colores</div>
                 <div class="tab-chip" onclick="loadGrid('routines', this)">Rutinas</div>
+                <div class="tab-chip" onclick="loadGrid('family', this)">Familia</div>
+                <div class="tab-chip" onclick="loadGrid('numbers', this)">Números</div>
             </div>
             <br>
             <div id="mainGrid" class="vocab-grid"></div>
@@ -319,7 +252,7 @@
 
 <!-- ================= MODALES ================= -->
 
-<!-- MAPA DE ETAPAS (DINÁMICO) -->
+<!-- MAPA DE ETAPAS -->
 <div id="modalStages" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalStages')">⬅</button>
@@ -364,31 +297,31 @@
     </div>
     <div class="modal-body">
         <div class="game-select-card" style="border-color:#0288d1" onclick="initSoccer()">
-            <div><b style="color:#0288d1">⚽ Fútbol Penalties</b></div><div style="font-size:2rem">🥅</div>
+            <div><b style="color:#0288d1">⚽ Fútbol Penalties</b><br><small>Traduce y Golea</small></div><div style="font-size:2.5rem">🥅</div>
         </div>
         <div class="game-select-card" style="border-color:#fbc02d" onclick="initHangman()">
-            <div><b style="color:#fbc02d">😵 Ahorcado</b></div><div style="font-size:2rem">🔤</div>
+            <div><b style="color:#fbc02d">😵 Ahorcado</b><br><small>Adivina la Palabra</small></div><div style="font-size:2.5rem">🔤</div>
         </div>
         <div class="game-select-card" style="border-color:#ef5350" onclick="initMemory()">
-            <div><b style="color:#ef5350">🧠 Memoria</b></div><div style="font-size:2rem">🃏</div>
+            <div><b style="color:#ef5350">🧠 Memoria</b><br><small>Busca las Parejas</small></div><div style="font-size:2.5rem">🃏</div>
         </div>
     </div>
 </div>
 
-<!-- FÚTBOL -->
+<!-- JUEGO FÚTBOL -->
 <div id="modalSoccer" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol</h3><div></div></div>
     <div class="modal-body">
         <div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div>
         <div style="background:white; padding:20px; border-radius:15px; text-align:center; width:90%;">
-            <p style="color:#666;">Traduce al Inglés:</p>
-            <h2 id="socQ" style="color:var(--primary);">...</h2>
+            <p style="color:#666; margin:0;">¿Cómo se dice...?</p>
+            <h2 id="socQ" style="color:var(--primary); font-size:2rem; margin:10px 0;">...</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="socBtns"></div>
         </div>
     </div>
 </div>
 
-<!-- CRUCIGRAMA -->
+<!-- JUEGO CRUCIGRAMA -->
 <div id="modalCross" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalCross')">⬅</button><h3>Crucigramas</h3><div></div></div>
     <div class="modal-body" style="text-align:center;">
@@ -435,19 +368,29 @@
     let unlockedLevel = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     let isKids = true;
 
-    // --- BASE DE DATOS BILINGÜE (i=Icon, e=English, s=Spanish) ---
+    // --- SONIDOS REALES (LINKS CDN) ---
+    const sfx = {
+        correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'),
+        wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'),
+        win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg')
+    };
+    function playSfx(type) { if(sfx[type]) { sfx[type].currentTime=0; sfx[type].play().catch(e=>{}); } }
+
+    // --- BASE DE DATOS EXTENDIDA (10 NIVELES) ---
     const phonetics = {'A':'Ay','B':'Bee','C':'See','D':'Dee','E':'Ee','F':'Ef','G':'Gee','H':'Aitch','I':'Eye','J':'Jay','K':'Kay','L':'El','M':'Em','N':'En','O':'Oh','P':'Pee','Q':'Cue','R':'Are','S':'Ess','T':'Tee','U':'You','V':'Vee','W':'Double U','X':'Ex','Y':'Why','Z':'Zee'};
     const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:l, s:'Letra '+l, sound: phonetics[l]}));
 
     const db = {
         greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🌙',e:'Good Night',s:'Buenas noches'},{i:'🤝',e:'Nice to meet you',s:'Mucho gusto'},{i:'🙏',e:'Thank you',s:'Gracias'},{i:'😊',e:'Please',s:'Por favor'},{i:'❓',e:'How are you?',s:'¿Cómo estás?'}],
-        abc: abcList,
-        animals: [
-            {i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐍',e:'Snake',s:'Serpiente'},{i:'🐻',e:'Bear',s:'Oso'},{i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐭',e:'Mouse',s:'Ratón'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},{i:'🐸',e:'Frog',s:'Rana'},{i:'🐢',e:'Turtle',s:'Tortuga'}
-        ],
+        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐻',e:'Bear',s:'Oso'},{i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐭',e:'Mouse',s:'Ratón'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},{i:'🐸',e:'Frog',s:'Rana'},{i:'🐢',e:'Turtle',s:'Tortuga'}],
         fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},{i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍒',e:'Cherry',s:'Cereza'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🥥',e:'Coconut',s:'Coco'},{i:'🥑',e:'Avocado',s:'Aguacate'},{i:'🥝',e:'Kiwi',s:'Kiwi'},{i:'🍋',e:'Lemon',s:'Limón'}],
         colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'},{i:'👚',e:'Pink',s:'Rosa'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'},{i:'🟤',e:'Brown',s:'Café'}],
-        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'📚',e:'Study',s:'Estudiar'},{i:'📺',e:'Watch TV',s:'Ver TV'}]
+        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'📚',e:'Study',s:'Estudiar'},{i:'📺',e:'Watch TV',s:'Ver TV'}],
+        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},{i:'👴',e:'Grandpa',s:'Abuelo'},{i:'👵',e:'Grandma',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'},{i:'👪',e:'Family',s:'Familia'}],
+        numbers: [{i:'1️⃣',e:'One',s:'Uno'},{i:'2️⃣',e:'Two',s:'Dos'},{i:'3️⃣',e:'Three',s:'Tres'},{i:'4️⃣',e:'Four',s:'Cuatro'},{i:'5️⃣',e:'Five',s:'Cinco'},{i:'6️⃣',e:'Six',s:'Seis'},{i:'7️⃣',e:'Seven',s:'Siete'},{i:'8️⃣',e:'Eight',s:'Ocho'},{i:'9️⃣',e:'Nine',s:'Nueve'},{i:'🔟',e:'Ten',s:'Diez'}],
+        body: [{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦶',e:'Foot',s:'Pie'}],
+        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'},{i:'🎒',e:'Backpack',s:'Mochila'},{i:'📖',e:'Book',s:'Libro'},{i:'✂️',e:'Scissors',s:'Tijeras'}],
+        abc: abcList
     };
 
     // --- VARIABLES JUEGO ---
@@ -459,7 +402,7 @@
         window.speechSynthesis.getVoices();
     };
 
-    function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; }
+    function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; playSfx('win'); }
     function setMode(m) {
         document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
         if(m === 'kids') { document.getElementById('btnKids').classList.add('active'); isKids = true; document.body.style.background = "#00bcd4"; }
@@ -481,7 +424,7 @@
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // --- MAPA DE ETAPAS (GENERADOR) ---
+    // --- MAPA DE ETAPAS (10 NIVELES) ---
     function openStages() { 
         openModal('modalStages');
         renderPath();
@@ -490,30 +433,28 @@
     function renderPath() {
         const container = document.getElementById('pathContainer');
         container.innerHTML = '';
-        const totalLevels = 10;
-        const icons = ['⭐','📖','🎤','🧠','🧩','🎲','🏆','🚀','🌎','👑'];
+        const levelTitles = ["Saludos", "Animales", "Frutas", "Colores", "Rutinas", "Familia", "Números", "Cuerpo", "Escuela", "EXAMEN"];
+        const icons = ['👋','🐶','🍎','🎨','🥱','👪','1️⃣','👃','✏️','🏆'];
         
-        for(let i = 1; i <= totalLevels; i++) {
+        for(let i = 1; i <= 10; i++) {
             let node = document.createElement('div');
             node.className = 'section-node';
             
-            // Estado del nivel
             if(i < unlockedLevel) {
-                node.style.background = "#ffb74d"; node.style.borderColor = "#f57c00"; // Completado
-                node.innerHTML = `<div class="section-icon">✅</div><div class="section-label">Nivel ${i}</div>`;
+                node.style.background = "#ffb74d"; node.style.borderColor = "#f57c00"; 
+                node.innerHTML = `<div class="section-icon">✅</div><div class="section-label">${i}. ${levelTitles[i-1]}</div>`;
                 node.onclick = () => startSection(i);
             } else if(i === unlockedLevel) {
-                node.className += " current"; // Actual
-                node.innerHTML = `<div class="section-icon">${icons[i-1]}</div><div class="section-label">Nivel ${i}</div>`;
+                node.className += " current";
+                node.innerHTML = `<div class="section-icon">${icons[i-1]}</div><div class="section-label">${i}. ${levelTitles[i-1]}</div>`;
                 node.onclick = () => startSection(i);
             } else {
-                node.className += " locked"; // Bloqueado
-                node.innerHTML = `<div class="section-icon">🔒</div><div class="section-label">Nivel ${i}</div>`;
+                node.className += " locked";
+                node.innerHTML = `<div class="section-icon">🔒</div><div class="section-label">${i}. ${levelTitles[i-1]}</div>`;
             }
             container.appendChild(node);
             
-            // Conector
-            if(i < totalLevels) {
+            if(i < 10) {
                 let line = document.createElement('div');
                 line.className = 'path-line';
                 container.appendChild(line);
@@ -530,14 +471,30 @@
     }
     
     function generateQuiz(level) {
-        // Genera 10 preguntas aleatorias de la DB
-        let allItems = [...db.animals, ...db.fruits, ...db.colors, ...db.routines, ...db.greetings];
+        let source = [];
+        if(level===1) source = db.greetings;
+        else if(level===2) source = db.animals;
+        else if(level===3) source = db.fruits;
+        else if(level===4) source = db.colors;
+        else if(level===5) source = db.routines;
+        else if(level===6) source = db.family;
+        else if(level===7) source = db.numbers;
+        else if(level===8) source = db.body;
+        else if(level===9) source = db.school;
+        else source = [...db.animals, ...db.fruits, ...db.colors, ...db.routines]; // Nivel 10 Mix
+
         let q = [];
-        for(let i=0; i<10; i++) {
-            let correct = allItems[Math.floor(Math.random() * allItems.length)];
-            let w1 = allItems[Math.floor(Math.random() * allItems.length)];
-            let w2 = allItems[Math.floor(Math.random() * allItems.length)];
-            // Pregunta en Español (s), Respuesta en Inglés (e)
+        // Generar 10 preguntas (o max disponible)
+        let max = source.length > 10 ? 10 : source.length;
+        let shuffledSource = [...source].sort(()=>Math.random()-0.5);
+        
+        for(let i=0; i<max; i++) {
+            let correct = shuffledSource[i];
+            let pool = [...source].filter(x => x !== correct); // Evitar duplicado en opciones
+            if(pool.length < 2) pool = [...db.animals]; // Fallback si no hay suficientes
+            let w1 = pool[Math.floor(Math.random()*pool.length)];
+            let w2 = pool[Math.floor(Math.random()*pool.length)];
+            
             q.push({
                 prompt: "¿Cómo se dice " + correct.s + "?",
                 answer: correct.e,
@@ -549,9 +506,10 @@
 
     function loadQuestion() {
         if(currentQIndex >= currentQuiz.length) {
-            speak("Level Completed!"); addPts(50);
+            speak("Level Completed! Congratulations!");
+            playSfx('win'); addPts(50);
             if(unlockedLevel < 10) { unlockedLevel++; localStorage.setItem('unlockedLevel', unlockedLevel); }
-            closeModal('modalQuiz'); openStages(); // Volver al mapa actualizado
+            closeModal('modalQuiz'); openStages();
             return;
         }
         let q = currentQuiz[currentQIndex];
@@ -569,20 +527,19 @@
                 b.style.border = "2px solid #58cc02";
                 selectedAnswer = {el:b, txt:txt};
                 document.getElementById('btnQuizCheck').disabled = false;
-                speak(txt); // Habla la opción al tocar
+                speak(txt);
             };
             opts.appendChild(b);
         });
-        // Voz pregunta (Opcional, en español el navegador puede no hablar bien si está en modo inglés forzado, mejor no hablar la pregunta en español para no confundir la voz)
     }
 
     function checkAnswer() {
         let correct = currentQuiz[currentQIndex].answer;
         if(selectedAnswer.txt === correct) {
-            selectedAnswer.el.classList.add('correct'); speak("Correct!");
+            selectedAnswer.el.classList.add('correct'); speak("Correct!"); playSfx('correct');
             setTimeout(()=>{ currentQIndex++; loadQuestion(); }, 1000);
         } else {
-            selectedAnswer.el.classList.add('wrong'); speak("Wrong. It is " + correct);
+            selectedAnswer.el.classList.add('wrong'); speak("Wrong. It is " + correct); playSfx('wrong');
         }
     }
 
@@ -592,7 +549,7 @@
         let grid = document.getElementById('mainGrid'); grid.innerHTML = '';
         db[cat].forEach(item => {
             let d = document.createElement('div'); d.className = 'vocab-card';
-            d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.e}</div>`; // Muestra Inglés
+            d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.e}</div>`; 
             d.onclick = () => speak(item.sound || item.e);
             grid.appendChild(d);
         });
@@ -616,7 +573,7 @@
         let all = [...db.animals, ...db.colors];
         let q = all[Math.floor(Math.random()*all.length)];
         let w = all[Math.floor(Math.random()*all.length)];
-        document.getElementById('socQ').innerText = q.s; // Pregunta Español
+        document.getElementById('socQ').innerText = q.s;
         let btns = [`<button class="game-btn" onclick="kick(true,'${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.e}</button>`].sort(()=>Math.random()-0.5);
         document.getElementById('socBtns').innerHTML = btns.join('');
     }
@@ -624,10 +581,10 @@
         let b = document.getElementById('ball'); let k = document.getElementById('keeper');
         if(win) {
             b.style.bottom="180px"; b.style.left="20%"; k.style.left="70%";
-            speak("GOAL! " + word); addPts(20); confetti(); setTimeout(newKick, 1500);
+            speak("GOAL! " + word); playSfx('correct'); addPts(20); confetti(); setTimeout(newKick, 1500);
         } else {
             k.style.left="45%"; b.style.bottom="50px";
-            speak("Wrong."); setTimeout(newKick, 1000);
+            speak("Wrong."); playSfx('wrong'); setTimeout(newKick, 1000);
         }
     }
 
@@ -645,24 +602,25 @@
     }
     function checkCrossword() {
         let ok = true; document.querySelectorAll('.cw-input').forEach(i=>{ if(i.value.toUpperCase()!==i.dataset.a) {i.style.color="red"; ok=false;} else i.style.color="green"; });
-        if(ok) { speak("Excellent!"); addPts(30); confetti(); setTimeout(()=>loadCw(currCw+1), 2000); } else speak("Try again");
+        if(ok) { speak("Excellent!"); playSfx('win'); addPts(30); confetti(); setTimeout(()=>loadCw(currCw+1), 2000); } else { speak("Try again"); playSfx('wrong'); }
     }
 
     // --- OTROS JUEGOS ---
     function initChess() { openModal('modalChess'); }
-    function chessAnswer(c) { if(c){speak("Correct"); addPts(10); confetti(); setTimeout(()=>closeModal('modalChess'),2000);} else speak("Wrong"); }
+    function chessAnswer(c) { if(c){speak("Correct"); playSfx('correct'); addPts(10); confetti(); setTimeout(()=>closeModal('modalChess'),2000);} else {speak("Wrong"); playSfx('wrong');} }
 
     let hmT="", hmL=5, hmG=[];
     function initHangman() { openModal('modalHangman'); let item=db.animals[Math.floor(Math.random()*db.animals.length)]; hmT=item.e.toUpperCase(); hmL=5; hmG=[]; document.getElementById('hmHint').innerText="Traduce: "+item.s; renderHm(); renderHmKb(); }
-    function renderHm(){ document.getElementById('hmLives').innerText="❤️".repeat(hmL); let s=hmT.split('').map(l=>hmG.includes(l)?l:"_").join(" "); document.getElementById('hmWord').innerText=s; if(!s.includes("_")){speak("Win!"); addPts(20); setTimeout(initHangman,2000);} if(hmL<=0){speak("Lost"); setTimeout(initHangman,2000);} }
+    function renderHm(){ document.getElementById('hmLives').innerText="❤️".repeat(hmL); let s=hmT.split('').map(l=>hmG.includes(l)?l:"_").join(" "); document.getElementById('hmWord').innerText=s; if(!s.includes("_")){speak("Win!"); playSfx('win'); addPts(20); setTimeout(initHangman,2000);} if(hmL<=0){speak("Lost"); playSfx('wrong'); setTimeout(initHangman,2000);} }
     function renderHmKb(){ let k=document.getElementById('hmKb'); k.innerHTML=""; "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(l=>{let b=document.createElement('button'); b.className='key'; b.innerText=l; b.onclick=()=>{b.disabled=true; hmG.push(l); if(!hmT.includes(l))hmL--; renderHm();}; k.appendChild(b);}); }
 
-    function initMemory() { openModal('modalMemory'); let a=[]; for(let i=0;i<4;i++){let x=db.animals[Math.floor(Math.random()*db.animals.length)]; a.push({v:x.i, m:x.e},{v:x.e, m:x.i});} a.sort(()=>Math.random()-0.5); let g=document.getElementById('memGrid'); g.innerHTML=""; let mF=[]; a.forEach(x=>{let c=document.createElement('div'); c.className='mem-card'; c.innerText=x.v; c.onclick=()=>{if(mF.length<2 && !c.classList.contains('flipped')){c.classList.add('flipped'); mF.push({e:c, v:x.v, m:x.m}); if(mF.length==2) { if(mF[0].v===mF[1].m){speak("Good"); mF=[]; addPts(10); if(document.querySelectorAll('.mem-card.flipped').length==8)confetti();} else setTimeout(()=>{mF.forEach(x=>x.e.classList.remove('flipped')); mF=[];},1000); } }}; g.appendChild(c);}); }
+    function initMemory() { openModal('modalMemory'); let a=[]; for(let i=0;i<4;i++){let x=db.animals[Math.floor(Math.random()*db.animals.length)]; a.push({v:x.i, m:x.e},{v:x.e, m:x.i});} a.sort(()=>Math.random()-0.5); let g=document.getElementById('memGrid'); g.innerHTML=""; let mF=[]; a.forEach(x=>{let c=document.createElement('div'); c.className='mem-card'; c.innerText=x.v; c.onclick=()=>{if(mF.length<2 && !c.classList.contains('flipped')){c.classList.add('flipped'); mF.push({e:c, v:x.v, m:x.m}); if(mF.length==2) { if(mF[0].v===mF[1].m){speak("Good"); playSfx('correct'); mF=[]; addPts(10); if(document.querySelectorAll('.mem-card.flipped').length==8)confetti();} else setTimeout(()=>{mF.forEach(x=>x.e.classList.remove('flipped')); mF=[];},1000); } }}; g.appendChild(c);}); }
 
     function confetti() { for(let i=0; i<20; i++){let d=document.createElement('div'); d.innerHTML='🎉'; d.className='confetti'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(Math.random()*2+1)+'s'; document.body.appendChild(d); setTimeout(()=>d.remove(),3000);} }
 </script>
 </body>
 </html>
+
 
 
 
