@@ -106,7 +106,6 @@
         .menu-icon { font-size: 2rem; margin-bottom: 2px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; line-height: 1; }
         
-        /* COLORES BOTONES */
         .btn-ing { border-bottom: 4px solid #42a5f5; }
         .btn-cro { border-bottom: 4px solid #ef5350; }
         .btn-che { border-bottom: 4px solid #ab47bc; }
@@ -221,7 +220,7 @@
             <button class="btn-action-trans" onclick="doTranslate()">TRADUCIR</button>
         </div>
 
-        <!-- MENÚ DE 4 BOTONES (Ahora todos funcionan) -->
+        <!-- MENÚ DE 4 BOTONES -->
         <div class="menu-row">
             <div class="menu-btn btn-ing" onclick="openModal('modalStages')">
                 <div class="menu-icon">🗺️</div>
@@ -391,10 +390,22 @@
     let pts = parseInt(localStorage.getItem('pts')) || 0;
     let isKids = true;
 
+    // --- GENERACIÓN DEL ABC (A-Z) ---
+    // phonetics: mapa de pronunciación para forzar sonido inglés en teléfonos
+    const phonetics = {
+        'A':'Ay', 'B':'Bee', 'C':'See', 'D':'Dee', 'E':'Ee', 'F':'Ef', 'G':'Gee',
+        'H':'Aitch', 'I':'Eye', 'J':'Jay', 'K':'Kay', 'L':'El', 'M':'Em', 'N':'En',
+        'O':'Oh', 'P':'Pee', 'Q':'Cue', 'R':'Are', 'S':'Ess', 'T':'Tee', 'U':'You',
+        'V':'Vee', 'W':'Double U', 'X':'Ex', 'Y':'Why', 'Z':'Zee'
+    };
+    
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    const abcList = alphabet.map(l => ({i:l, w:l, sound: phonetics[l]}));
+
     // --- BASE DE DATOS MASIVA ---
     const db = {
         greetings: [{i:'👋',w:'Hello'},{i:'🚶',w:'Bye'},{i:'🌅',w:'Good Morning'},{i:'🌙',w:'Good Night'},{i:'🤝',w:'Nice to meet you'},{i:'🙏',w:'Thank you'},{i:'😊',w:'Please'},{i:'❓',w:'How are you?'}],
-        abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, w:l, e:l})),
+        abc: abcList,
         animals: [
             {i:'🐶',w:'Dog'},{i:'🐱',w:'Cat'},{i:'🦁',w:'Lion'},{i:'🐯',w:'Tiger'},{i:'🐘',w:'Elephant'},{i:'🐵',w:'Monkey'},{i:'🦒',w:'Giraffe'},{i:'🦓',w:'Zebra'},{i:'🐍',w:'Snake'},{i:'🐻',w:'Bear'},{i:'🐰',w:'Rabbit'},{i:'🐭',w:'Mouse'},{i:'🐴',w:'Horse'},{i:'🐮',w:'Cow'},{i:'🐷',w:'Pig'},{i:'🐑',w:'Sheep'},{i:'🦆',w:'Duck'},{i:'🐔',w:'Chicken'},{i:'🐸',w:'Frog'},{i:'🐢',w:'Turtle'}
         ],
@@ -412,6 +423,8 @@
         document.getElementById('points').innerText = pts;
         loadGrid('greetings', document.querySelector('.tab-chip'));
         checkStages();
+        // Precargar voces
+        window.speechSynthesis.getVoices();
     };
 
     function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; }
@@ -426,7 +439,14 @@
         window.speechSynthesis.cancel();
         let u = new SpeechSynthesisUtterance(txt);
         u.lang = 'en-US'; 
-        u.pitch = isKids ? 1.4 : 1.0;
+        
+        // INTENTO FORZAR VOZ INGLES EN MOVIL
+        let voices = window.speechSynthesis.getVoices();
+        let engVoice = voices.find(v => v.lang.startsWith('en'));
+        if(engVoice) u.voice = engVoice;
+
+        u.pitch = isKids ? 1.3 : 1.0;
+        u.rate = 0.9;
         window.speechSynthesis.speak(u);
     }
 
@@ -451,7 +471,8 @@
         db[cat].forEach(item => {
             let d = document.createElement('div'); d.className = 'vocab-card';
             d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.w}</div>`;
-            d.onclick = () => speak(item.w);
+            // Si es ABC, usa el sonido fonético, si no, la palabra
+            d.onclick = () => speak(item.sound ? item.sound : item.w);
             grid.appendChild(d);
         });
     }
@@ -487,7 +508,7 @@
             setTimeout(newKick, 1500);
         } else {
             k.style.left="45%"; b.style.bottom="50px";
-            speak("Oh no. Try again");
+            speak("Wrong. Try again");
             setTimeout(newKick, 1000);
         }
     }
@@ -591,6 +612,7 @@
 </script>
 </body>
 </html>
+
 
 
 
