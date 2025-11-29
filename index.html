@@ -143,38 +143,38 @@
         .back-btn { background: #eceff1; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* ESTILOS NUEVOS: MAPA DE SECCIONES (Duolingo Style) */
+        /* ESTILOS: MAPA DE SECCIONES */
         .path-container {
-            display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 40px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 40px; width: 100%;
         }
         .section-node {
-            width: 80px; height: 80px; border-radius: 50%;
+            width: 75px; height: 75px; border-radius: 50%;
             background: #58cc02; border-bottom: 6px solid #46a302;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; transition: 0.1s;
+            cursor: pointer; position: relative; transition: 0.1s; z-index: 2;
         }
         .section-node:active { transform: translateY(4px); border-bottom: 2px solid #46a302; }
+        
         .section-node.locked { background: #e5e5e5; border-bottom: 6px solid #cfcfcf; pointer-events: none; }
-        .section-icon { font-size: 2rem; color: white; }
+        .section-node.locked .section-icon { opacity: 0.5; filter: grayscale(1); }
+        
+        .section-node.current { background: #ff9600; border-bottom-color: #cc7a00; animation: bounce 2s infinite; }
+        
+        .section-icon { font-size: 1.8rem; color: white; }
         .section-label { 
             position: absolute; bottom: -25px; background: white; padding: 2px 8px; 
-            border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #777; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); white-space: nowrap;
+            border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #777; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); white-space: nowrap; z-index: 3;
         }
+        
+        /* Conector */
+        .path-line { width: 6px; height: 20px; background: #ddd; margin: -5px 0; z-index: 1; }
 
-        /* ESTILOS NUEVOS: EXAMEN (QUIZ) */
-        .quiz-container {
-            width: 100%; display: flex; flex-direction: column; height: 100%;
-        }
-        .quiz-progress {
-            width: 100%; height: 12px; background: #e5e5e5; border-radius: 10px; overflow: hidden; margin-bottom: 20px;
-        }
-        .quiz-bar {
-            height: 100%; background: #58cc02; width: 0%; transition: 0.3s;
-        }
-        .character-box {
-            display: flex; align-items: flex-end; gap: 10px; margin-bottom: 20px;
-        }
+        /* EXAMEN (QUIZ) */
+        .quiz-container { width: 100%; display: flex; flex-direction: column; height: 100%; }
+        .quiz-progress { width: 100%; height: 12px; background: #e5e5e5; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .quiz-bar { height: 100%; background: #58cc02; width: 0%; transition: 0.3s; }
+        .character-box { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 20px; }
         .char-img { width: 80px; height: auto; }
         .speech-bubble {
             background: white; border: 2px solid #e5e5e5; border-radius: 15px; padding: 15px;
@@ -193,7 +193,6 @@
         }
         .quiz-option:active { transform: translateY(2px); border-bottom: 2px solid #e5e5e5; }
         
-        /* Estados de respuesta */
         .quiz-option.correct { background: #d7ffb8; border-color: #58cc02; color: #58cc02; }
         .quiz-option.wrong { background: #ffdfe0; border-color: #ea2b2b; color: #ea2b2b; }
 
@@ -229,7 +228,7 @@
         .mem-card.flipped { background: white; border: 2px solid var(--accent); color: #333; font-size: 1.5rem; }
 
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
-        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-5px);} 100% {transform: translateY(0);} }
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-5px);} }
         .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
@@ -246,7 +245,7 @@
 
 <div class="app-shell">
     
-    <!-- PANTALLA BIENVENIDA -->
+    <!-- BIENVENIDA -->
     <div id="welcomeScreen">
         <div class="photo-frame">
             <img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" alt="User">
@@ -256,7 +255,7 @@
         <button class="start-btn" onclick="enterApp()">ENTRAR</button>
     </div>
 
-    <!-- BARRA SUPERIOR -->
+    <!-- TOP BAR -->
     <div class="top-bar">
         <div class="mode-toggle">
             <button class="toggle-opt active" id="btnKids" onclick="setMode('kids')">🦄 Niños</button>
@@ -264,7 +263,7 @@
         </div>
     </div>
 
-    <!-- CABECERA -->
+    <!-- HEADER -->
     <div class="header">
         <h2 class="logo">MagicSchool</h2>
         <div class="stats">
@@ -282,7 +281,7 @@
             <button class="btn-action-trans" onclick="doTranslate()">TRADUCIR</button>
         </div>
 
-        <!-- MENÚ DE 4 BOTONES -->
+        <!-- MENÚ PRINCIPAL -->
         <div class="menu-row">
             <div class="menu-btn btn-ing" onclick="openStages()">
                 <div class="menu-icon">🗺️</div>
@@ -302,7 +301,7 @@
             </div>
         </div>
 
-        <!-- VOCABULARIO INFERIOR -->
+        <!-- GRID VOCABULARIO -->
         <div>
             <div class="tabs-container">
                 <div class="tab-chip active" onclick="loadGrid('greetings', this)">Saludos</div>
@@ -320,64 +319,37 @@
 
 <!-- ================= MODALES ================= -->
 
-<!-- MAPA DE ETAPAS (DUOLINGO STYLE) -->
+<!-- MAPA DE ETAPAS (DINÁMICO) -->
 <div id="modalStages" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalStages')">⬅</button>
-        <h3>Etapa 1: Básicos</h3>
+        <h3>Tu Camino</h3>
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
-        <div class="path-container">
-            <!-- SECCIÓN 1 -->
-            <div class="section-node" onclick="startSection(1)">
-                <div class="section-icon">⭐</div>
-                <div class="section-label">Sección 1</div>
-            </div>
-            <!-- CONECTORES VISUALES -->
-            <div style="height:20px; width:4px; background:#ddd;"></div>
-            <!-- SECCIÓN 2 -->
-            <div class="section-node" style="background:#ce82ff; border-bottom-color:#a655d9;" onclick="startSection(2)">
-                <div class="section-icon">📖</div>
-                <div class="section-label">Sección 2</div>
-            </div>
-            <div style="height:20px; width:4px; background:#ddd;"></div>
-            <!-- SECCIÓN 3 -->
-            <div class="section-node" style="background:#ff9600; border-bottom-color:#cc7a00;" onclick="startSection(3)">
-                <div class="section-icon">🎤</div>
-                <div class="section-label">Sección 3</div>
-            </div>
-             <div style="height:20px; width:4px; background:#ddd;"></div>
-            <!-- SECCIÓN 4 (Bloqueado Ejemplo) -->
-            <div class="section-node locked">
-                <div class="section-icon">🔒</div>
-                <div class="section-label">Sección 4</div>
-            </div>
+        <div id="pathContainer" class="path-container">
+            <!-- Se llena con JS -->
         </div>
     </div>
 </div>
 
-<!-- PANTALLA DE EXAMEN (QUIZ) -->
+<!-- EXAMEN (QUIZ) -->
 <div id="modalQuiz" class="modal-overlay" style="z-index:200;">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalQuiz')">✖</button>
         <div class="quiz-progress"><div id="quizBar" class="quiz-bar"></div></div>
         <div style="width:35px"></div>
     </div>
-    <div class="modal-body" style="padding-bottom: 20px;">
+    <div class="modal-body">
         <div class="quiz-container">
-            <h2 style="margin:0 0 20px 0; color:#4b4b4b;">Selecciona la traducción correcta</h2>
+            <h2 style="margin:0 0 10px 0; color:#4b4b4b; text-align:center;">Selecciona la respuesta</h2>
             
             <div class="character-box">
-                <!-- Oso Animado -->
                 <img src="https://cdn-icons-png.flaticon.com/512/375/375128.png" class="char-img">
                 <div class="speech-bubble" id="quizPrompt">Hola</div>
             </div>
 
-            <div class="quiz-options" id="quizOptions">
-                <!-- Opciones generadas aquí -->
-            </div>
-
+            <div class="quiz-options" id="quizOptions"></div>
             <button id="btnQuizCheck" class="btn-check" onclick="checkAnswer()">COMPROBAR</button>
         </div>
     </div>
@@ -391,160 +363,96 @@
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
-        <div class="game-select-card" style="border-color:#0288d1" onclick="openModal('modalSoccer'); initSoccer();">
-            <div><b style="color:#0288d1">⚽ Fútbol Penalties</b><br><small>Responde y mete Gol</small></div>
-            <div style="font-size:2.5rem">🥅</div>
+        <div class="game-select-card" style="border-color:#0288d1" onclick="initSoccer()">
+            <div><b style="color:#0288d1">⚽ Fútbol Penalties</b></div><div style="font-size:2rem">🥅</div>
         </div>
-        <div class="game-select-card" style="border-color:#fbc02d" onclick="openModal('modalHangman'); initHangman();">
-            <div><b style="color:#fbc02d">😵 Ahorcado</b><br><small>Salva al personaje</small></div>
-            <div style="font-size:2.5rem">🔤</div>
+        <div class="game-select-card" style="border-color:#fbc02d" onclick="initHangman()">
+            <div><b style="color:#fbc02d">😵 Ahorcado</b></div><div style="font-size:2rem">🔤</div>
         </div>
-        <div class="game-select-card" style="border-color:#ef5350" onclick="openModal('modalMemory'); initMemory();">
-            <div><b style="color:#ef5350">🧠 Memoria</b><br><small>Busca las Parejas</small></div>
-            <div style="font-size:2.5rem">🃏</div>
+        <div class="game-select-card" style="border-color:#ef5350" onclick="initMemory()">
+            <div><b style="color:#ef5350">🧠 Memoria</b></div><div style="font-size:2rem">🃏</div>
         </div>
     </div>
 </div>
 
-<!-- JUEGO FÚTBOL -->
+<!-- FÚTBOL -->
 <div id="modalSoccer" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button>
-        <h3>Fútbol: Penaltis</h3>
-        <div style="width:35px"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol</h3><div></div></div>
     <div class="modal-body">
-        <div class="soccer-field">
-            <div class="goal-post"></div>
-            <div class="goalkeeper" id="keeper">🧤</div>
-            <div class="ball" id="ball">⚽</div>
-        </div>
+        <div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div>
         <div style="background:white; padding:20px; border-radius:15px; text-align:center; width:90%;">
-            <p style="color:#666; margin:0;">¿Cómo se dice en Inglés?</p>
-            <h2 id="socQ" style="color:var(--primary); font-size:2rem; margin:10px 0;">...</h2>
+            <p style="color:#666;">Traduce al Inglés:</p>
+            <h2 id="socQ" style="color:var(--primary);">...</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="socBtns"></div>
         </div>
     </div>
 </div>
 
-<!-- JUEGO CRUCIGRAMA (NIVELES) -->
+<!-- CRUCIGRAMA -->
 <div id="modalCross" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalCross')">⬅</button>
-        <h3>Crucigramas</h3>
-        <div style="width:35px"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalCross')">⬅</button><h3>Crucigramas</h3><div></div></div>
     <div class="modal-body" style="text-align:center;">
         <div id="cwLevelTitle" style="background:#ef5350; color:white; padding:5px 15px; border-radius:20px; display:inline-block; margin-bottom:10px;">NIVEL 1</div>
-        <p id="cwClues" style="text-align:center; font-weight:bold;">Pista...</p>
+        <p id="cwClues" style="text-align:center; font-weight:bold;">...</p>
         <div id="cwGridContainer" class="cw-grid"></div>
         <button class="btn-action-trans" style="background:#ef5350" onclick="checkCrossword()">VERIFICAR</button>
-        <div id="cwMsg" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 </div>
 
-<!-- AJEDREZ / LÓGICA -->
+<!-- AJEDREZ -->
 <div id="modalChess" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalChess')">⬅</button>
-        <h3>Lógica y Ajedrez</h3>
-        <div style="width:35px"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div>
     <div class="modal-body" style="text-align:center;">
         <div style="font-size:4rem; margin:20px;">♟️</div>
         <div style="background:white; padding:20px; border-radius:15px; margin-bottom:20px;">
             <h3>Reto de Lógica</h3>
-            <p>Si la Reina (Queen) se mueve en todas direcciones...</p>
-            <p>¿Cómo se mueve la <b>Torre (Rook)</b>?</p>
+            <p>Si la Reina (Queen) se mueve en todas direcciones... ¿Cómo se mueve la <b>Torre (Rook)</b>?</p>
         </div>
-        <button class="btn-action-trans" onclick="chessAnswer(true)">En línea recta (Straight)</button>
-        <button class="btn-action-trans" style="background:#ab47bc" onclick="chessAnswer(false)">En diagonal (Diagonal)</button>
+        <button class="btn-action-trans" onclick="chessAnswer(true)">Línea Recta (Straight)</button>
+        <button class="btn-action-trans" style="background:#ab47bc" onclick="chessAnswer(false)">Diagonal</button>
     </div>
 </div>
 
 <!-- AHORCADO -->
 <div id="modalHangman" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalHangman')">⬅</button>
-        <h3>Ahorcado</h3>
-        <div style="width:35px"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalHangman')">⬅</button><h3>Ahorcado</h3><div></div></div>
     <div class="modal-body" style="text-align:center">
-        <div id="hmLives" style="font-size:2rem; margin-bottom:10px;">❤️❤️❤️❤️❤️</div>
-        <p id="hmHint" style="color:#555; font-weight:bold;">Pista...</p>
-        <div id="hmWord" class="hm-word">_ _ _ _</div>
+        <div id="hmLives" style="font-size:2rem; margin-bottom:10px;">❤️❤️❤️</div>
+        <p id="hmHint" style="color:#555; font-weight:bold;">...</p>
+        <div id="hmWord" class="hm-word">_ _ _</div>
         <div id="hmKb" class="keyboard"></div>
     </div>
 </div>
 
 <!-- MEMORIA -->
 <div id="modalMemory" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalMemory')">⬅</button>
-        <h3>Memoria</h3>
-        <div style="width:35px"></div>
-    </div>
-    <div class="modal-body">
-        <p>Encuentra las parejas</p>
-        <div id="memGrid" class="mem-grid"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria</h3><div></div></div>
+    <div class="modal-body"><div id="memGrid" class="mem-grid"></div></div>
 </div>
 
 <script>
     let pts = parseInt(localStorage.getItem('pts')) || 0;
+    let unlockedLevel = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     let isKids = true;
 
-    // --- BASE DE DATOS DEL ABC (PHONETICS) ---
-    const phonetics = {
-        'A':'Ay', 'B':'Bee', 'C':'See', 'D':'Dee', 'E':'Ee', 'F':'Ef', 'G':'Gee',
-        'H':'Aitch', 'I':'Eye', 'J':'Jay', 'K':'Kay', 'L':'El', 'M':'Em', 'N':'En',
-        'O':'Oh', 'P':'Pee', 'Q':'Cue', 'R':'Are', 'S':'Ess', 'T':'Tee', 'U':'You',
-        'V':'Vee', 'W':'Double U', 'X':'Ex', 'Y':'Why', 'Z':'Zee'
-    };
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-    const abcList = alphabet.map(l => ({i:l, w:l, sound: phonetics[l]}));
+    // --- BASE DE DATOS BILINGÜE (i=Icon, e=English, s=Spanish) ---
+    const phonetics = {'A':'Ay','B':'Bee','C':'See','D':'Dee','E':'Ee','F':'Ef','G':'Gee','H':'Aitch','I':'Eye','J':'Jay','K':'Kay','L':'El','M':'Em','N':'En','O':'Oh','P':'Pee','Q':'Cue','R':'Are','S':'Ess','T':'Tee','U':'You','V':'Vee','W':'Double U','X':'Ex','Y':'Why','Z':'Zee'};
+    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:l, s:'Letra '+l, sound: phonetics[l]}));
 
-    // --- BASE DE DATOS VOCABULARIO ---
     const db = {
-        greetings: [{i:'👋',w:'Hello'},{i:'🚶',w:'Bye'},{i:'🌅',w:'Good Morning'},{i:'🌙',w:'Good Night'},{i:'🤝',w:'Nice to meet you'},{i:'🙏',w:'Thank you'},{i:'😊',w:'Please'},{i:'❓',w:'How are you?'}],
+        greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🌙',e:'Good Night',s:'Buenas noches'},{i:'🤝',e:'Nice to meet you',s:'Mucho gusto'},{i:'🙏',e:'Thank you',s:'Gracias'},{i:'😊',e:'Please',s:'Por favor'},{i:'❓',e:'How are you?',s:'¿Cómo estás?'}],
         abc: abcList,
         animals: [
-            {i:'🐶',w:'Dog'},{i:'🐱',w:'Cat'},{i:'🦁',w:'Lion'},{i:'🐯',w:'Tiger'},{i:'🐘',w:'Elephant'},{i:'🐵',w:'Monkey'},{i:'🦒',w:'Giraffe'},{i:'🦓',w:'Zebra'},{i:'🐍',w:'Snake'},{i:'🐻',w:'Bear'},{i:'🐰',w:'Rabbit'},{i:'🐭',w:'Mouse'},{i:'🐴',w:'Horse'},{i:'🐮',w:'Cow'},{i:'🐷',w:'Pig'},{i:'🐑',w:'Sheep'},{i:'🦆',w:'Duck'},{i:'🐔',w:'Chicken'},{i:'🐸',w:'Frog'},{i:'🐢',w:'Turtle'}
+            {i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐍',e:'Snake',s:'Serpiente'},{i:'🐻',e:'Bear',s:'Oso'},{i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐭',e:'Mouse',s:'Ratón'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},{i:'🐸',e:'Frog',s:'Rana'},{i:'🐢',e:'Turtle',s:'Tortuga'}
         ],
-        fruits: [{i:'🍎',w:'Apple'},{i:'🍌',w:'Banana'},{i:'🍇',w:'Grape'},{i:'🍊',w:'Orange'},{i:'🍓',w:'Strawberry'},{i:'🍉',w:'Watermelon'},{i:'🍍',w:'Pineapple'},{i:'🍒',w:'Cherry'},{i:'🍐',w:'Pear'},{i:'🥥',w:'Coconut'},{i:'🥑',w:'Avocado'},{i:'🥝',w:'Kiwi'},{i:'🍋',w:'Lemon'},{i:'🥭',w:'Mango'}],
-        colors: [{i:'🔴',w:'Red'},{i:'🔵',w:'Blue'},{i:'🟢',w:'Green'},{i:'🟡',w:'Yellow'},{i:'🟠',w:'Orange'},{i:'🟣',w:'Purple'},{i:'👚',w:'Pink'},{i:'⚫',w:'Black'},{i:'⚪',w:'White'},{i:'🟤',w:'Brown'}],
-        routines: [{i:'🥱',w:'Wake up'},{i:'🚿',w:'Shower'},{i:'🦷',w:'Brush teeth'},{i:'👗',w:'Dress'},{i:'🥣',w:'Breakfast'},{i:'🏫',w:'School'},{i:'⚽',w:'Play'},{i:'🛌',w:'Sleep'},{i:'📚',w:'Study'},{i:'📺',w:'Watch TV'}]
+        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},{i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍒',e:'Cherry',s:'Cereza'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🥥',e:'Coconut',s:'Coco'},{i:'🥑',e:'Avocado',s:'Aguacate'},{i:'🥝',e:'Kiwi',s:'Kiwi'},{i:'🍋',e:'Lemon',s:'Limón'}],
+        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'},{i:'👚',e:'Pink',s:'Rosa'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'},{i:'🟤',e:'Brown',s:'Café'}],
+        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'📚',e:'Study',s:'Estudiar'},{i:'📺',e:'Watch TV',s:'Ver TV'}]
     };
 
-    // --- BASE DE DATOS EXÁMENES (SECCIONES) ---
-    // Generador simple de 10 preguntas para demo
-    const section1DB = [
-        {q:"Hola", a:"Hello", o:["Hello","Bye","Tea"]}, {q:"Adiós", a:"Goodbye", o:["Goodbye","See you","Dog"]},
-        {q:"Gato", a:"Cat", o:["Cat","Dog","Bird"]}, {q:"Perro", a:"Dog", o:["Dog","Pig","Cat"]},
-        {q:"Rojo", a:"Red", o:["Red","Blue","Green"]}, {q:"Azul", a:"Blue", o:["Blue","Red","Yellow"]},
-        {q:"Uno", a:"One", o:["One","Two","Three"]}, {q:"Dos", a:"Two", o:["Two","One","Ten"]},
-        {q:"Gracias", a:"Thanks", o:["Thanks","Please","No"]}, {q:"Por favor", a:"Please", o:["Please","Thanks","Hello"]}
-    ];
-    // Para las otras secciones, usamos datos genéricos por ahora
-    function getQuestionsForSection(id) {
-        if(id === 1) return section1DB;
-        // Generar preguntas aleatorias para otras secciones
-        let q = [];
-        let src = [...db.animals, ...db.fruits, ...db.colors];
-        for(let i=0; i<10; i++) {
-            let item = src[Math.floor(Math.random()*src.length)];
-            let w1 = src[Math.floor(Math.random()*src.length)].w;
-            let w2 = src[Math.floor(Math.random()*src.length)].w;
-            q.push({q: "En inglés: " + item.w, a: item.w, o: [item.w, w1, w2].sort(()=>Math.random()-0.5)});
-        }
-        return q;
-    }
-
-    // --- VARIABLES DE ESTADO ---
-    let currentQuiz = [];
-    let currentQIndex = 0;
-    let selectedAnswer = null;
-
+    // --- VARIABLES JUEGO ---
+    let currentQuiz=[], currentQIndex=0, selectedAnswer=null;
+    
     window.onload = () => {
         document.getElementById('points').innerText = pts;
         loadGrid('greetings', document.querySelector('.tab-chip'));
@@ -557,100 +465,135 @@
         if(m === 'kids') { document.getElementById('btnKids').classList.add('active'); isKids = true; document.body.style.background = "#00bcd4"; }
         else { document.getElementById('btnAdv').classList.add('active'); isKids = false; document.body.style.background = "#607d8b"; }
     }
-
+    
     function speak(txt) {
         window.speechSynthesis.cancel();
         let u = new SpeechSynthesisUtterance(txt);
         u.lang = 'en-US'; 
-        let voices = window.speechSynthesis.getVoices();
-        let engVoice = voices.find(v => v.lang.startsWith('en'));
-        if(engVoice) u.voice = engVoice;
+        let vs = window.speechSynthesis.getVoices();
+        let v = vs.find(val => val.lang.startsWith('en'));
+        if(v) u.voice = v;
         u.pitch = isKids ? 1.3 : 1.0; u.rate = 0.9;
         window.speechSynthesis.speak(u);
     }
-
+    
     function addPts(n) { pts += n; document.getElementById('points').innerText = pts; localStorage.setItem('pts', pts); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // --- LÓGICA DE ETAPAS / SECCIONES ---
-    function openStages() { openModal('modalStages'); }
+    // --- MAPA DE ETAPAS (GENERADOR) ---
+    function openStages() { 
+        openModal('modalStages');
+        renderPath();
+    }
     
-    function startSection(id) {
-        currentQuiz = getQuestionsForSection(id);
+    function renderPath() {
+        const container = document.getElementById('pathContainer');
+        container.innerHTML = '';
+        const totalLevels = 10;
+        const icons = ['⭐','📖','🎤','🧠','🧩','🎲','🏆','🚀','🌎','👑'];
+        
+        for(let i = 1; i <= totalLevels; i++) {
+            let node = document.createElement('div');
+            node.className = 'section-node';
+            
+            // Estado del nivel
+            if(i < unlockedLevel) {
+                node.style.background = "#ffb74d"; node.style.borderColor = "#f57c00"; // Completado
+                node.innerHTML = `<div class="section-icon">✅</div><div class="section-label">Nivel ${i}</div>`;
+                node.onclick = () => startSection(i);
+            } else if(i === unlockedLevel) {
+                node.className += " current"; // Actual
+                node.innerHTML = `<div class="section-icon">${icons[i-1]}</div><div class="section-label">Nivel ${i}</div>`;
+                node.onclick = () => startSection(i);
+            } else {
+                node.className += " locked"; // Bloqueado
+                node.innerHTML = `<div class="section-icon">🔒</div><div class="section-label">Nivel ${i}</div>`;
+            }
+            container.appendChild(node);
+            
+            // Conector
+            if(i < totalLevels) {
+                let line = document.createElement('div');
+                line.className = 'path-line';
+                container.appendChild(line);
+            }
+        }
+    }
+
+    // --- MOTOR DE EXAMEN (QUIZ ENGINE) ---
+    function startSection(level) {
+        currentQuiz = generateQuiz(level);
         currentQIndex = 0;
         openModal('modalQuiz');
         loadQuestion();
     }
+    
+    function generateQuiz(level) {
+        // Genera 10 preguntas aleatorias de la DB
+        let allItems = [...db.animals, ...db.fruits, ...db.colors, ...db.routines, ...db.greetings];
+        let q = [];
+        for(let i=0; i<10; i++) {
+            let correct = allItems[Math.floor(Math.random() * allItems.length)];
+            let w1 = allItems[Math.floor(Math.random() * allItems.length)];
+            let w2 = allItems[Math.floor(Math.random() * allItems.length)];
+            // Pregunta en Español (s), Respuesta en Inglés (e)
+            q.push({
+                prompt: "¿Cómo se dice " + correct.s + "?",
+                answer: correct.e,
+                options: [correct.e, w1.e, w2.e].sort(()=>Math.random()-0.5)
+            });
+        }
+        return q;
+    }
 
     function loadQuestion() {
         if(currentQIndex >= currentQuiz.length) {
-            // Fin del examen
-            speak("Section Completed! Congratulations!");
-            addPts(50);
-            closeModal('modalQuiz');
+            speak("Level Completed!"); addPts(50);
+            if(unlockedLevel < 10) { unlockedLevel++; localStorage.setItem('unlockedLevel', unlockedLevel); }
+            closeModal('modalQuiz'); openStages(); // Volver al mapa actualizado
             return;
         }
+        let q = currentQuiz[currentQIndex];
+        document.getElementById('quizBar').style.width = ((currentQIndex / currentQuiz.length) * 100) + "%";
+        document.getElementById('quizPrompt').innerText = q.prompt;
+        
+        let opts = document.getElementById('quizOptions'); opts.innerHTML = '';
+        selectedAnswer = null; document.getElementById('btnQuizCheck').disabled = true;
 
-        let qData = currentQuiz[currentQIndex];
-        // Actualizar barra
-        let pct = (currentQIndex / currentQuiz.length) * 100;
-        document.getElementById('quizBar').style.width = pct + "%";
-
-        document.getElementById('quizPrompt').innerText = qData.q;
-        let optContainer = document.getElementById('quizOptions');
-        optContainer.innerHTML = '';
-        selectedAnswer = null;
-        document.getElementById('btnQuizCheck').disabled = true;
-
-        qData.o.forEach(opt => {
-            let btn = document.createElement('div');
-            btn.className = 'quiz-option';
-            btn.innerText = opt;
-            btn.onclick = () => selectOption(btn, opt);
-            optContainer.appendChild(btn);
+        q.options.forEach(txt => {
+            let b = document.createElement('div'); b.className = 'quiz-option'; b.innerText = txt;
+            b.onclick = () => {
+                document.querySelectorAll('.quiz-option').forEach(x=>x.classList.remove('selected'));
+                document.querySelectorAll('.quiz-option').forEach(x=>x.style.border="2px solid #e5e5e5");
+                b.style.border = "2px solid #58cc02";
+                selectedAnswer = {el:b, txt:txt};
+                document.getElementById('btnQuizCheck').disabled = false;
+                speak(txt); // Habla la opción al tocar
+            };
+            opts.appendChild(b);
         });
-        
-        // Voz del oso
-        speak(qData.q);
-    }
-
-    function selectOption(btn, text) {
-        document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected', 'correct', 'wrong'));
-        document.querySelectorAll('.quiz-option').forEach(b => b.style.border = "2px solid #e5e5e5");
-        
-        btn.style.border = "2px solid #58cc02"; // Highlight selection
-        selectedAnswer = { btn: btn, text: text };
-        document.getElementById('btnQuizCheck').disabled = false;
-        speak(text);
+        // Voz pregunta (Opcional, en español el navegador puede no hablar bien si está en modo inglés forzado, mejor no hablar la pregunta en español para no confundir la voz)
     }
 
     function checkAnswer() {
-        let qData = currentQuiz[currentQIndex];
-        let correct = qData.a;
-        
-        if (selectedAnswer.text === correct) {
-            selectedAnswer.btn.classList.add('correct');
-            speak("Correct!");
-            setTimeout(() => {
-                currentQIndex++;
-                loadQuestion();
-            }, 1000);
+        let correct = currentQuiz[currentQIndex].answer;
+        if(selectedAnswer.txt === correct) {
+            selectedAnswer.el.classList.add('correct'); speak("Correct!");
+            setTimeout(()=>{ currentQIndex++; loadQuestion(); }, 1000);
         } else {
-            selectedAnswer.btn.classList.add('wrong');
-            speak("Wrong. The answer is " + correct);
+            selectedAnswer.el.classList.add('wrong'); speak("Wrong. It is " + correct);
         }
     }
 
-
-    // --- VOCABULARIO ---
+    // --- GRID VOCABULARIO ---
     function loadGrid(cat, btn) {
         if(btn) { document.querySelectorAll('.tab-chip').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
         let grid = document.getElementById('mainGrid'); grid.innerHTML = '';
         db[cat].forEach(item => {
             let d = document.createElement('div'); d.className = 'vocab-card';
-            d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.w}</div>`;
-            d.onclick = () => speak(item.sound ? item.sound : item.w);
+            d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.e}</div>`; // Muestra Inglés
+            d.onclick = () => speak(item.sound || item.e);
             grid.appendChild(d);
         });
     }
@@ -667,17 +610,14 @@
     }
 
     // --- FÚTBOL ---
-    const quizItems = [
-        {es:"Perro", en:"Dog"},{es:"Gato", en:"Cat"},{es:"Rojo", en:"Red"},{es:"Azul", en:"Blue"},{es:"Hola", en:"Hello"},{es:"Adiós", en:"Bye"},{es:"Manzana", en:"Apple"},{es:"Sol", en:"Sun"},{es:"León", en:"Lion"},{es:"Verde", en:"Green"}
-    ];
     function initSoccer() { openModal('modalSoccer'); newKick(); }
     function newKick() {
         document.getElementById('ball').style.bottom="10px"; document.getElementById('ball').style.left="45%"; document.getElementById('keeper').style.left="45%";
-        let q = quizItems[Math.floor(Math.random()*quizItems.length)];
-        let w = quizItems[Math.floor(Math.random()*quizItems.length)];
-        while(w.en === q.en) w = quizItems[Math.floor(Math.random()*quizItems.length)];
-        document.getElementById('socQ').innerText = q.es;
-        let btns = [`<button class="game-btn" onclick="kick(true,'${q.en}')">${q.en}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.en}</button>`].sort(()=>Math.random()-0.5);
+        let all = [...db.animals, ...db.colors];
+        let q = all[Math.floor(Math.random()*all.length)];
+        let w = all[Math.floor(Math.random()*all.length)];
+        document.getElementById('socQ').innerText = q.s; // Pregunta Español
+        let btns = [`<button class="game-btn" onclick="kick(true,'${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.e}</button>`].sort(()=>Math.random()-0.5);
         document.getElementById('socBtns').innerHTML = btns.join('');
     }
     function kick(win, word) {
@@ -687,7 +627,7 @@
             speak("GOAL! " + word); addPts(20); confetti(); setTimeout(newKick, 1500);
         } else {
             k.style.left="45%"; b.style.bottom="50px";
-            speak("Wrong. Try again"); setTimeout(newKick, 1000);
+            speak("Wrong."); setTimeout(newKick, 1000);
         }
     }
 
@@ -708,25 +648,22 @@
         if(ok) { speak("Excellent!"); addPts(30); confetti(); setTimeout(()=>loadCw(currCw+1), 2000); } else speak("Try again");
     }
 
-    // --- AHORCADO ---
+    // --- OTROS JUEGOS ---
+    function initChess() { openModal('modalChess'); }
+    function chessAnswer(c) { if(c){speak("Correct"); addPts(10); confetti(); setTimeout(()=>closeModal('modalChess'),2000);} else speak("Wrong"); }
+
     let hmT="", hmL=5, hmG=[];
-    function initHangman() { openModal('modalHangman'); let i=quizItems[Math.floor(Math.random()*quizItems.length)]; hmT=i.en.toUpperCase(); hmL=5; hmG=[]; document.getElementById('hmHint').innerText=i.es; renderHm(); renderHmKb(); }
+    function initHangman() { openModal('modalHangman'); let item=db.animals[Math.floor(Math.random()*db.animals.length)]; hmT=item.e.toUpperCase(); hmL=5; hmG=[]; document.getElementById('hmHint').innerText="Traduce: "+item.s; renderHm(); renderHmKb(); }
     function renderHm(){ document.getElementById('hmLives').innerText="❤️".repeat(hmL); let s=hmT.split('').map(l=>hmG.includes(l)?l:"_").join(" "); document.getElementById('hmWord').innerText=s; if(!s.includes("_")){speak("Win!"); addPts(20); setTimeout(initHangman,2000);} if(hmL<=0){speak("Lost"); setTimeout(initHangman,2000);} }
     function renderHmKb(){ let k=document.getElementById('hmKb'); k.innerHTML=""; "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(l=>{let b=document.createElement('button'); b.className='key'; b.innerText=l; b.onclick=()=>{b.disabled=true; hmG.push(l); if(!hmT.includes(l))hmL--; renderHm();}; k.appendChild(b);}); }
 
-    // --- MEMORIA ---
-    let mC=[], mF=[];
-    function initMemory() { openModal('modalMemory'); let a=[]; for(let i=0;i<4;i++){let x=db.animals[i]; a.push({v:x.i, m:x.w},{v:x.w, m:x.i});} a.sort(()=>Math.random()-0.5); let g=document.getElementById('memGrid'); g.innerHTML=""; mF=[]; a.forEach(x=>{let c=document.createElement('div'); c.className='mem-card'; c.innerText=x.v; c.onclick=()=>{if(mF.length<2 && !c.classList.contains('flipped')){c.classList.add('flipped'); mF.push({e:c, v:x.v, m:x.m}); if(mF.length==2)checkMem();}}; g.appendChild(c);}); }
-    function checkMem(){ if(mF[0].v===mF[1].m){speak("Good"); mF=[]; addPts(10); if(document.querySelectorAll('.mem-card.flipped').length==8)confetti();} else setTimeout(()=>{mF.forEach(x=>x.e.classList.remove('flipped')); mF=[];},1000); }
-
-    // --- AJEDREZ ---
-    function initChess() { openModal('modalChess'); }
-    function chessAnswer(c) { if(c){speak("Correct"); addPts(10); confetti(); setTimeout(()=>closeModal('modalChess'),2000);} else speak("Wrong"); }
+    function initMemory() { openModal('modalMemory'); let a=[]; for(let i=0;i<4;i++){let x=db.animals[Math.floor(Math.random()*db.animals.length)]; a.push({v:x.i, m:x.e},{v:x.e, m:x.i});} a.sort(()=>Math.random()-0.5); let g=document.getElementById('memGrid'); g.innerHTML=""; let mF=[]; a.forEach(x=>{let c=document.createElement('div'); c.className='mem-card'; c.innerText=x.v; c.onclick=()=>{if(mF.length<2 && !c.classList.contains('flipped')){c.classList.add('flipped'); mF.push({e:c, v:x.v, m:x.m}); if(mF.length==2) { if(mF[0].v===mF[1].m){speak("Good"); mF=[]; addPts(10); if(document.querySelectorAll('.mem-card.flipped').length==8)confetti();} else setTimeout(()=>{mF.forEach(x=>x.e.classList.remove('flipped')); mF=[];},1000); } }}; g.appendChild(c);}); }
 
     function confetti() { for(let i=0; i<20; i++){let d=document.createElement('div'); d.innerHTML='🎉'; d.className='confetti'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(Math.random()*2+1)+'s'; document.body.appendChild(d); setTimeout(()=>d.remove(),3000);} }
 </script>
 </body>
 </html>
+
 
 
 
