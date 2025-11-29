@@ -7,31 +7,32 @@
     <!-- PWA CONFIG -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#00bcd4">
+    <meta name="theme-color" content="#212121">
     <title>Magic School Pro</title>
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Roboto:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
 
         :root {
-            /* APP COLORES */
-            --bg-body: #00bcd4;
+            /* COLORES APP */
+            --bg-body: #f5f5f5;
             --primary: #58cc02;
             --secondary: #ff9600;
-            --font: 'Fredoka', sans-serif;
+            --accent: #ce82ff;
+            --font-main: 'Fredoka', sans-serif;
             
-            /* CRUCIGRAMA DARK THEME */
+            /* COLORES CRUCIGRAMA (DARK MODE) */
             --cw-bg: #121212;
-            --cw-cell: #fff;
-            --cw-highlight: #64b5f6;
-            --cw-selected: #ffeb3b;
+            --cw-cell: #eee;
+            --cw-highlight: #90CAF9;
+            --cw-selected: #FFEB3B;
         }
 
         body {
-            font-family: var(--font);
-            background: var(--bg-body);
+            font-family: var(--font-main);
+            background: #00bcd4; /* Fondo detrás de la app */
             margin: 0;
             height: 100vh;
             display: flex;
@@ -49,98 +50,111 @@
             overflow: hidden; position: relative;
         }
 
-        /* --- UI PRINCIPAL --- */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; border-bottom: 2px dashed #ccc; }
+        /* --- UI SUPERIOR (Header & Menú) --- */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; border-bottom: 2px solid #ddd; }
         .logo { margin: 0; color: #6200ea; font-size: 1.4rem; }
-        .stats { display: flex; gap: 8px; font-weight: bold; }
-        .stat-box { background: #FFD700; padding: 5px 12px; border-radius: 15px; border: 2px solid #ffca28; color: #e65100; }
+        .stats { display: flex; gap: 8px; font-weight: bold; font-size: 0.9rem; }
+        .stat-box { background: #FFD700; padding: 4px 10px; border-radius: 12px; border: 2px solid #ffca28; color: #e65100; }
 
-        .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+        .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
+        .translator-card { background: white; border-radius: 15px; padding: 10px; border: 2px solid #b3e5fc; box-shadow: 0 4px 0 #e1f5fe; }
+        .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
+        .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; box-shadow: 0 4px 0 #0277bd; cursor: pointer;}
+        .btn-trans:active { transform: translateY(4px); box-shadow: none; }
+
+        /* MENU PRINCIPAL (4 BOTONES) */
         .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
-        .menu-btn { background: white; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 85px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-bottom: 4px solid #ddd; }
-        .menu-btn:active { transform: translateY(4px); border-bottom: 0; }
-        .menu-icon { font-size: 2rem; margin-bottom: 2px; }
+        .menu-btn { background: white; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 0 #e0e0e0; border: 2px solid #eee; }
+        .menu-btn:active { transform: translateY(4px); box-shadow: none; }
+        .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        .translator-card { background: white; border-radius: 20px; padding: 10px; border: 2px solid #b3e5fc; }
-        .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 1px solid #eee; text-align: center; color: #333; }
-        .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 8px; border-radius: 10px; font-weight: bold; margin-top: 5px; }
+        /* BARRA MOTIVACIONAL AZUL */
+        .motivation-bar {
+            background: #039be5; color: white; padding: 15px; border-radius: 15px;
+            text-align: center; font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 4px 0 #0277bd; margin: 10px 0;
+        }
+
+        /* --- NUEVA ZONA INFERIOR (CATEGORÍAS) --- */
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
+        .cat-card {
+            background: white; border-radius: 15px; aspect-ratio: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 4px 0 #e0e0e0; cursor: pointer; border: 2px solid #eee;
+            transition: transform 0.1s;
+        }
+        .cat-card:active { transform: translateY(4px); box-shadow: none; }
+        .cat-icon { font-size: 2.5rem; margin-bottom: 5px; }
+        .cat-title { font-size: 0.75rem; font-weight: bold; color: #444; text-transform: uppercase; }
+
+        /* Colores bordes inferiores (simulados con border-bottom) */
+        .c-blue { border-bottom: 5px solid #42a5f5; }
+        .c-green { border-bottom: 5px solid #66bb6a; }
+        .c-orange { border-bottom: 5px solid #ffa726; }
+        .c-purple { border-bottom: 5px solid #ab47bc; }
+        .c-red { border-bottom: 5px solid #ef5350; }
+        .c-teal { border-bottom: 5px solid #26a69a; }
 
         /* BIENVENIDA */
         #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.5s ease; }
         .photo-frame img { width: 120px; }
-        .start-btn { background: var(--primary); color: white; padding: 15px 50px; border-radius: 30px; font-size: 1.2rem; border: none; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        .start-btn { background: var(--primary); color: white; padding: 15px 50px; border-radius: 30px; font-size: 1.2rem; border: none; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 5px 0 #46a302; }
 
-        /* --- CRUCIGRAMA PRO (ESTILO DARK) --- */
-        .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--cw-bg); z-index: 200; display: none; flex-direction: column; font-family: 'Roboto', sans-serif; }
-        .cw-header { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; background: #212121; color: white; border-bottom: 1px solid #444; height: 50px; }
-        .cw-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
-        
-        /* Grid Tablero */
-        .cw-board-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #121212; position: relative; }
-        .cw-table { display: grid; gap: 2px; background: transparent; padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
-        .cw-cell { background: #eee; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; color: #222; border-radius: 2px; }
+        /* MODALES */
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
+        .modal-header { background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .modal-title { font-size: 1.2rem; font-weight: bold; color: #444; text-transform: uppercase; }
+        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+        .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+
+        /* GRID DENTRO DE CATEGORÍA */
+        .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
+        .vocab-item { 
+            background: white; border-radius: 15px; padding: 10px; text-align: center; 
+            box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; 
+            aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
+        .v-icon { font-size: 2.5rem; }
+        .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
+
+        /* ESTILOS CRUCIGRAMA PRO */
+        .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 200; display: none; flex-direction: column; }
+        .cw-header { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; background: #212121; color: white; border-bottom: 1px solid #333; height: 50px; flex-shrink: 0; }
+        .cw-board-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #121212; position: relative; overflow: auto; }
+        .cw-table { display: grid; gap: 2px; background: #000; padding: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #333; }
+        .cw-cell { width: 36px; height: 36px; background: var(--cw-cell); position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; color: #222; }
         .cw-cell.black { background: transparent; pointer-events: none; }
         .cw-cell.active-word { background: var(--cw-highlight) !important; color: #000; }
-        .cw-cell.selected { background: var(--cw-selected) !important; color: #000; transform: scale(1.1); z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5); border: 2px solid #000; }
-        .cw-num { position: absolute; top: 2px; left: 2px; font-size: 0.5rem; color: #444; font-weight: bold; line-height: 1; }
-
-        /* Caja de Pistas Azul */
-        .cw-clue-box { background: #263238; border-top: 4px solid #00bcd4; padding: 15px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .cw-clue-label { color: #00bcd4; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .cw-clue-text { color: white; font-size: 1.1rem; font-weight: bold; line-height: 1.2; }
+        .cw-cell.selected { background: var(--cw-selected) !important; color: #000; z-index: 10; box-shadow: inset 0 0 0 2px #000; transform: scale(1.1); }
+        .cw-num { position: absolute; top: 1px; left: 2px; font-size: 0.5rem; color: #444; font-weight: bold; line-height: 1; pointer-events: none; }
+        .cw-clue-box { background: #263238; border-left: 6px solid #4FC3F7; padding: 15px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; position: relative; flex-shrink: 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.3); margin: 10px; border-radius: 4px; }
+        .cw-clue-text { color: white; font-size: 1rem; font-weight: 500; margin-left: 10px; line-height: 1.2; }
+        .fab-check { position: absolute; bottom: 130px; right: 20px; background: #58cc02; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 2rem; box-shadow: 0 6px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
         
-        /* Menu Paquetes Crucigrama */
-        .cw-pack-grid { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; overflow-y: auto; background: #333; height: 100%; }
-        .cw-pack-card { background: #424242; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #212121; min-height: 100px; }
-        .cw-pack-card:active { transform: translateY(2px); border-bottom: 2px solid #212121; }
-        .cw-pack-stripe { height: 6px; width: 100%; }
-        .cw-pack-info { padding: 10px; color: white; }
-        
-        /* Botón Flotante Validar */
-        .fab-check { position: absolute; bottom: 120px; right: 20px; background: #58cc02; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 2rem; box-shadow: 0 6px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: transform 0.2s; }
-        .fab-check:active { transform: scale(0.9); }
+        .cw-pack-grid { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; overflow-y: auto; background: #212121; height: 100%; }
+        .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
+        .cw-pack-info { padding: 12px; color: white; }
 
-        /* --- OTROS MODALES (Juegos Viejos) --- */
-        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
-        .modal-header { background: white; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #eee; }
-        .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
-
-        /* Estilos específicos Juegos */
+        /* Otros Juegos */
         .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; }
         .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
         .goalkeeper { font-size: 3rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
         .ball { font-size: 2.5rem; position: absolute; bottom: 10px; left: 45%; transition: 0.5s; }
         .game-btn { padding: 15px; border: none; border-radius: 10px; background: #0277bd; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px; }
-        
-        .hm-word { font-size: 2rem; letter-spacing: 5px; font-weight: bold; margin: 20px 0; }
-        .keyboard { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-        .key { width: 35px; height: 35px; background: white; border: 1px solid #ccc; border-radius: 5px; font-weight: bold; }
-        
-        /* Grid Vocabulario */
-        .vocab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 20px; width: 100%; }
-        .vocab-card { aspect-ratio: 1; background: white; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; text-align: center; padding: 5px; }
-        .tab-chip { background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-weight: bold; color: #666; margin-right: 5px; }
-        .tab-chip.active { background: var(--secondary); color: white; border-color: var(--secondary); }
-
-        /* Stages Duolingo */
         .path-container { display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 40px; width: 100%; }
         .section-node { width: 75px; height: 75px; border-radius: 50%; background: #58cc02; border-bottom: 6px solid #46a302; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; z-index: 2; }
         .section-node.locked { background: #e5e5e5; border-bottom: 6px solid #cfcfcf; pointer-events: none; }
         .path-line { width: 6px; height: 20px; background: #ddd; margin: -5px 0; z-index: 1; }
-
         .quiz-container { width: 100%; display: flex; flex-direction: column; height: 100%; }
         .quiz-option { background: white; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; padding: 15px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; cursor: pointer; text-align: center; margin-bottom: 10px; }
         .quiz-option.correct { background: #d7ffb8; border-color: #58cc02; }
         .quiz-option.wrong { background: #ffdfe0; border-color: #ea2b2b; }
-
         .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
         .mem-card { aspect-ratio: 1; background: var(--accent); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; font-size: 0; transition: 0.3s; }
         .mem-card.flipped { background: white; border: 2px solid var(--accent); color: #333; font-size: 1.5rem; }
-
         .game-select-card { width: 90%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
 
         #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
@@ -171,12 +185,14 @@
     </div>
 
     <div class="scroll-area">
+        <!-- TRADUCTOR -->
         <div class="translator-card">
             <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
             <button class="btn-trans" onclick="doTranslate()">TRADUCIR</button>
             <div id="transOut" style="text-align:center; margin-top:5px; font-weight:bold; color:var(--primary);">...</div>
         </div>
 
+        <!-- MENÚ SUPERIOR -->
         <div class="menu-row">
             <div class="menu-btn" style="border-bottom-color:#42a5f5" onclick="openStages()"><div class="menu-icon">🗺️</div><div class="menu-label">Etapas</div></div>
             <div class="menu-btn" style="border-bottom-color:#ef5350" onclick="openCrosswordMenu()"><div class="menu-icon">🧩</div><div class="menu-label">Crucigrama</div></div>
@@ -184,26 +200,44 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <div style="margin-top:20px;">
-            <div style="display:flex; overflow-x:auto; padding-bottom:10px;" class="tabs-container">
-                <div class="tab-chip active" onclick="loadGrid('greetings', this)">Saludos</div>
-                <div class="tab-chip" onclick="loadGrid('abc', this)">ABC</div>
-                <div class="tab-chip" onclick="loadGrid('verbs', this)">Verbos</div>
-                <div class="tab-chip" onclick="loadGrid('animals', this)">Animales</div>
-                <div class="tab-chip" onclick="loadGrid('fruits', this)">Comida</div>
-                <div class="tab-chip" onclick="loadGrid('family', this)">Familia</div>
-                <div class="tab-chip" onclick="loadGrid('numbers', this)">Números</div>
-                <div class="tab-chip" onclick="loadGrid('colors', this)">Colores</div>
-                <div class="tab-chip" onclick="loadGrid('routines', this)">Rutinas</div>
-            </div>
-            <div id="mainGrid" class="vocab-grid"></div>
+        <!-- BARRA MOTIVACIONAL -->
+        <div class="motivation-bar" id="motivBar">
+            ¡Eres muy inteligente! 🌟
+        </div>
+
+        <!-- NUEVA REJILLA DE CATEGORÍAS (ABAJO) -->
+        <div class="categories-grid">
+            <div class="cat-card c-blue" onclick="openCategory('verbs', 'Verbos')"><div class="cat-icon">🏃</div><div class="cat-title">Verbos</div></div>
+            <div class="cat-card c-green" onclick="openCategory('abc', 'Abecedario')"><div class="cat-icon">🔤</div><div class="cat-title">Abecedario</div></div>
+            <div class="cat-card c-orange" onclick="openCategory('greetings', 'Saludos')"><div class="cat-icon">👋</div><div class="cat-title">Saludos</div></div>
+            <div class="cat-card c-purple" onclick="openCategory('animals', 'Animales')"><div class="cat-icon">🐶</div><div class="cat-title">Animales</div></div>
+            <div class="cat-card c-red" onclick="openCategory('routines', 'Rutina')"><div class="cat-icon">📅</div><div class="cat-title">Rutina</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('fruits', 'Comidas')"><div class="cat-icon">🍎</div><div class="cat-title">Comidas</div></div>
+            <div class="cat-card c-blue" onclick="openCategory('numbers', 'Números')"><div class="cat-icon">1️⃣</div><div class="cat-title">Números</div></div>
+            <div class="cat-card c-green" onclick="openCategory('family', 'Familia')"><div class="cat-icon">👪</div><div class="cat-title">Familia</div></div>
+            <div class="cat-card c-orange" onclick="openCategory('colors', 'Colores')"><div class="cat-icon">🎨</div><div class="cat-title">Colores</div></div>
+            <div class="cat-card c-purple" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
+            <div class="cat-card c-red" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('school', 'Escuela')"><div class="cat-icon">✏️</div><div class="cat-title">Escuela</div></div>
         </div>
     </div>
 </div>
 
-<!-- ================= CRUCIGRAMA PRO SYSTEM ================= -->
+<!-- ================= MODALES ================= -->
 
-<!-- SELECCIÓN DE PAQUETES -->
+<!-- MODAL CATEGORÍA (NUEVA PANTALLA PARA CADA TEMA) -->
+<div id="modalCategory" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalCategory')">⬅</button>
+        <span class="modal-title" id="catTitle">...</span>
+        <div style="width:35px"></div>
+    </div>
+    <div class="modal-body">
+        <div class="cat-detail-grid" id="catGrid"></div>
+    </div>
+</div>
+
+<!-- CRUCIGRAMA PRO SYSTEM -->
 <div id="packsScreen" class="cw-screen">
     <div class="cw-header">
         <button class="cw-close-btn" onclick="closePacks()">⬅</button>
@@ -213,206 +247,83 @@
     <div class="cw-pack-grid" id="packsGrid"></div>
 </div>
 
-<!-- JUEGO CRUCIGRAMA -->
 <div id="gameScreen" class="cw-screen" style="z-index:250">
     <div class="cw-header">
         <button class="cw-close-btn" onclick="closeGame()">✖</button>
         <span style="font-weight:bold;" id="gameTitle">Nivel 1</span>
         <div style="width:30px"></div>
     </div>
-    
     <div class="cw-board-area">
         <div id="gridTable" class="cw-table"></div>
     </div>
-
-    <!-- Botón flotante para validar -->
     <button class="fab-check" onclick="checkCrossword()">✓</button>
-
-    <!-- Caja de pista azul -->
     <div class="cw-clue-box">
-        <div class="cw-clue-label" id="clueNumLabel">PISTA</div>
         <div class="cw-clue-text" id="currentClueDisplay">Selecciona una casilla...</div>
     </div>
-    
     <input type="text" id="hiddenInput" autocomplete="off">
 </div>
 
-<!-- ================= OTROS MODALES ================= -->
-
-<!-- MENÚ JUEGOS -->
+<!-- OTROS MODALES (Juegos Antiguos) -->
 <div id="modalGamesMenu" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
     <div class="modal-body">
-        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="initSoccer()"><div><b>⚽ Fútbol Penalties</b></div><div style="font-size:2.5rem">🥅</div></div>
+        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="initSoccer()"><div><b>⚽ Fútbol</b></div><div style="font-size:2.5rem">🥅</div></div>
         <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="initHangman()"><div><b>😵 Ahorcado</b></div><div style="font-size:2.5rem">🔤</div></div>
         <div class="game-select-card" style="border-left:8px solid #ef5350" onclick="initMemory()"><div><b>🧠 Memoria</b></div><div style="font-size:2.5rem">🃏</div></div>
     </div>
 </div>
 
-<!-- MAPA ETAPAS -->
-<div id="modalStages" class="modal-overlay">
-    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalStages')">⬅</button><h3>Tu Camino</h3><div></div></div>
-    <div class="modal-body"><div id="pathContainer" class="path-container"></div></div>
-</div>
-
-<!-- EXAMEN (QUIZ) -->
-<div id="modalQuiz" class="modal-overlay" style="z-index:300;">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalQuiz')">✖</button><h3>Quiz</h3>
-    </div>
-    <div class="modal-body">
-        <div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div>
-        <h2 id="quizPrompt" style="text-align:center;">...</h2>
-        <div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div>
-    </div>
-</div>
-
-<!-- FÚTBOL -->
+<div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalStages')">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
+<div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalQuiz')">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
 <div id="modalSoccer" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol</h3><div></div></div><div class="modal-body"><div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div><h2 id="socQ" style="text-align:center;">...</h2><div id="socBtns" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%;"></div></div></div>
-
-<!-- AHORCADO -->
+<div id="modalChess" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div><div class="modal-body" style="text-align:center;"><div style="font-size:4rem; margin:20px;">♟️</div><p>Sigue la serie: 2, 4, 6...</p><button class="btn-trans" onclick="alert('Correcto!')">8</button><button class="btn-trans" style="background:#ef5350" onclick="alert('Incorrecto')">9</button></div></div>
 <div id="modalHangman" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalHangman')">⬅</button><h3>Ahorcado</h3><div></div></div><div class="modal-body" style="text-align:center;"><div id="hmLives" style="font-size:2rem;">❤️❤️❤️</div><p id="hmHint">...</p><div id="hmWord" class="hm-word">_ _ _</div><div id="hmKb" class="keyboard" style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;"></div></div></div>
-
-<!-- MEMORIA -->
 <div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria</h3><div></div></div><div class="modal-body"><div id="memGrid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px; width:100%;"></div></div></div>
-
-<!-- LOGICA -->
-<div id="modalChess" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div><div class="modal-body" style="text-align:center;"><div style="font-size:4rem;">♟️</div><p>Sigue la serie: 2, 4, 6...</p><button class="btn-trans" onclick="alert('Correcto!')">8</button><button class="btn-trans" style="background:#ef5350" onclick="alert('Incorrecto')">9</button></div></div>
 
 <script>
     let pts = parseInt(localStorage.getItem('pts')) || 0;
     let unlockedLevel = parseInt(localStorage.getItem('unlockedLevel')) || 1;
 
-    // --- SONIDOS ---
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- BASE DE DATOS EXTENDIDA (MASIVA) ---
+    // --- BASE DE DATOS MASIVA ---
     const phonetics = {'A':'Ay','B':'Bee','C':'See','D':'Dee','E':'Ee','F':'Ef','G':'Gee','H':'Aitch','I':'Eye','J':'Jay','K':'Kay','L':'El','M':'Em','N':'En','O':'Oh','P':'Pee','Q':'Cue','R':'Are','S':'Ess','T':'Tee','U':'You','V':'Vee','W':'Double U','X':'Ex','Y':'Why','Z':'Zee'};
-    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:l, s:'Letra '+l, sound: phonetics[l]}));
+    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:l, s:l, sound: phonetics[l]}));
 
     const db = {
-        greetings: [
-            {i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🌇',e:'Good Afternoon',s:'Buenas tardes'},{i:'🌙',e:'Good Night',s:'Buenas noches'},
-            {i:'🤝',e:'Nice to meet you',s:'Mucho gusto'},{i:'🙏',e:'Thank you',s:'Gracias'},{i:'😊',e:'You\'re welcome',s:'De nada'},{i:'❓',e:'How are you?',s:'¿Cómo estás?'},{i:'🤕',e:'I am sick',s:'Estoy enfermo'},
-            {i:'🥳',e:'Happy Birthday',s:'Feliz Cumpleaños'},{i:'🕐',e:'See you later',s:'Hasta luego'}
-        ],
+        greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🌇',e:'Good Afternoon',s:'Buenas tardes'},{i:'🌙',e:'Good Night',s:'Buenas noches'},{i:'🙏',e:'Thank you',s:'Gracias'},{i:'😊',e:'Please',s:'Por favor'},{i:'❓',e:'How are you?',s:'¿Cómo estás?'}],
         abc: abcList,
-        verbs: [
-            {i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'},{i:'🤸',e:'Jump',s:'Saltar'},{i:'🏊',e:'Swim',s:'Nadar'},{i:'💃',e:'Dance',s:'Bailar'},
-            {i:'🎤',e:'Sing',s:'Cantar'},{i:'📖',e:'Read',s:'Leer'},{i:'✍️',e:'Write',s:'Escribir'},{i:'🎨',e:'Paint',s:'Pintar'},{i:'🍳',e:'Cook',s:'Cocinar'},
-            {i:'🧹',e:'Clean',s:'Limpiar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'🍽️',e:'Eat',s:'Comer'},{i:'🥤',e:'Drink',s:'Beber'},{i:'👂',e:'Listen',s:'Escuchar'}
-        ],
-        animals: [
-            {i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},
-            {i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐍',e:'Snake',s:'Serpiente'},{i:'🐻',e:'Bear',s:'Oso'},
-            {i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐭',e:'Mouse',s:'Ratón'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},
-            {i:'🐸',e:'Frog',s:'Rana'},{i:'🐢',e:'Turtle',s:'Tortuga'},{i:'🦆',e:'Duck',s:'Pato'},{i:'🦈',e:'Shark',s:'Tiburón'},{i:'🐬',e:'Dolphin',s:'Delfín'},
-            {i:'🦋',e:'Butterfly',s:'Mariposa'},{i:'🐝',e:'Bee',s:'Abeja'},{i:'🕷️',e:'Spider',s:'Araña'}
-        ],
-        fruits: [
-            {i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},
-            {i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍒',e:'Cherry',s:'Cereza'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🥥',e:'Coconut',s:'Coco'},
-            {i:'🥑',e:'Avocado',s:'Aguacate'},{i:'🥝',e:'Kiwi',s:'Kiwi'},{i:'🍋',e:'Lemon',s:'Limón'},{i:'🥕',e:'Carrot',s:'Zanahoria'},{i:'🥔',e:'Potato',s:'Papa'},
-            {i:'🍅',e:'Tomato',s:'Tomate'},{i:'🌽',e:'Corn',s:'Maíz'},{i:'🥦',e:'Broccoli',s:'Brócoli'},{i:'🍰',e:'Cake',s:'Pastel'},{i:'🍦',e:'Ice Cream',s:'Helado'},
-            {i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'}
-        ],
-        colors: [
-            {i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},
-            {i:'🟣',e:'Purple',s:'Morado'},{i:'👚',e:'Pink',s:'Rosa'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'},{i:'🟤',e:'Brown',s:'Café'},
-            {i:'👽',e:'Grey',s:'Gris'},{i:'🥇',e:'Gold',s:'Dorado'},{i:'🥈',e:'Silver',s:'Plateado'}
-        ],
-        family: [
-            {i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},
-            {i:'👴',e:'Grandfather',s:'Abuelo'},{i:'👵',e:'Grandmother',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'},{i:'👪',e:'Family',s:'Familia'},
-            {i:'🧔',e:'Uncle',s:'Tío'},{i:'👱‍♀️',e:'Aunt',s:'Tía'},{i:'🧒',e:'Cousin',s:'Primo/a'}
-        ],
+        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'},{i:'🤸',e:'Jump',s:'Saltar'},{i:'🏊',e:'Swim',s:'Nadar'},{i:'💃',e:'Dance',s:'Bailar'},{i:'🎤',e:'Sing',s:'Cantar'},{i:'📖',e:'Read',s:'Leer'},{i:'✍️',e:'Write',s:'Escribir'},{i:'🎨',e:'Paint',s:'Pintar'},{i:'🍳',e:'Cook',s:'Cocinar'},{i:'🧹',e:'Clean',s:'Limpiar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'🍽️',e:'Eat',s:'Comer'},{i:'🥤',e:'Drink',s:'Beber'},{i:'👂',e:'Listen',s:'Escuchar'}],
+        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐻',e:'Bear',s:'Oso'},{i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},{i:'🐸',e:'Frog',s:'Rana'},{i:'🦆',e:'Duck',s:'Pato'}],
+        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},{i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍒',e:'Cherry',s:'Cereza'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'},{i:'🍦',e:'Ice Cream',s:'Helado'},{i:'🥕',e:'Carrot',s:'Zanahoria'},{i:'🥦',e:'Broccoli',s:'Brócoli'}],
+        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'},{i:'👚',e:'Pink',s:'Rosa'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'},{i:'🟤',e:'Brown',s:'Café'}],
         routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'}],
-        numbers: [
-            {i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},
-            {i:'6️⃣',e:'Six',s:'6'},{i:'7️⃣',e:'Seven',s:'7'},{i:'8️⃣',e:'Eight',s:'8'},{i:'9️⃣',e:'Nine',s:'9'},{i:'🔟',e:'Ten',s:'10'},
-            {i:'11',e:'Eleven',s:'11'},{i:'12',e:'Twelve',s:'12'},{i:'20',e:'Twenty',s:'20'},{i:'💯',e:'One Hundred',s:'100'}
-        ]
+        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},{i:'👴',e:'Grandpa',s:'Abuelo'},{i:'👵',e:'Grandma',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'},{i:'👪',e:'Family',s:'Familia'}],
+        numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},{i:'6️⃣',e:'Six',s:'6'},{i:'7️⃣',e:'Seven',s:'7'},{i:'8️⃣',e:'Eight',s:'8'},{i:'9️⃣',e:'Nine',s:'9'},{i:'🔟',e:'Ten',s:'10'}],
+        home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'},{i:'🪟',e:'Window',s:'Ventana'},{i:'🛋️',e:'Sofa',s:'Sofá'},{i:'🛏️',e:'Bed',s:'Cama'},{i:'🚽',e:'Toilet',s:'Baño'},{i:'🛁',e:'Bath',s:'Bañera'},{i:'💡',e:'Lamp',s:'Lámpara'}],
+        body: [{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦶',e:'Foot',s:'Pie'}],
+        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'},{i:'🎒',e:'Backpack',s:'Mochila'},{i:'📖',e:'Book',s:'Libro'}]
     };
 
-    // --- PACKS CRUCIGRAMA PRO ---
+    // --- PACKS CRUCIGRAMA ---
     const packs = [
-        {
-            id: 0, title: "Nivel Maestro", diff: "Difícil", size: "9x9", color: "#f44336",
-            grid: [
-                ['B','O','O','K','#','P','E','N','#'],
-                ['#','#','#','#','#','E','#','#','#'],
-                ['#','R','U','L','E','R','#','#','#'],
-                ['#','#','#','A','#','C','#','#','#'],
-                ['#','T','E','A','C','H','E','R','#'],
-                ['#','#','#','R','#','A','#','#','#'],
-                ['#','S','C','H','O','O','L','#','#'],
-                ['#','#','#','#','#','#','#','#','#'],
-                ['#','D','E','S','K','#','#','#','#']
-            ],
-            // Mapa Pistas: "R-C-DIR" -> {num, text}
-            clues: {
-                '0-0-H': {n:1, t:"Objeto con hojas para leer"},
-                '0-5-H': {n:2, t:"Instrumento para escribir (Tinta)"},
-                '2-1-H': {n:3, t:"Sirve para medir"},
-                '4-1-H': {n:4, t:"Persona que enseña en clase"},
-                '6-1-H': {n:5, t:"Lugar donde aprendes"},
-                '8-1-H': {n:6, t:"Escritorio escolar"},
-                '0-5-V': {n:7, t:"Fruta verde o amarilla (P...)"}, 
-                '3-3-V': {n:8, t:"Parte del cuerpo para oír (EAR)"}
-            }
-        },
-        {
-            id: 1, title: "Mascotas", diff: "Fácil", size: "7x7", color: "#4caf50",
-            grid: [
-                ['C','A','T','#','D','O','G'],
-                ['O','#','#','#','U','#','#'],
-                ['W','#','F','R','O','G','#'],
-                ['#','#','I','#','P','#','#'],
-                ['#','B','I','R','D','#','#'],
-                ['#','#','H','#','#','#','#'],
-                ['#','#','#','#','#','#','#']
-            ],
-            clues: {
-                '0-0-H': {n:1, t:"Animal que dice miau"},
-                '0-4-H': {n:2, t:"El mejor amigo del hombre"},
-                '2-2-H': {n:3, t:"Animal verde que salta"},
-                '4-1-H': {n:4, t:"Animal que vuela"},
-                '0-0-V': {n:5, t:"Nos da leche (Moo)"},
-                '2-2-V': {n:6, t:"Pez (Nemo es uno)"}
-            }
-        },
-        {
-            id: 2, title: "Colores", diff: "Medio", size: "7x7", color: "#ff9800",
-            grid: [
-                ['#','R','E','D','#','#','#'],
-                ['#','#','#','#','B','#','#'],
-                ['G','R','E','E','N','#','#'],
-                ['#','#','#','#','U','#','#'],
-                ['#','#','P','I','N','K','#'],
-                ['#','#','#','#','#','#','#'],
-                ['#','Y','E','L','L','O','W']
-            ],
-            clues: {
-                '0-1-H': {n:1, t:"Color de la sangre"},
-                '2-0-H': {n:2, t:"Color del pasto"},
-                '4-2-H': {n:3, t:"Color de la pantera..."},
-                '6-1-H': {n:4, t:"Color del sol"},
-                '1-4-V': {n:5, t:"Color del cielo"}
-            }
-        }
+        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color sangre (RED)","2. Animal ladra (DOG)"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
+        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal miau (CAT)","2. Animal salta (TOAD)"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
+        { id:2, title:"Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10 (TEN)","2. Número 2 (TWO)","3. Número 9 (NINE)"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} },
+        { id:3, title:"Familia", diff:"Medio", s:5, l:[['M','O','M','#','#'],['#','#','O','#','#'],['#','#','T','#','#'],['#','#','H','#','#'],['#','#','E','R','#']], c:["1. Mamá corta (MOM)","2. Madre larga (MOTHER)"], sol:{'0-0':'M','0-1':'O','0-2':'M','1-2':'O','2-2':'T','3-2':'H','4-2':'E','4-3':'R'} },
+        { id:4, title:"Cuerpo", diff:"Difícil", s:7, l:[['H','A','N','D','#','#','#'],['E','#','#','#','L','#','#'],['A','#','#','#','E','#','#'],['D','#','#','#','G','#','#'],['#','#','#','#','#','#','#'],['#','N','O','S','E','#','#'],['#','#','#','#','#','#','#']], c:["1. Mano (HAND)","2. Nariz (NOSE)","3. Cabeza (HEAD)","4. Pierna (LEG)"], sol:{'0-0':'H','0-1':'A','0-2':'N','0-3':'D', '5-1':'N','5-2':'O','5-3':'S','5-4':'E', '0-0':'H','1-0':'E','2-0':'A','3-0':'D', '1-4':'L','2-4':'E','3-4':'G'} },
+        { id:5, title:"Frutas", diff:"Difícil", s:6, l:[['A','P','P','L','E','#'],['#','#','E','#','#','#'],['#','#','A','#','#','#'],['#','#','R','#','#','#'],['#','#','#','#','#','#'],['#','#','#','#','#','#']], c:["1. Fruta roja (APPLE)","2. Fruta verde (PEAR)"], sol:{'0-0':'A','0-1':'P','0-2':'P','0-3':'L','0-4':'E','1-2':'E','2-2':'A','3-2':'R'} }
     ];
 
-    // VARIABLES ESTADO
-    let currentPack = null;
-    let selectedCell = {r:-1, c:-1};
-    let currentDir = 'H'; 
-    let gridState = []; 
+    let currentPack=null, selectedCell={r:-1,c:-1}, currentDir='H', gridState=[];
 
     window.onload = () => {
         document.getElementById('points').innerText = pts;
-        loadGrid('greetings', document.querySelector('.tab-chip'));
         window.speechSynthesis.getVoices();
+        // Frases motivacionales
+        const phrases = ["¡Eres muy inteligente!", "¡Sigue así!", "¡Estás aprendiendo rápido!", "¡Lo haces genial!"];
+        document.getElementById('motivBar').innerText = phrases[Math.floor(Math.random()*phrases.length)] + " 🌟";
     };
 
     function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; playSfx('win'); }
@@ -429,154 +340,96 @@
     function openModal(id){document.getElementById(id).style.display='flex';}
     function closeModal(id){document.getElementById(id).style.display='none';}
 
-    // --- CRUCIGRAMA LOGIC ---
+    // --- LOGICA CATEGORIAS ---
+    function openCategory(cat, title) {
+        openModal('modalCategory');
+        document.getElementById('catTitle').innerText = title;
+        let g = document.getElementById('catGrid'); g.innerHTML = '';
+        if(db[cat]) {
+            db[cat].forEach(i => {
+                let d = document.createElement('div'); d.className='vocab-item';
+                d.innerHTML = `<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`;
+                d.onclick = () => speak(i.sound || i.e);
+                g.appendChild(d);
+            });
+        }
+    }
+
+    // --- CRUCIGRAMA ---
     function openCrosswordMenu() {
-        document.getElementById('packsScreen').style.display='flex';
-        let c = document.getElementById('packsGrid'); c.innerHTML='';
-        packs.forEach(p => {
-            let div = document.createElement('div'); div.className='cw-pack-card';
-            div.innerHTML = `<div class="cw-pack-stripe" style="background:${p.color}"></div><div class="cw-pack-info"><div class="cw-pack-title">${p.title}</div><div class="cw-pack-meta">${p.size} • ${p.diff}</div></div>`;
-            div.onclick = () => startGame(p);
-            c.appendChild(div);
+        openModal('packsScreen');
+        let g = document.getElementById('packsGrid'); g.innerHTML = '';
+        packs.forEach((cw, idx) => {
+            let col = cw.diff==="Fácil"?'#4caf50':(cw.diff==="Medio"?'#ff9800':'#f44336');
+            let c = document.createElement('div'); c.className = 'cw-pack-card';
+            c.innerHTML = `<div class="cw-pack-stripe" style="background:${col}"></div><div class="cw-pack-info"><div class="cw-pack-title">${cw.title}</div><div class="cw-pack-meta">${cw.s}x${cw.s} • ${cw.diff}</div></div>`;
+            c.onclick = () => loadCrossword(idx);
+            g.appendChild(c);
         });
     }
     function closePacks() { document.getElementById('packsScreen').style.display='none'; }
     function closeGame() { document.getElementById('gameScreen').style.display='none'; }
 
-    function startGame(pack) {
-        currentPack = pack;
-        document.getElementById('gameTitle').innerText = pack.title;
+    function loadCrossword(idx) {
+        currentPack = packs[idx];
+        document.getElementById('gameTitle').innerText = currentPack.title;
         document.getElementById('gameScreen').style.display = 'flex';
-        buildBoard(pack);
+        buildBoard(currentPack);
     }
 
     function buildBoard(pack) {
         const board = document.getElementById('gridTable');
-        const [rows, cols] = pack.size.split('x').map(Number);
-        
-        board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        board.style.gridTemplateColumns = `repeat(${pack.s}, 1fr)`;
         board.innerHTML = '';
         gridState = [];
 
-        for(let r=0; r<rows; r++) {
+        for(let r=0; r<pack.s; r++) {
             let rowArr = [];
-            for(let c=0; c<cols; c++) {
-                let char = pack.grid[r][c];
+            for(let c=0; c<pack.s; c++) {
+                let char = pack.l[r][c];
                 let cell = document.createElement('div');
-                
-                if(char === '#') {
-                    cell.className = 'cw-cell black';
-                } else {
+                if(char === '#') cell.className = 'cw-cell black';
+                else {
                     cell.className = 'cw-cell';
-                    cell.dataset.r = r; cell.dataset.c = c;
-                    
-                    let num = getClueNumber(r,c,pack);
-                    if(num) cell.innerHTML = `<span class="cw-num">${num}</span><span class="val"></span>`;
-                    else cell.innerHTML = `<span class="val"></span>`;
-                    
-                    cell.onclick = () => selectCell(r, c);
+                    let input = document.createElement('input'); 
+                    input.className = 'trans-input'; input.style.border='none'; input.style.height='100%'; input.style.fontSize='1.4rem'; input.style.fontWeight='900'; input.style.textTransform='uppercase'; input.style.background='transparent'; input.maxLength=1;
+                    input.dataset.r=r; input.dataset.c=c;
+                    input.onfocus = () => selectCell(r, c);
+                    input.onkeyup = (e) => handleInput(e, input);
+                    cell.appendChild(input);
                 }
                 board.appendChild(cell);
-                rowArr.push({ el: cell, val: '', sol: char });
+                rowArr.push({ el: cell, sol: char });
             }
             gridState.push(rowArr);
         }
-        
-        const inp = document.getElementById('hiddenInput');
-        inp.value = '';
-        inp.oninput = (e) => handleInput(e.target.value);
-        findFirstCell();
     }
 
-    function getClueNumber(r, c, pack) {
-        if (pack.clues[`${r}-${c}-H`]) return pack.clues[`${r}-${c}-H`].n;
-        if (pack.clues[`${r}-${c}-V`]) return pack.clues[`${r}-${c}-V`].n;
-        return null;
-    }
+    function selectCell(r,c){ selectedCell={r,c}; document.getElementById('currentClueDisplay').innerText = "Escribe la palabra..."; }
 
-    function findFirstCell() {
-        for(let r=0; r<gridState.length; r++) {
-            for(let c=0; c<gridState[0].length; c++) {
-                if(currentPack.grid[r][c] !== '#') { selectCell(r,c); return; }
-            }
+    function handleInput(e, input) {
+        if(e.key.match(/[a-z]/i)) {
+            let all = Array.from(document.querySelectorAll('.cw-cell:not(.black) input'));
+            let idx = all.indexOf(input);
+            if(idx < all.length-1) all[idx+1].focus();
         }
-    }
-
-    function selectCell(r, c) {
-        if(selectedCell.r === r && selectedCell.c === c) currentDir = currentDir === 'H' ? 'V' : 'H';
-        else selectedCell = {r, c};
-        updateVisuals();
-        document.getElementById('hiddenInput').focus();
-    }
-
-    function updateVisuals() {
-        document.querySelectorAll('.cw-cell').forEach(el => el.className = el.className.replace(' selected','').replace(' active-word',''));
-        let curr = gridState[selectedCell.r][selectedCell.c];
-        curr.el.className += " selected";
-
-        let wordCells = getWordCells(selectedCell.r, selectedCell.c, currentDir);
-        wordCells.forEach(cell => cell.el.className += " active-word");
-
-        let startR = wordCells[0].el.dataset.r;
-        let startC = wordCells[0].el.dataset.c;
-        let key = `${startR}-${startC}-${currentDir}`;
-        let clue = currentPack.clues[key];
-        
-        if(clue) {
-            document.getElementById('clueNumLabel').innerText = "PISTA " + clue.n;
-            document.getElementById('currentClueDisplay').innerText = clue.t;
-        } else {
-            document.getElementById('currentClueDisplay').innerText = "...";
-        }
-    }
-
-    function getWordCells(r, c, dir) {
-        let cells = [];
-        let rCurr = r, cCurr = c;
-        while(true) {
-            let rPrev = dir==='H' ? rCurr : rCurr-1;
-            let cPrev = dir==='H' ? cCurr-1 : cCurr;
-            if(rPrev<0 || cPrev<0 || currentPack.grid[rPrev][cPrev]==='#') break;
-            rCurr = rPrev; cCurr = cPrev;
-        }
-        while(true) {
-            if(rCurr>=gridState.length || cCurr>=gridState[0].length || currentPack.grid[rCurr][cCurr]==='#') break;
-            cells.push(gridState[rCurr][cCurr]);
-            if(dir==='H') cCurr++; else rCurr++;
-        }
-        return cells;
-    }
-
-    function handleInput(char) {
-        if(!char) return;
-        let l = char.slice(-1).toUpperCase();
-        let cell = gridState[selectedCell.r][selectedCell.c];
-        cell.val = l;
-        cell.el.querySelector('.val').innerText = l;
-        let nextR = selectedCell.r + (currentDir==='V');
-        let nextC = selectedCell.c + (currentDir==='H');
-        if(nextR < gridState.length && nextC < gridState[0].length && currentPack.grid[nextR][nextC] !== '#') {
-            selectCell(nextR, nextC);
-        }
-        document.getElementById('hiddenInput').value = '';
     }
 
     function checkCrossword() {
         let correct = true;
-        for(let r=0; r<gridState.length; r++) {
-            for(let c=0; c<gridState[0].length; c++) {
-                if(currentPack.grid[r][c] !== '#') {
-                    let cell = gridState[r][c];
-                    if(cell.val !== cell.sol) { cell.el.style.color = "red"; correct = false; }
-                    else { cell.el.style.color = "green"; }
-                }
-            }
-        }
-        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(()=>closeGame(),2000); }
+        document.querySelectorAll('.cw-cell:not(.black) input').forEach(inp => {
+            let r = inp.dataset.r; let c = inp.dataset.c;
+            let sol = currentPack.sol[`${r}-${c}`];
+            if(inp.value.toUpperCase() === sol) { inp.style.color="green"; inp.parentElement.style.background="#e8f5e9"; }
+            else { inp.style.color="red"; inp.parentElement.style.background="#ffebee"; correct=false; }
+        });
+        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame,2000); }
     }
 
-    // --- ETAPAS ---
-    function openStages() { openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=unlockedLevel?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=unlockedLevel?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=unlockedLevel)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
+    // --- OTROS FUNCIONES ---
+    async function doTranslate(){let t=document.getElementById('transIn').value; if(!t)return; try{let r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(t)}&langpair=es|en`); let j=await r.json(); document.getElementById('transOut').innerText=j.responseData.translatedText;}catch(e){}}
+    
+    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=unlockedLevel?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=unlockedLevel?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=unlockedLevel)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
     let curQ=[], curQI=0;
     function startQuiz(l){
         let s=[...db.animals,...db.fruits,...db.colors]; curQ=[];
@@ -589,14 +442,6 @@
         let c=document.getElementById('quizOptions'); c.innerHTML='';
         q.o.forEach(t=>{let b=document.createElement('div'); b.className='quiz-option'; b.innerText=t; b.onclick=()=>{if(t===q.a){b.className+=' correct'; playSfx('correct'); speak("Correct"); setTimeout(()=>{curQI++; showQ();},1000);}else{b.className+=' wrong'; playSfx('wrong'); speak("Wrong");}}; c.appendChild(b);});
     }
-
-    // --- OTROS FUNCIONES ---
-    function loadGrid(c, b) {
-        if(b){document.querySelectorAll('.tab-chip').forEach(t=>t.classList.remove('active')); b.classList.add('active');}
-        let g=document.getElementById('mainGrid'); g.innerHTML=''; if(!db[c])return;
-        db[c].forEach(i=>{let d=document.createElement('div'); d.className='vocab-card'; d.innerHTML=`<div class="v-icon">${i.i}</div><div class="v-word">${i.e}</div>`; d.onclick=()=>speak(i.sound||i.e); g.appendChild(d);});
-    }
-    async function doTranslate(){let t=document.getElementById('transIn').value; if(!t)return; try{let r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(t)}&langpair=es|en`); let j=await r.json(); let res=j.responseData.translatedText; document.getElementById('transOut').innerText=res; speak(res);}catch(e){}}
 
     function initSoccer(){openModal('modalSoccer'); newKick();}
     function newKick(){document.getElementById('ball').style.bottom="10px"; let q=db.animals[Math.floor(Math.random()*db.animals.length)], w=db.animals[Math.floor(Math.random()*db.animals.length)]; document.getElementById('socQ').innerText=q.s; document.getElementById('socBtns').innerHTML=[`<button class="game-btn" onclick="kick(true,'${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.e}</button>`].sort(()=>Math.random()-0.5).join('');}
@@ -615,7 +460,6 @@
 </script>
 </body>
 </html>
-
 
 
 
