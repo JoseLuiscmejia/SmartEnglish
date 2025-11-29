@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magic School Ultimate</title>
+    <title>Magic School Final</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Roboto:wght@400;700&display=swap');
 
         :root {
-            --bg-body: #29b6f6; /* Azul más vivo */
+            --bg-body: #00bcd4;
             --primary: #00e676; 
             --secondary: #ff9100;
-            --accent: #651fff;
-            --card: #ffffff;
+            --accent: #6200ea;
             --font: 'Fredoka', sans-serif;
-            --radius: 25px;
+            --radius: 20px;
         }
 
         body {
@@ -26,13 +25,13 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            user-select: none;
         }
 
-        /* CONTENEDOR PRINCIPAL */
         .app-shell {
-            width: 95%; max-width: 420px; height: 97vh;
-            background: #fafafa; border-radius: var(--radius);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            width: 95%; max-width: 420px; height: 98vh;
+            background: #f5f5f5; border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             display: flex; flex-direction: column;
             overflow: hidden; border: 4px solid white;
             position: relative;
@@ -41,7 +40,7 @@
         /* BIENVENIDA */
         #welcomeScreen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 100;
+            background: white; z-index: 200;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; transition: transform 0.5s ease;
         }
@@ -52,30 +51,28 @@
         }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
         .start-btn {
-            background: linear-gradient(to right, #00c853, #64dd17); color: white; padding: 15px 60px;
-            border-radius: 50px; font-size: 1.6rem; border: none; cursor: pointer;
-            font-weight: bold; box-shadow: 0 8px 15px rgba(0,200,83,0.3);
+            background: var(--primary); color: white; padding: 15px 60px;
+            border-radius: 50px; font-size: 1.5rem; border: none; cursor: pointer;
+            font-weight: bold; box-shadow: 0 5px 0 #00c853;
         }
 
-        /* BARRA SUPERIOR */
-        .top-bar { background: #eeeeee; padding: 5px; display: flex; justify-content: center; }
+        /* LAYOUT */
+        .top-bar { background: #eee; padding: 5px; display: flex; justify-content: center; }
         .mode-toggle { background: white; border-radius: 20px; display: flex; padding: 4px; width: 95%; }
         .toggle-opt {
             flex: 1; border: none; background: transparent; padding: 8px; border-radius: 20px;
             font-weight: bold; color: #999; cursor: pointer; transition: 0.3s;
         }
-        .toggle-opt.active { background: var(--secondary); color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-opt.active { background: var(--secondary); color: white; }
 
-        /* HEADER */
         .header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 20px; background: white; border-bottom: 2px dashed #ddd;
+            padding: 10px 20px; background: white; border-bottom: 2px dashed #ccc;
         }
-        .logo { margin: 0; color: var(--accent); font-size: 1.5rem; text-shadow: 1px 1px 0 #ddd; }
+        .logo { margin: 0; color: var(--accent); font-size: 1.4rem; }
         .stats { display: flex; gap: 8px; font-size: 0.9rem; font-weight: bold; }
-        .stat-box { background: #FFD700; padding: 5px 12px; border-radius: 15px; border: 2px solid #ffca28; color: #bf360c; }
+        .stat-box { background: #FFD700; padding: 5px 12px; border-radius: 15px; border: 2px solid #ffca28; color: #e65100; }
 
-        /* SCROLL AREA */
         .scroll-area {
             flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px;
         }
@@ -83,103 +80,104 @@
         /* TRADUCTOR */
         .translator-card {
             background: white; border-radius: 20px; padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid #b3e5fc;
+            border: 2px solid #b3e5fc;
         }
         .trans-input {
-            width: 100%; border: none; font-size: 1.4rem; outline: none;
+            width: 100%; border: none; font-size: 1.2rem; outline: none;
             border-bottom: 2px solid #eee; font-family: inherit; color: #333;
-            margin-bottom: 10px; text-align: center;
+            margin-bottom: 5px; text-align: center;
         }
         .trans-output {
-            font-size: 1.4rem; color: var(--primary); font-weight: bold; min-height: 1.5rem; text-align: center;
+            font-size: 1.2rem; color: var(--primary); font-weight: bold; min-height: 1.5rem; text-align: center;
         }
         .btn-action-trans {
-            width: 100%; background: #29b6f6; color: white; border: none; padding: 12px;
-            border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 1.1rem;
+            width: 100%; background: #039be5; color: white; border: none; padding: 10px;
+            border-radius: 15px; font-weight: bold; margin-top: 10px; cursor: pointer;
         }
 
-        /* MENU 4 BOTONES */
+        /* MENU GRANDE */
         .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
         .menu-btn {
-            background: white; border: 2px solid #eee; border-radius: 18px;
-            padding: 10px 2px; text-align: center; cursor: pointer;
+            background: white; border: 2px solid #eee; border-radius: 15px;
+            padding: 5px; text-align: center; cursor: pointer; height: 85px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.1s; height: 80px;
         }
-        .menu-btn:active { transform: scale(0.95); }
+        .menu-btn:active { transform: scale(0.95); background: #eee; }
         .menu-icon { font-size: 2rem; margin-bottom: 2px; }
-        .menu-label { font-size: 0.65rem; font-weight: bold; color: #555; line-height: 1.1; }
+        .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; line-height: 1; }
+        
+        /* COLORES BOTONES */
+        .btn-ing { border-bottom: 4px solid #42a5f5; }
+        .btn-cro { border-bottom: 4px solid #ef5350; }
+        .btn-che { border-bottom: 4px solid #ab47bc; }
+        .btn-gam { border-bottom: 4px solid #ffca28; }
 
-        .btn-ingles { border-bottom: 4px solid #42a5f5; }
-        .btn-cross { border-bottom: 4px solid #ef5350; }
-        .btn-chess { border-bottom: 4px solid #ab47bc; }
-        .btn-games { border-bottom: 4px solid #ffca28; }
-
-        /* TABS Y GRID */
+        /* GRID INFERIOR */
         .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .tab-chip {
-            background: white; border: 2px solid #eee; padding: 8px 15px; border-radius: 20px;
-            white-space: nowrap; font-weight: bold; color: #777; cursor: pointer; font-size: 0.9rem;
+            background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px;
+            white-space: nowrap; font-weight: bold; color: #666; cursor: pointer; font-size: 0.9rem;
         }
-        .tab-chip.active { background: var(--secondary); color: white; border-color: var(--secondary); transform: scale(1.05); }
+        .tab-chip.active { background: var(--secondary); color: white; border-color: var(--secondary); }
 
-        .vocab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 40px; }
+        .vocab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 20px; }
         .vocab-card {
-            aspect-ratio: 1; background: white; border-radius: 18px;
+            aspect-ratio: 1; background: white; border-radius: 15px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.05); cursor: pointer;
-            padding: 5px; text-align: center; border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; padding: 5px; text-align: center;
         }
-        .vocab-icon { font-size: 1.8rem; }
-        .vocab-word { font-size: 0.7rem; font-weight: bold; color: #555; margin-top: 5px; }
-        .vocab-card:active { background: #e0f2f1; transform: scale(0.95); border-color: var(--primary); }
+        .vocab-card:active { background: #e0f2f1; transform: scale(0.9); }
+        .v-icon { font-size: 1.8rem; }
+        .v-word { font-size: 0.7rem; font-weight: bold; margin-top: 5px; color: #444; }
 
         /* MODALES */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f0f4c3; z-index: 50; display: none; flex-direction: column;
+            background: #f0f4c3; z-index: 150; display: none; flex-direction: column;
             animation: slideUp 0.3s ease;
         }
         .modal-header {
-            background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between;
+            background: white; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between;
             border-bottom: 3px solid #eee;
         }
-        .back-btn { background: #eceff1; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 1.2rem; color: #555; }
+        .back-btn { background: #eceff1; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
-        @keyframes float { 0% {transform: translateY(0px);} 50% {transform: translateY(-8px);} 100% {transform: translateY(0px);} }
-
-        /* JUEGO: FÚTBOL */
-        .soccer-field {
-            width: 100%; height: 260px; background: #43a047; border: 4px solid white; border-radius: 15px;
-            position: relative; overflow: hidden; margin-bottom: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+        /* JUEGOS */
+        .game-card {
+            width: 90%; background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-left: 5px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer;
         }
-        .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; background: rgba(255,255,255,0.1); }
-        .goalkeeper { font-size: 3.5rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; z-index: 2; }
-        .ball { font-size: 3rem; position: absolute; bottom: 10px; left: 45%; transition: 0.5s; z-index: 3; }
-        .game-q-box { background: white; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .game-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; width: 100%; }
-        .game-btn { padding: 20px; border: none; border-radius: 15px; background: #0288d1; color: white; font-weight: bold; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 0 #01579b;}
-        .game-btn:active { transform: translateY(4px); box-shadow: none; }
+        
+        /* FÚTBOL */
+        .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; }
+        .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
+        .goalkeeper { font-size: 3rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
+        .ball { font-size: 2.5rem; position: absolute; bottom: 10px; left: 45%; transition: 0.5s; }
+        .game-btn { padding: 15px; border: none; border-radius: 10px; background: #0277bd; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px;}
 
         /* CRUCIGRAMA */
-        .crossword-container { background: #37474f; padding: 10px; border-radius: 10px; margin-top: 20px; }
-        .cw-row { display: flex; justify-content: center; gap: 2px; margin-bottom: 2px; }
-        .cw-cell { width: 40px; height: 40px; background: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
-        .cw-cell.empty { background: transparent; }
-        .cw-input { width: 100%; height: 100%; text-align: center; font-size: 1.2rem; text-transform: uppercase; border: none; font-weight: bold; color: var(--accent); background: transparent; outline: none;}
-        .level-badge { background: var(--secondary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 10px; display: inline-block; }
+        .cw-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: #333; padding: 5px; border-radius: 5px; margin: 10px 0;}
+        .cw-cell { aspect-ratio: 1; background: white; display: flex; align-items: center; justify-content: center; }
+        .cw-cell.blk { background: #333; }
+        .cw-input { width: 100%; height: 100%; border: none; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase; color: var(--accent); }
 
-        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 200; }
+        /* AHORCADO */
+        .hm-word { font-size: 2rem; letter-spacing: 5px; font-weight: bold; margin: 20px 0; }
+        .keyboard { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .key { width: 35px; height: 35px; background: white; border: 1px solid #ccc; border-radius: 5px; font-weight: bold; }
+        .key:disabled { background: #ddd; color: #aaa; }
+
+        /* MEMORIA */
+        .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
+        .mem-card { aspect-ratio: 1; background: var(--accent); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; font-size: 0; transition: 0.3s; }
+        .mem-card.flipped { background: white; border: 2px solid var(--accent); color: #333; font-size: 1.5rem; }
+
+        @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-5px);} 100% {transform: translateY(0);} }
+        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-
-        .game-select-card {
-            width: 90%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px;
-            display: flex; align-items: center; justify-content: space-between;
-            border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;
-        }
-        .game-select-card:active { transform: scale(0.98); }
 
     </style>
 </head>
@@ -187,13 +185,13 @@
 
 <div class="app-shell">
     
-    <!-- PANTALLA DE BIENVENIDA -->
+    <!-- PANTALLA BIENVENIDA -->
     <div id="welcomeScreen">
         <div class="photo-frame">
             <img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" alt="User">
         </div>
-        <h1 style="color:var(--primary); margin-bottom: 5px; font-size: 2.2rem;">¡Bienvenido!</h1>
-        <p style="color:#777; margin-bottom: 30px; font-size: 1.2rem;">Magic School Ultimate</p>
+        <h1 style="color:var(--primary); margin-bottom: 5px;">¡Bienvenido!</h1>
+        <p style="color:#777; margin-bottom: 30px;">Magic School</p>
         <button class="start-btn" onclick="enterApp()">ENTRAR</button>
     </div>
 
@@ -218,41 +216,40 @@
         
         <!-- TRADUCTOR -->
         <div class="translator-card">
-            <input type="text" id="transIn" class="trans-input" placeholder="Escribe aquí (ej: Casa)...">
+            <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
             <div id="transOut" class="trans-output">...</div>
             <button class="btn-action-trans" onclick="doTranslate()">TRADUCIR</button>
         </div>
 
-        <!-- MENÚ DE 4 BOTONES -->
+        <!-- MENÚ DE 4 BOTONES (Ahora todos funcionan) -->
         <div class="menu-row">
-            <div class="menu-btn btn-ingles" onclick="openModal('modalStages')">
+            <div class="menu-btn btn-ing" onclick="openModal('modalStages')">
                 <div class="menu-icon">🗺️</div>
                 <div class="menu-label">Inglés<br>(Etapas)</div>
             </div>
-            <div class="menu-btn btn-cross" onclick="initCrossword()">
+            <div class="menu-btn btn-cro" onclick="initCrossword()">
                 <div class="menu-icon">🧩</div>
                 <div class="menu-label">Crucigrama</div>
             </div>
-            <div class="menu-btn btn-chess" onclick="alert('Próximamente: Ajedrez')">
+            <div class="menu-btn btn-che" onclick="initChess()">
                 <div class="menu-icon">♟️</div>
-                <div class="menu-label">Ajedrez<br>(Lógica)</div>
+                <div class="menu-label">Lógica<br>(Ajedrez)</div>
             </div>
-            <div class="menu-btn btn-games" onclick="openModal('modalGamesMenu')">
+            <div class="menu-btn btn-gam" onclick="openModal('modalGamesMenu')">
                 <div class="menu-icon">🎮</div>
                 <div class="menu-label">Juegos<br>Niños</div>
             </div>
         </div>
 
-        <!-- PESTAÑAS Y GRID INFERIOR -->
+        <!-- VOCABULARIO INFERIOR -->
         <div>
             <div class="tabs-container">
                 <div class="tab-chip active" onclick="loadGrid('greetings', this)">Saludos</div>
                 <div class="tab-chip" onclick="loadGrid('abc', this)">ABC</div>
-                <div class="tab-chip" onclick="loadGrid('routines', this)">Rutinas</div>
                 <div class="tab-chip" onclick="loadGrid('animals', this)">Animales</div>
-                <div class="tab-chip" onclick="loadGrid('colors', this)">Colores</div>
                 <div class="tab-chip" onclick="loadGrid('fruits', this)">Frutas</div>
-                <div class="tab-chip" onclick="loadGrid('family', this)">Familia</div>
+                <div class="tab-chip" onclick="loadGrid('colors', this)">Colores</div>
+                <div class="tab-chip" onclick="loadGrid('routines', this)">Rutinas</div>
             </div>
             <br>
             <div id="mainGrid" class="vocab-grid"></div>
@@ -260,9 +257,9 @@
     </div>
 </div>
 
-<!-- ================= MODALES ================= -->
+<!-- ================= MODALES (VENTANAS) ================= -->
 
-<!-- MENÚ DE JUEGOS -->
+<!-- 1. MENÚ JUEGOS -->
 <div id="modalGamesMenu" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button>
@@ -270,26 +267,26 @@
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
-        <div class="game-select-card" style="border-color:#0288d1" onclick="openModal('modalSoccer'); initSoccer();">
-            <div><b style="font-size:1.2rem; color:#0288d1">⚽ Fútbol Penalties</b><br><small>Responde y mete Gol</small></div>
-            <div style="font-size:2.5rem">🥅</div>
+        <div class="game-card" style="border-color:#0288d1" onclick="initSoccer()">
+            <div><b style="color:#0288d1">⚽ Fútbol</b><br><small>Penaltis en Inglés</small></div>
+            <div style="font-size:2rem">🥅</div>
         </div>
-        <div class="game-select-card" style="border-color:#ffca28" onclick="openModal('modalHangman'); initHangman();">
-            <div><b style="font-size:1.2rem; color:#fbc02d">😵 Ahorcado</b><br><small>Salva al personaje</small></div>
-            <div style="font-size:2.5rem">🔤</div>
+        <div class="game-card" style="border-color:#fbc02d" onclick="initHangman()">
+            <div><b style="color:#fbc02d">😵 Ahorcado</b><br><small>Adivina la Palabra</small></div>
+            <div style="font-size:2rem">🔤</div>
         </div>
-        <div class="game-select-card" style="border-color:#ef5350" onclick="openModal('modalMemory'); initMemory();">
-            <div><b style="font-size:1.2rem; color:#ef5350">🧠 Memoria</b><br><small>Busca las Parejas</small></div>
-            <div style="font-size:2.5rem">🃏</div>
+        <div class="game-card" style="border-color:#ef5350" onclick="initMemory()">
+            <div><b style="color:#ef5350">🧠 Memoria</b><br><small>Busca las Parejas</small></div>
+            <div style="font-size:2rem">🃏</div>
         </div>
     </div>
 </div>
 
-<!-- JUEGO FÚTBOL -->
+<!-- 2. JUEGO FÚTBOL -->
 <div id="modalSoccer" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button>
-        <h3>Fútbol: Penalties</h3>
+        <h3>Fútbol: Penaltis</h3>
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
@@ -298,303 +295,297 @@
             <div class="goalkeeper" id="keeper">🧤</div>
             <div class="ball" id="ball">⚽</div>
         </div>
-        <div class="game-q-box">
-            <div style="color:#666; font-size:1rem;">¿Cómo se dice en Inglés?</div>
-            <h2 id="socQ" style="margin:15px 0; color:var(--primary); font-size:2rem;">...</h2>
-            <div class="game-options" id="socBtns"></div>
+        <div style="background:white; padding:20px; border-radius:15px; text-align:center; width:90%;">
+            <p style="color:#666; margin:0;">¿Cómo se dice en Inglés?</p>
+            <h2 id="socQ" style="color:var(--primary); font-size:2rem; margin:10px 0;">...</h2>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="socBtns"></div>
         </div>
     </div>
 </div>
 
-<!-- JUEGO CRUCIGRAMA (NIVELES) -->
+<!-- 3. CRUCIGRAMA -->
 <div id="modalCross" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalCross')">⬅</button>
         <h3>Crucigramas</h3>
         <div style="width:35px"></div>
     </div>
-    <div class="modal-body" style="text-align:center;">
-        <div id="cwBadge" class="level-badge">NIVEL 1</div>
-        <div id="cwClues" style="margin-bottom:10px; font-weight:bold; color:#555;">...</div>
-        
-        <div id="cwGridContainer" class="crossword-container">
-            <!-- Grid generado por JS -->
-        </div>
-
-        <button class="btn-action-trans" style="margin-top:20px; background:#ef5350" onclick="checkCrossword()">VERIFICAR</button>
-        <div id="cwFeedback" style="margin-top:10px; font-weight:bold;"></div>
+    <div class="modal-body">
+        <div style="background:#fff; padding:10px; border-radius:20px; margin-bottom:10px; border:2px solid #ef5350; font-weight:bold; color:#ef5350;" id="cwLevelTitle">NIVEL 1</div>
+        <p id="cwClues" style="text-align:center;">Pista...</p>
+        <div id="cwGridContainer" class="cw-grid"></div>
+        <button class="btn-action-trans" style="background:#ef5350" onclick="checkCrossword()">VERIFICAR</button>
+        <div id="cwMsg" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 </div>
 
-<!-- MODAL ETAPAS -->
-<div id="modalStages" class="modal-overlay">
+<!-- 4. AJEDREZ / LÓGICA -->
+<div id="modalChess" class="modal-overlay">
     <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalStages')">⬅</button>
-        <h3>Etapas de Aprendizaje</h3>
+        <button class="back-btn" onclick="closeModal('modalChess')">⬅</button>
+        <h3>Lógica y Ajedrez</h3>
+        <div style="width:35px"></div>
+    </div>
+    <div class="modal-body" style="text-align:center;">
+        <div style="font-size:4rem; margin:20px;">♟️</div>
+        <div style="background:white; padding:20px; border-radius:15px; margin-bottom:20px;">
+            <h3>Reto de Lógica</h3>
+            <p>Si la Reina (Queen) se mueve en todas direcciones...</p>
+            <p>¿Cómo se mueve la <b>Torre (Rook)</b>?</p>
+        </div>
+        <button class="btn-action-trans" onclick="chessAnswer(true)">En línea recta (Straight)</button>
+        <button class="btn-action-trans" style="background:#ab47bc" onclick="chessAnswer(false)">En diagonal (Diagonal)</button>
+    </div>
+</div>
+
+<!-- 5. AHORCADO -->
+<div id="modalHangman" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalHangman')">⬅</button>
+        <h3>Ahorcado</h3>
+        <div style="width:35px"></div>
+    </div>
+    <div class="modal-body" style="text-align:center">
+        <div id="hmLives" style="font-size:2rem; margin-bottom:10px;">❤️❤️❤️❤️❤️</div>
+        <p id="hmHint" style="color:#555; font-weight:bold;">Pista...</p>
+        <div id="hmWord" class="hm-word">_ _ _ _</div>
+        <div id="hmKb" class="keyboard"></div>
+    </div>
+</div>
+
+<!-- 6. MEMORIA -->
+<div id="modalMemory" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalMemory')">⬅</button>
+        <h3>Memoria</h3>
         <div style="width:35px"></div>
     </div>
     <div class="modal-body">
-        <div style="width:90%; padding:20px; background:white; border:3px solid var(--primary); border-radius:15px; margin-bottom:20px; text-align:center;">
-            <h2 style="margin:0; color:var(--primary)">Etapa 1</h2>
-            <p>Lo Básico (A-Z, Números)</p>
-            <b>✅ COMPLETADO</b>
-        </div>
-        <div style="width:90%; padding:20px; background:#eee; border:3px solid #ccc; border-radius:15px; margin-bottom:20px; text-align:center;">
-            <h2 style="margin:0; color:#888">Etapa 2</h2>
-            <p>Conversación y Verbos</p>
-            <b>🔒 50 Puntos para abrir</b>
-        </div>
+        <p>Encuentra las parejas</p>
+        <div id="memGrid" class="mem-grid"></div>
     </div>
 </div>
 
-<!-- MODALES RESTANTES (Ahorcado, Memoria placeholders) -->
-<div id="modalHangman" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalHangman')">⬅</button><h3>Ahorcado</h3><div></div></div><div class="modal-body" style="text-align:center;"><h1>Próximamente</h1></div></div>
-<div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria</h3><div></div></div><div class="modal-body" style="text-align:center;"><h1>Próximamente</h1></div></div>
+<!-- 7. ETAPAS -->
+<div id="modalStages" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalStages')">⬅</button>
+        <h3>Mapa de Etapas</h3>
+        <div style="width:35px"></div>
+    </div>
+    <div class="modal-body">
+        <div style="width:100%; max-width:300px; background:white; padding:20px; border:3px solid var(--primary); border-radius:15px; text-align:center; margin-bottom:20px;">
+            <h2 style="margin:0; color:var(--primary)">Etapa 1</h2>
+            <p>Básico: ABC y Colores</p>
+            <b>✅ DISPONIBLE</b>
+        </div>
+        <div id="stage2Box" style="width:100%; max-width:300px; background:#ddd; padding:20px; border:3px solid #bbb; border-radius:15px; text-align:center;">
+            <h2 style="margin:0; color:#888">Etapa 2</h2>
+            <p>Animales y Rutinas</p>
+            <b id="stage2Lock">🔒 50 Puntos</b>
+        </div>
+    </div>
+</div>
 
 <script>
     let pts = parseInt(localStorage.getItem('pts')) || 0;
     let isKids = true;
 
-    // ==========================================
-    // BASE DE DATOS MASIVA (MUCHOS ITEMS)
-    // ==========================================
+    // --- BASE DE DATOS MASIVA ---
     const db = {
-        greetings: [
-            {i:'👋',w:'Hello'}, {i:'🚶',w:'Goodbye'}, {i:'🌅',w:'Good Morning'}, {i:'🌇',w:'Good Afternoon'}, 
-            {i:'🌙',w:'Good Night'}, {i:'🤝',w:'Nice to meet you'}, {i:'🙏',w:'Thank you'}, {i:'😊',w:'Please'}, 
-            {i:'🥳',w:'Welcome'}, {i:'🤔',w:'Excuse me'}, {i:'🆗',w:'Okay'}, {i:'❓',w:'How are you?'}
-        ],
+        greetings: [{i:'👋',w:'Hello'},{i:'🚶',w:'Bye'},{i:'🌅',w:'Good Morning'},{i:'🌙',w:'Good Night'},{i:'🤝',w:'Nice to meet you'},{i:'🙏',w:'Thank you'},{i:'😊',w:'Please'},{i:'❓',w:'How are you?'}],
         abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, w:l, e:l})),
-        routines: [
-            {i:'🥱',w:'Wake up'}, {i:'🚿',w:'Take a shower'}, {i:'🦷',w:'Brush teeth'}, {i:'👗',w:'Get dressed'},
-            {i:'🥣',w:'Have breakfast'}, {i:'🏫',w:'Go to school'}, {i:'🚌',w:'Take the bus'}, {i:'🥪',w:'Have lunch'},
-            {i:'⚽',w:'Play'}, {i:'📚',w:'Do homework'}, {i:'🛁',w:'Bath'}, {i:'🛌',w:'Go to sleep'},
-            {i:'📖',w:'Read'}, {i:'📺',w:'Watch TV'}, {i:'🧹',w:'Clean'}, {i:'🍳',w:'Cook'}
-        ],
         animals: [
-            {i:'🐶',w:'Dog'}, {i:'🐱',w:'Cat'}, {i:'🦁',w:'Lion'}, {i:'🐯',w:'Tiger'}, 
-            {i:'🐵',w:'Monkey'}, {i:'🐘',w:'Elephant'}, {i:'🦒',w:'Giraffe'}, {i:'🐴',w:'Horse'},
-            {i:'🐮',w:'Cow'}, {i:'🐷',w:'Pig'}, {i:'🐸',w:'Frog'}, {i:'🐔',w:'Chicken'},
-            {i:'🐰',w:'Rabbit'}, {i:'🐭',w:'Mouse'}, {i:'🐻',w:'Bear'}, {i:'🐼',w:'Panda'}
+            {i:'🐶',w:'Dog'},{i:'🐱',w:'Cat'},{i:'🦁',w:'Lion'},{i:'🐯',w:'Tiger'},{i:'🐘',w:'Elephant'},{i:'🐵',w:'Monkey'},{i:'🦒',w:'Giraffe'},{i:'🦓',w:'Zebra'},{i:'🐍',w:'Snake'},{i:'🐻',w:'Bear'},{i:'🐰',w:'Rabbit'},{i:'🐭',w:'Mouse'},{i:'🐴',w:'Horse'},{i:'🐮',w:'Cow'},{i:'🐷',w:'Pig'},{i:'🐑',w:'Sheep'},{i:'🦆',w:'Duck'},{i:'🐔',w:'Chicken'},{i:'🐸',w:'Frog'},{i:'🐢',w:'Turtle'}
         ],
-        colors: [
-            {i:'🔴',w:'Red'}, {i:'🔵',w:'Blue'}, {i:'🟢',w:'Green'}, {i:'🟡',w:'Yellow'},
-            {i:'🟠',w:'Orange'}, {i:'🟣',w:'Purple'}, {i:'👚',w:'Pink'}, {i:'🟤',w:'Brown'},
-            {i:'⚫',w:'Black'}, {i:'⚪',w:'White'}, {i:'👽',w:'Grey'}, {i:'🥇',w:'Gold'}
-        ],
-        fruits: [
-            {i:'🍎',w:'Apple'}, {i:'🍌',w:'Banana'}, {i:'🍇',w:'Grapes'}, {i:'🍊',w:'Orange'},
-            {i:'🍓',w:'Strawberry'}, {i:'🍉',w:'Watermelon'}, {i:'🍍',w:'Pineapple'}, {i:'🍒',w:'Cherry'},
-            {i:'🍐',w:'Pear'}, {i:'🥥',w:'Coconut'}, {i:'🥑',w:'Avocado'}, {i:'🥝',w:'Kiwi'}
-        ],
-        family: [
-            {i:'👨',w:'Father'}, {i:'👩',w:'Mother'}, {i:'👦',w:'Brother'}, {i:'👧',w:'Sister'},
-            {i:'👴',w:'Grandfather'}, {i:'👵',w:'Grandmother'}, {i:'👶',w:'Baby'}, {i:'👪',w:'Family'}
-        ]
+        fruits: [{i:'🍎',w:'Apple'},{i:'🍌',w:'Banana'},{i:'🍇',w:'Grape'},{i:'🍊',w:'Orange'},{i:'🍓',w:'Strawberry'},{i:'🍉',w:'Watermelon'},{i:'🍍',w:'Pineapple'},{i:'🍒',w:'Cherry'},{i:'🍐',w:'Pear'},{i:'🥥',w:'Coconut'},{i:'🥑',w:'Avocado'},{i:'🥝',w:'Kiwi'},{i:'🍋',w:'Lemon'},{i:'🥭',w:'Mango'}],
+        colors: [{i:'🔴',w:'Red'},{i:'🔵',w:'Blue'},{i:'🟢',w:'Green'},{i:'🟡',w:'Yellow'},{i:'🟠',w:'Orange'},{i:'🟣',w:'Purple'},{i:'👚',w:'Pink'},{i:'⚫',w:'Black'},{i:'⚪',w:'White'},{i:'🟤',w:'Brown'}],
+        routines: [{i:'🥱',w:'Wake up'},{i:'🚿',w:'Shower'},{i:'🦷',w:'Brush teeth'},{i:'👗',w:'Dress'},{i:'🥣',w:'Breakfast'},{i:'🏫',w:'School'},{i:'⚽',w:'Play'},{i:'🛌',w:'Sleep'},{i:'📚',w:'Study'},{i:'📺',w:'Watch TV'}]
     };
 
-    // ==========================================
-    // LÓGICA GENERAL
-    // ==========================================
+    // --- PREGUNTAS JUEGOS ---
+    const quiz = [
+        {es:"Perro", en:"Dog"},{es:"Gato", en:"Cat"},{es:"Rojo", en:"Red"},{es:"Azul", en:"Blue"},{es:"Hola", en:"Hello"},{es:"Adiós", en:"Bye"},{es:"Manzana", en:"Apple"},{es:"Sol", en:"Sun"},{es:"León", en:"Lion"},{es:"Verde", en:"Green"}
+    ];
+
     window.onload = () => {
         document.getElementById('points').innerText = pts;
         loadGrid('greetings', document.querySelector('.tab-chip'));
+        checkStages();
     };
 
     function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; }
-
+    
     function setMode(m) {
         document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
-        if(m === 'kids') {
-            document.getElementById('btnKids').classList.add('active'); isKids = true;
-            document.body.style.background = "#29b6f6";
-        } else {
-            document.getElementById('btnAdv').classList.add('active'); isKids = false;
-            document.body.style.background = "#78909c";
-        }
+        if(m === 'kids') { document.getElementById('btnKids').classList.add('active'); isKids = true; document.body.style.background = "#00bcd4"; }
+        else { document.getElementById('btnAdv').classList.add('active'); isKids = false; document.body.style.background = "#607d8b"; }
     }
 
     function speak(txt) {
         window.speechSynthesis.cancel();
         let u = new SpeechSynthesisUtterance(txt);
-        u.lang = 'en-US'; // SIEMPRE EN INGLÉS
+        u.lang = 'en-US'; 
         u.pitch = isKids ? 1.4 : 1.0;
         window.speechSynthesis.speak(u);
     }
 
-    function addPts(n) {
-        pts += n;
-        document.getElementById('points').innerText = pts;
-        localStorage.setItem('pts', pts);
+    function addPts(n) { pts += n; document.getElementById('points').innerText = pts; localStorage.setItem('pts', pts); checkStages(); }
+    
+    function checkStages() {
+        if(pts >= 50) {
+            let s2 = document.getElementById('stage2Box');
+            s2.style.background = "white"; s2.style.border = "3px solid #00e676";
+            document.getElementById('stage2Lock').innerText = "🔓 DESBLOQUEADO";
+            document.getElementById('stage2Lock').style.color = "green";
+        }
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // ==========================================
-    // LÓGICA: GRID DE VOCABULARIO
-    // ==========================================
+    // --- VOCABULARIO ---
     function loadGrid(cat, btn) {
-        if(btn) {
-            document.querySelectorAll('.tab-chip').forEach(t=>t.classList.remove('active'));
-            btn.classList.add('active');
-        }
-        let grid = document.getElementById('mainGrid');
-        grid.innerHTML = '';
+        if(btn) { document.querySelectorAll('.tab-chip').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
+        let grid = document.getElementById('mainGrid'); grid.innerHTML = '';
         db[cat].forEach(item => {
-            let d = document.createElement('div');
-            d.className = 'vocab-card';
-            d.innerHTML = `<div class="vocab-icon">${item.i}</div><div class="vocab-word">${item.w}</div>`;
-            d.onclick = () => speak(item.w); // Habla en inglés al tocar
+            let d = document.createElement('div'); d.className = 'vocab-card';
+            d.innerHTML = `<div class="v-icon">${item.i}</div><div class="v-word">${item.w}</div>`;
+            d.onclick = () => speak(item.w);
             grid.appendChild(d);
         });
     }
 
-    // ==========================================
-    // TRADUCTOR
-    // ==========================================
+    // --- TRADUCTOR ---
     async function doTranslate() {
-        let txt = document.getElementById('transIn').value;
-        if(!txt) return;
+        let txt = document.getElementById('transIn').value; if(!txt) return;
         document.getElementById('transOut').innerText = "...";
-        // Simple mock para no depender de API en demo
-        const dict = { "hola":"Hello", "perro":"Dog", "gato":"Cat", "rojo":"Red", "casa":"House" };
-        let res = dict[txt.toLowerCase()] || txt + " (en)"; 
-        // Intento API real
         try {
-            let api = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=es|en`);
-            let json = await api.json();
-            res = json.responseData.translatedText;
-        } catch(e){}
-        
-        document.getElementById('transOut').innerText = res;
-        speak(res);
-        addPts(5);
+            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=es|en`);
+            let j = await r.json();
+            let res = j.responseData.translatedText;
+            document.getElementById('transOut').innerText = res; speak(res); addPts(5);
+        } catch(e) { document.getElementById('transOut').innerText = "Error"; }
     }
 
-    // ==========================================
-    // JUEGO: FÚTBOL
-    // ==========================================
-    const soccerDB = [
-        {es:"Perro", en:"Dog"}, {es:"Gato", en:"Cat"}, {es:"Rojo", en:"Red"}, {es:"Azul", en:"Blue"},
-        {es:"Manzana", en:"Apple"}, {es:"Pelota", en:"Ball"}, {es:"Sol", en:"Sun"}, {es:"Casa", en:"House"}
-    ];
-    let currentGoalAnswer = "";
-
-    function initSoccer() { newKick(); }
+    // --- JUEGO: FÚTBOL ---
+    function initSoccer() { openModal('modalSoccer'); newKick(); }
     function newKick() {
-        document.getElementById('ball').style.bottom = "10px";
-        document.getElementById('ball').style.left = "45%";
-        document.getElementById('keeper').style.left = "45%";
-
-        let q = soccerDB[Math.floor(Math.random()*soccerDB.length)];
-        let wrong = soccerDB[Math.floor(Math.random()*soccerDB.length)];
-        while(wrong.en === q.en) wrong = soccerDB[Math.floor(Math.random()*soccerDB.length)];
-
-        currentGoalAnswer = q.en;
+        document.getElementById('ball').style.bottom="10px"; document.getElementById('ball').style.left="45%"; document.getElementById('keeper').style.left="45%";
+        let q = quiz[Math.floor(Math.random()*quiz.length)];
+        let w = quiz[Math.floor(Math.random()*quiz.length)];
+        while(w.en === q.en) w = quiz[Math.floor(Math.random()*quiz.length)];
         document.getElementById('socQ').innerText = q.es;
-
-        let btns = [
-            `<button class="game-btn" onclick="kick(true, '${q.en}')">${q.en}</button>`,
-            `<button class="game-btn" style="background:#ff9100" onclick="kick(false, '${wrong.en}')">${wrong.en}</button>`
-        ].sort(() => Math.random() - 0.5);
+        let btns = [`<button class="game-btn" onclick="kick(true,'${q.en}')">${q.en}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.en}</button>`].sort(()=>Math.random()-0.5);
         document.getElementById('socBtns').innerHTML = btns.join('');
     }
-
     function kick(win, word) {
-        let ball = document.getElementById('ball');
-        let keeper = document.getElementById('keeper');
+        let b = document.getElementById('ball'); let k = document.getElementById('keeper');
         if(win) {
-            ball.style.bottom = "180px"; ball.style.left = "20%"; keeper.style.left = "70%";
-            speak("GOAL! " + word); // DICE LA PALABRA CORRECTA
-            addPts(20); confetti();
+            b.style.bottom="180px"; b.style.left="20%"; k.style.left="70%";
+            speak("Goal! " + word); addPts(20); confetti();
             setTimeout(newKick, 1500);
         } else {
-            keeper.style.left = "45%"; ball.style.bottom = "50px";
-            speak("Wrong. Try again"); // DICE QUE SE EQUIVOCÓ
+            k.style.left="45%"; b.style.bottom="50px";
+            speak("Oh no. Try again");
             setTimeout(newKick, 1000);
         }
     }
 
-    // ==========================================
-    // JUEGO: CRUCIGRAMA (NIVELES)
-    // ==========================================
-    let cwLevel = 1;
-
-    function initCrossword() {
-        openModal('modalCross');
-        loadCrossLevel(1);
+    // --- JUEGO: AJEDREZ ---
+    function initChess() { openModal('modalChess'); }
+    function chessAnswer(correct) {
+        if(correct) { speak("Correct!"); addPts(10); confetti(); setTimeout(()=>closeModal('modalChess'), 2000); }
+        else { speak("Wrong"); }
     }
 
-    const levels = {
-        1: {
-            title: "NIVEL 1: Fácil",
-            clues: "1. Color de la sangre (RED)",
-            // Grid 3x3 simple
-            html: `
-                <div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="R"></div><div class="cw-cell"><input class="cw-input" data-a="E"></div><div class="cw-cell"><input class="cw-input" data-a="D"></div></div>
-            `
-        },
-        2: {
-            title: "NIVEL 2: Medio",
-            clues: "Horiz: 1. Animal miau (CAT) <br> Vert: 1. Opuesto de Frío (HOT)",
-            // Grid con cruce
-            html: `
-                <div class="cw-row"><div class="cw-cell empty"></div><div class="cw-cell"><input class="cw-input" data-a="H"></div><div class="cw-cell empty"></div></div>
-                <div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="C"></div><div class="cw-cell"><input class="cw-input" data-a="A"></div><div class="cw-cell"><input class="cw-input" data-a="T"></div></div>
-                <div class="cw-row"><div class="cw-cell empty"></div><div class="cw-cell"><input class="cw-input" data-a="T"></div><div class="cw-cell empty"></div></div>
-            `
-        },
-        3: {
-            title: "NIVEL 3: Difícil",
-            clues: "1. Color del cielo (BLUE)",
-            html: `
-                <div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="B"></div><div class="cw-cell"><input class="cw-input" data-a="L"></div><div class="cw-cell"><input class="cw-input" data-a="U"></div><div class="cw-cell"><input class="cw-input" data-a="E"></div></div>
-            `
-        }
+    // --- JUEGO: CRUCIGRAMA ---
+    const cwLevels = {
+        1: { t: "NIVEL 1", c: "1. Color de la sangre (RED)", h: `<div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="R"></div><div class="cw-cell"><input class="cw-input" data-a="E"></div><div class="cw-cell"><input class="cw-input" data-a="D"></div></div>` },
+        2: { t: "NIVEL 2", c: "1. Animal miau (CAT) | 2. Opuesto de Frío (HOT)", h: `<div class="cw-row"><div class="cw-cell empty"></div><div class="cw-cell"><input class="cw-input" data-a="H"></div><div class="cw-cell empty"></div></div><div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="C"></div><div class="cw-cell"><input class="cw-input" data-a="A"></div><div class="cw-cell"><input class="cw-input" data-a="T"></div></div><div class="cw-row"><div class="cw-cell empty"></div><div class="cw-cell"><input class="cw-input" data-a="T"></div><div class="cw-cell empty"></div></div>` },
+        3: { t: "NIVEL 3", c: "1. Color del cielo (BLUE)", h: `<div class="cw-row"><div class="cw-cell"><input class="cw-input" data-a="B"></div><div class="cw-cell"><input class="cw-input" data-a="L"></div><div class="cw-cell"><input class="cw-input" data-a="U"></div><div class="cw-cell"><input class="cw-input" data-a="E"></div></div>` }
     };
+    let currCw = 1;
 
-    function loadCrossLevel(lvl) {
-        cwLevel = lvl;
-        let data = levels[lvl];
-        if(!data) { alert("¡Juego Completado!"); cwLevel=1; loadCrossLevel(1); return; }
-        
-        document.getElementById('cwBadge').innerText = data.title;
-        document.getElementById('cwClues').innerHTML = data.clues;
-        document.getElementById('cwGridContainer').innerHTML = data.html;
-        document.getElementById('cwFeedback').innerText = "";
+    function initCrossword() { openModal('modalCross'); loadCw(1); }
+    function loadCw(l) {
+        currCw = l; let d = cwLevels[l]; if(!d) { alert("¡Ganaste todo!"); return; }
+        document.getElementById('cwLevelTitle').innerText = d.t;
+        document.getElementById('cwClues').innerText = d.c;
+        document.getElementById('cwGridContainer').innerHTML = d.h;
+        document.getElementById('cwMsg').innerText = "";
+    }
+    function checkCrossword() {
+        let ok = true;
+        document.querySelectorAll('.cw-input').forEach(i => {
+            if(i.value.toUpperCase() !== i.dataset.a) { i.style.color="red"; ok=false; }
+            else { i.style.color="green"; }
+        });
+        if(ok) { speak("Excellent!"); addPts(30); confetti(); setTimeout(()=>loadCw(currCw+1), 2000); }
+        else { speak("Try again"); }
     }
 
-    function checkCrossword() {
-        let correct = true;
-        document.querySelectorAll('.cw-input').forEach(inp => {
-            if(inp.value.toUpperCase() !== inp.dataset.a) {
-                inp.style.color = "red"; correct = false;
-            } else {
-                inp.style.color = "green";
-            }
+    // --- JUEGO: AHORCADO ---
+    let hmTarget = ""; let hmLives = 5; let hmGuessed = [];
+    function initHangman() {
+        openModal('modalHangman');
+        let item = quiz[Math.floor(Math.random()*quiz.length)];
+        hmTarget = item.en.toUpperCase(); hmLives = 5; hmGuessed = [];
+        document.getElementById('hmHint').innerText = "Traduce: " + item.es;
+        renderHm(); renderHmKb();
+    }
+    function renderHm() {
+        document.getElementById('hmLives').innerText = "❤️".repeat(hmLives);
+        let show = hmTarget.split('').map(l => hmGuessed.includes(l) ? l : "_").join(" ");
+        document.getElementById('hmWord').innerText = show;
+        if(!show.includes("_")) { speak("You Win! " + hmTarget); addPts(20); setTimeout(initHangman, 2000); }
+        if(hmLives<=0) { speak("Game Over. It was " + hmTarget); setTimeout(initHangman, 2000); }
+    }
+    function renderHmKb() {
+        let kb = document.getElementById('hmKb'); kb.innerHTML = "";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(l => {
+            let b = document.createElement('button'); b.className = 'key'; b.innerText = l;
+            b.onclick = () => { b.disabled=true; hmGuessed.push(l); if(!hmTarget.includes(l)) hmLives--; renderHm(); };
+            kb.appendChild(b);
         });
-        
-        if(correct) {
-            speak("Excellent! Next Level.");
-            addPts(50); confetti();
-            document.getElementById('cwFeedback').innerText = "¡Correcto! Pasando al siguiente...";
-            setTimeout(() => { loadCrossLevel(cwLevel + 1); }, 2000);
+    }
+
+    // --- JUEGO: MEMORIA ---
+    let mCards = []; let mFlipped = [];
+    function initMemory() {
+        openModal('modalMemory');
+        let arr = [];
+        for(let i=0; i<4; i++) {
+            let item = db.animals[i];
+            arr.push({v:item.i, m:item.w}, {v:item.w, m:item.i});
+        }
+        arr.sort(()=>Math.random()-0.5);
+        let g = document.getElementById('memGrid'); g.innerHTML = ""; mCards=[]; mFlipped=[];
+        arr.forEach(x => {
+            let c = document.createElement('div'); c.className = 'mem-card'; c.innerText = x.v;
+            c.onclick = () => {
+                if(mFlipped.length<2 && !c.classList.contains('flipped')) {
+                    c.classList.add('flipped'); mFlipped.push({el:c, val:x.v, match:x.m});
+                    if(mFlipped.length==2) checkMem();
+                }
+            };
+            g.appendChild(c);
+        });
+    }
+    function checkMem() {
+        if(mFlipped[0].val === mFlipped[1].match) {
+            speak("Good!"); mFlipped=[]; addPts(10);
+            if(document.querySelectorAll('.mem-card.flipped').length == 8) { confetti(); setTimeout(initMemory, 2000); }
         } else {
-            speak("Try again");
-            document.getElementById('cwFeedback').innerText = "Hay errores, revisa los rojos.";
+            setTimeout(()=> { mFlipped.forEach(x=>x.el.classList.remove('flipped')); mFlipped=[]; }, 1000);
         }
     }
 
     function confetti() {
         for(let i=0; i<20; i++) {
-            let d = document.createElement('div');
-            d.innerHTML = '🎉'; d.className = 'confetti';
-            d.style.left = Math.random()*100 + '%';
-            d.style.fontSize = (Math.random()*20+10)+'px';
-            d.style.animationDuration = (Math.random()*2+1)+'s';
-            document.body.appendChild(d);
-            setTimeout(()=>d.remove(), 3000);
+            let d = document.createElement('div'); d.innerHTML = '🎉'; d.className = 'confetti';
+            d.style.left = Math.random()*100 + '%'; d.style.fontSize = (Math.random()*20+10)+'px'; d.style.animationDuration = (Math.random()*2+1)+'s';
+            document.body.appendChild(d); setTimeout(()=>d.remove(), 3000);
         }
     }
 </script>
