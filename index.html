@@ -16,14 +16,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
 
         :root {
-            /* COLORES APP */
-            --bg-body: #f5f5f5;
+            --bg-body: #00bcd4;
             --primary: #58cc02;
             --secondary: #ff9600;
             --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
             
-            /* COLORES CRUCIGRAMA (DARK MODE) */
+            /* CRUCIGRAMA DARK */
             --cw-bg: #121212;
             --cw-cell: #eee;
             --cw-highlight: #90CAF9;
@@ -32,7 +31,7 @@
 
         body {
             font-family: var(--font-main);
-            background: #00bcd4; /* Fondo detrás de la app */
+            background: #00bcd4;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -50,7 +49,7 @@
             overflow: hidden; position: relative;
         }
 
-        /* --- UI SUPERIOR (Header & Menú) --- */
+        /* --- UI PRINCIPAL --- */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; border-bottom: 2px solid #ddd; }
         .logo { margin: 0; color: #6200ea; font-size: 1.4rem; }
         .stats { display: flex; gap: 8px; font-weight: bold; font-size: 0.9rem; }
@@ -58,44 +57,53 @@
 
         .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
-        .translator-card { background: white; border-radius: 15px; padding: 10px; border: 2px solid #b3e5fc; box-shadow: 0 4px 0 #e1f5fe; }
+        /* TRADUCTOR TEXTO */
+        .translator-card { background: white; border-radius: 15px; padding: 10px; border: 2px solid #b3e5fc; }
         .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
-        .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; box-shadow: 0 4px 0 #0277bd; cursor: pointer;}
-        .btn-trans:active { transform: translateY(4px); box-shadow: none; }
+        .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
 
-        /* MENU PRINCIPAL (4 BOTONES) */
+        /* TRADUCTOR DE VOZ (NUEVA BARRA AZUL) */
+        .voice-bar {
+            background: linear-gradient(135deg, #2196f3, #21cbf3);
+            border-radius: 15px; padding: 15px; text-align: center;
+            color: white; box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .voice-icon {
+            background: white; color: #2196f3; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+        .voice-icon:active { transform: scale(0.9); }
+        .voice-icon.listening { background: #ff4081; color: white; animation: pulse 1s infinite; }
+        .voice-text { font-size: 0.9rem; font-weight: bold; min-height: 1.2em; }
+
+        /* MENÚ SUPERIOR */
         .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
         .menu-btn { background: white; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 0 #e0e0e0; border: 2px solid #eee; }
         .menu-btn:active { transform: translateY(4px); box-shadow: none; }
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* BARRA MOTIVACIONAL AZUL */
-        .motivation-bar {
-            background: #039be5; color: white; padding: 15px; border-radius: 15px;
-            text-align: center; font-weight: bold; font-size: 1.1rem;
-            box-shadow: 0 4px 0 #0277bd; margin: 10px 0;
-        }
-
-        /* --- NUEVA ZONA INFERIOR (CATEGORÍAS) --- */
+        /* CATEGORÍAS INFERIORES */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
         .cat-card {
             background: white; border-radius: 15px; aspect-ratio: 1;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 4px 0 #e0e0e0; cursor: pointer; border: 2px solid #eee;
-            transition: transform 0.1s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee;
         }
-        .cat-card:active { transform: translateY(4px); box-shadow: none; }
+        .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
         .cat-icon { font-size: 2.5rem; margin-bottom: 5px; }
         .cat-title { font-size: 0.75rem; font-weight: bold; color: #444; text-transform: uppercase; }
 
-        /* Colores bordes inferiores (simulados con border-bottom) */
-        .c-blue { border-bottom: 5px solid #42a5f5; }
-        .c-green { border-bottom: 5px solid #66bb6a; }
-        .c-orange { border-bottom: 5px solid #ffa726; }
-        .c-purple { border-bottom: 5px solid #ab47bc; }
-        .c-red { border-bottom: 5px solid #ef5350; }
-        .c-teal { border-bottom: 5px solid #26a69a; }
+        /* Colores Categorías */
+        .c-blue { border-bottom-color: #42a5f5; }
+        .c-green { border-bottom-color: #66bb6a; }
+        .c-orange { border-bottom-color: #ffa726; }
+        .c-purple { border-bottom-color: #ab47bc; }
+        .c-red { border-bottom-color: #ef5350; }
+        .c-teal { border-bottom-color: #26a69a; }
 
         /* BIENVENIDA */
         #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.5s ease; }
@@ -104,12 +112,12 @@
 
         /* MODALES */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
-        .modal-header { background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .modal-header { background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #eee; }
         .modal-title { font-size: 1.2rem; font-weight: bold; color: #444; text-transform: uppercase; }
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* GRID DENTRO DE CATEGORÍA */
+        /* CONTENIDO CATEGORÍA */
         .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
         .vocab-item { 
             background: white; border-radius: 15px; padding: 10px; text-align: center; 
@@ -120,7 +128,7 @@
         .v-icon { font-size: 2.5rem; }
         .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
 
-        /* ESTILOS CRUCIGRAMA PRO */
+        /* CRUCIGRAMA PRO */
         .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 200; display: none; flex-direction: column; }
         .cw-header { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; background: #212121; color: white; border-bottom: 1px solid #333; height: 50px; flex-shrink: 0; }
         .cw-board-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #121212; position: relative; overflow: auto; }
@@ -159,6 +167,7 @@
 
         #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
         .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
@@ -185,7 +194,7 @@
     </div>
 
     <div class="scroll-area">
-        <!-- TRADUCTOR -->
+        <!-- TRADUCTOR TEXTO -->
         <div class="translator-card">
             <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
             <button class="btn-trans" onclick="doTranslate()">TRADUCIR</button>
@@ -200,32 +209,33 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <!-- BARRA MOTIVACIONAL -->
-        <div class="motivation-bar" id="motivBar">
-            ¡Eres muy inteligente! 🌟
+        <!-- BARRA TRADUCTOR VOZ (AZUL) -->
+        <div class="voice-bar">
+            <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
+            <div class="voice-text" id="voiceStatus">Toca el micrófono y habla...</div>
         </div>
 
-        <!-- NUEVA REJILLA DE CATEGORÍAS (ABAJO) -->
+        <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
         <div class="categories-grid">
             <div class="cat-card c-blue" onclick="openCategory('verbs', 'Verbos')"><div class="cat-icon">🏃</div><div class="cat-title">Verbos</div></div>
             <div class="cat-card c-green" onclick="openCategory('abc', 'Abecedario')"><div class="cat-icon">🔤</div><div class="cat-title">Abecedario</div></div>
             <div class="cat-card c-orange" onclick="openCategory('greetings', 'Saludos')"><div class="cat-icon">👋</div><div class="cat-title">Saludos</div></div>
             <div class="cat-card c-purple" onclick="openCategory('animals', 'Animales')"><div class="cat-icon">🐶</div><div class="cat-title">Animales</div></div>
             <div class="cat-card c-red" onclick="openCategory('routines', 'Rutina')"><div class="cat-icon">📅</div><div class="cat-title">Rutina</div></div>
-            <div class="cat-card c-teal" onclick="openCategory('fruits', 'Comidas')"><div class="cat-icon">🍎</div><div class="cat-title">Comidas</div></div>
-            <div class="cat-card c-blue" onclick="openCategory('numbers', 'Números')"><div class="cat-icon">1️⃣</div><div class="cat-title">Números</div></div>
-            <div class="cat-card c-green" onclick="openCategory('family', 'Familia')"><div class="cat-icon">👪</div><div class="cat-title">Familia</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('fruits', 'Frutas')"><div class="cat-icon">🍎</div><div class="cat-title">Frutas</div></div>
+            <div class="cat-card c-blue" onclick="openCategory('food', 'Comida')"><div class="cat-icon">🍔</div><div class="cat-title">Comida</div></div>
+            <div class="cat-card c-green" onclick="openCategory('numbers', 'Números')"><div class="cat-icon">1️⃣</div><div class="cat-title">Números</div></div>
+            <div class="cat-card c-purple" onclick="openCategory('family', 'Familia')"><div class="cat-icon">👪</div><div class="cat-title">Familia</div></div>
             <div class="cat-card c-orange" onclick="openCategory('colors', 'Colores')"><div class="cat-icon">🎨</div><div class="cat-title">Colores</div></div>
-            <div class="cat-card c-purple" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
-            <div class="cat-card c-red" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
-            <div class="cat-card c-teal" onclick="openCategory('school', 'Escuela')"><div class="cat-icon">✏️</div><div class="cat-title">Escuela</div></div>
+            <div class="cat-card c-red" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
         </div>
     </div>
 </div>
 
 <!-- ================= MODALES ================= -->
 
-<!-- MODAL CATEGORÍA (NUEVA PANTALLA PARA CADA TEMA) -->
+<!-- MODAL CATEGORÍA -->
 <div id="modalCategory" class="modal-overlay">
     <div class="modal-header">
         <button class="back-btn" onclick="closeModal('modalCategory')">⬅</button>
@@ -263,7 +273,7 @@
     <input type="text" id="hiddenInput" autocomplete="off">
 </div>
 
-<!-- OTROS MODALES (Juegos Antiguos) -->
+<!-- OTROS MODALES -->
 <div id="modalGamesMenu" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
     <div class="modal-body">
@@ -296,13 +306,14 @@
         abc: abcList,
         verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'},{i:'🤸',e:'Jump',s:'Saltar'},{i:'🏊',e:'Swim',s:'Nadar'},{i:'💃',e:'Dance',s:'Bailar'},{i:'🎤',e:'Sing',s:'Cantar'},{i:'📖',e:'Read',s:'Leer'},{i:'✍️',e:'Write',s:'Escribir'},{i:'🎨',e:'Paint',s:'Pintar'},{i:'🍳',e:'Cook',s:'Cocinar'},{i:'🧹',e:'Clean',s:'Limpiar'},{i:'🛌',e:'Sleep',s:'Dormir'},{i:'🍽️',e:'Eat',s:'Comer'},{i:'🥤',e:'Drink',s:'Beber'},{i:'👂',e:'Listen',s:'Escuchar'}],
         animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'},{i:'🦒',e:'Giraffe',s:'Jirafa'},{i:'🦓',e:'Zebra',s:'Cebra'},{i:'🐻',e:'Bear',s:'Oso'},{i:'🐰',e:'Rabbit',s:'Conejo'},{i:'🐴',e:'Horse',s:'Caballo'},{i:'🐮',e:'Cow',s:'Vaca'},{i:'🐷',e:'Pig',s:'Cerdo'},{i:'🐸',e:'Frog',s:'Rana'},{i:'🦆',e:'Duck',s:'Pato'}],
-        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},{i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍒',e:'Cherry',s:'Cereza'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'},{i:'🍦',e:'Ice Cream',s:'Helado'},{i:'🥕',e:'Carrot',s:'Zanahoria'},{i:'🥦',e:'Broccoli',s:'Brócoli'}],
+        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'},{i:'🍉',e:'Watermelon',s:'Sandía'},{i:'🍍',e:'Pineapple',s:'Piña'},{i:'🍐',e:'Pear',s:'Pera'},{i:'🥥',e:'Coconut',s:'Coco'},{i:'🥝',e:'Kiwi',s:'Kiwi'},{i:'🍋',e:'Lemon',s:'Limón'}],
+        food: [{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'},{i:'🌭',e:'Hot Dog',s:'Perro Caliente'},{i:'🍟',e:'Fries',s:'Papas Fritas'},{i:'🍞',e:'Bread',s:'Pan'},{i:'🧀',e:'Cheese',s:'Queso'},{i:'🍗',e:'Chicken',s:'Pollo'},{i:'🥣',e:'Soup',s:'Sopa'},{i:'🍚',e:'Rice',s:'Arroz'},{i:'🥗',e:'Salad',s:'Ensalada'},{i:'🥚',e:'Egg',s:'Huevo'},{i:'🥛',e:'Milk',s:'Leche'},{i:'🍪',e:'Cookie',s:'Galleta'},{i:'🍦',e:'Ice Cream',s:'Helado'},{i:'🍰',e:'Cake',s:'Pastel'}],
         colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'},{i:'👚',e:'Pink',s:'Rosa'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'},{i:'🟤',e:'Brown',s:'Café'}],
         routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'},{i:'👗',e:'Dress',s:'Vestir'},{i:'🥣',e:'Breakfast',s:'Desayuno'},{i:'🏫',e:'School',s:'Escuela'},{i:'⚽',e:'Play',s:'Jugar'},{i:'🛌',e:'Sleep',s:'Dormir'}],
-        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},{i:'👴',e:'Grandpa',s:'Abuelo'},{i:'👵',e:'Grandma',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'},{i:'👪',e:'Family',s:'Familia'}],
+        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},{i:'👴',e:'Grandpa',s:'Abuelo'},{i:'👵',e:'Grandma',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'},{i:'👪',e:'Family',s:'Familia'},{i:'🧔',e:'Uncle',s:'Tío'},{i:'👱‍♀️',e:'Aunt',s:'Tía'},{i:'🧒',e:'Cousin',s:'Primo/a'}],
         numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},{i:'6️⃣',e:'Six',s:'6'},{i:'7️⃣',e:'Seven',s:'7'},{i:'8️⃣',e:'Eight',s:'8'},{i:'9️⃣',e:'Nine',s:'9'},{i:'🔟',e:'Ten',s:'10'}],
         home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'},{i:'🪟',e:'Window',s:'Ventana'},{i:'🛋️',e:'Sofa',s:'Sofá'},{i:'🛏️',e:'Bed',s:'Cama'},{i:'🚽',e:'Toilet',s:'Baño'},{i:'🛁',e:'Bath',s:'Bañera'},{i:'💡',e:'Lamp',s:'Lámpara'}],
-        body: [{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦶',e:'Foot',s:'Pie'}],
+        body: [{i:'👤',e:'Head',s:'Cabeza'},{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'💪',e:'Arm',s:'Brazo'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦵',e:'Leg',s:'Pierna'},{i:'🦶',e:'Foot',s:'Pie'},{i:'🦷',e:'Teeth',s:'Dientes'}],
         school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'},{i:'🎒',e:'Backpack',s:'Mochila'},{i:'📖',e:'Book',s:'Libro'}]
     };
 
@@ -321,9 +332,6 @@
     window.onload = () => {
         document.getElementById('points').innerText = pts;
         window.speechSynthesis.getVoices();
-        // Frases motivacionales
-        const phrases = ["¡Eres muy inteligente!", "¡Sigue así!", "¡Estás aprendiendo rápido!", "¡Lo haces genial!"];
-        document.getElementById('motivBar').innerText = phrases[Math.floor(Math.random()*phrases.length)] + " 🌟";
     };
 
     function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; playSfx('win'); }
@@ -355,7 +363,43 @@
         }
     }
 
-    // --- CRUCIGRAMA ---
+    // --- TRADUCTOR DE VOZ ---
+    function startVoiceTranslation() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(!SpeechRecognition) { alert("Navegador no compatible con voz"); return; }
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'es-ES';
+        
+        let mic = document.getElementById('micBtn');
+        let status = document.getElementById('voiceStatus');
+        
+        mic.classList.add('listening');
+        status.innerText = "Escuchando...";
+        
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            status.innerText = "Dijiste: " + text;
+            translateAndSpeak(text);
+            mic.classList.remove('listening');
+        };
+        recognition.onerror = () => {
+            status.innerText = "No entendí, intenta de nuevo";
+            mic.classList.remove('listening');
+        };
+        recognition.start();
+    }
+
+    async function translateAndSpeak(text) {
+        try{
+            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|en`);
+            let j = await r.json();
+            let trans = j.responseData.translatedText;
+            document.getElementById('voiceStatus').innerText = `${text} = ${trans}`;
+            speak(trans);
+        } catch(e) { speak("Error"); }
+    }
+
+    // --- CRUCIGRAMA LÓGICA (FIX PISTAS) ---
     function openCrosswordMenu() {
         openModal('packsScreen');
         let g = document.getElementById('packsGrid'); g.innerHTML = '';
@@ -405,7 +449,14 @@
         }
     }
 
-    function selectCell(r,c){ selectedCell={r,c}; document.getElementById('currentClueDisplay').innerText = "Escribe la palabra..."; }
+    function selectCell(r,c){ 
+        selectedCell={r,c};
+        // BUSCAR PISTA QUE COINCIDA
+        // Simplificado: Buscamos si la celda es parte de alguna pista en la lista
+        // Como no tenemos mapa complejo, mostraremos la lista de pistas abajo.
+        let txt = currentPack.c.join(' | ');
+        document.getElementById('currentClueDisplay').innerText = txt; 
+    }
 
     function handleInput(e, input) {
         if(e.key.match(/[a-z]/i)) {
