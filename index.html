@@ -70,24 +70,10 @@
             display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
         .voice-title { font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-        
-        .voice-controls {
-            display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px;
-        }
-        
-        .lang-select {
-            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
-            color: white; padding: 5px; border-radius: 10px; font-weight: bold;
-            font-size: 0.85rem; outline: none; flex: 1; text-align: center;
-        }
+        .voice-controls { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px; }
+        .lang-select { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; outline: none; flex: 1; text-align: center; }
         .lang-select option { color: #333; }
-
-        .voice-icon {
-            background: white; color: #1565c0; width: 65px; height: 65px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            transition: transform 0.1s; margin-top: 10px;
-        }
+        .voice-icon { background: white; color: #1565c0; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: transform 0.1s; margin-top: 10px; }
         .voice-icon:active { transform: scale(0.9); }
         .voice-icon.listening { background: #f44336; color: white; animation: pulse 1s infinite; }
         .voice-text { font-size: 0.9rem; font-weight: bold; min-height: 1.2em; margin-top: 5px; }
@@ -101,11 +87,7 @@
 
         /* CATEGORÍAS INFERIORES */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
-        .cat-card {
-            background: white; border-radius: 15px; aspect-ratio: 1;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee;
-        }
+        .cat-card { background: white; border-radius: 15px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee; }
         .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
         .cat-icon { font-size: 2.5rem; margin-bottom: 5px; }
         .cat-title { font-size: 0.75rem; font-weight: bold; color: #444; text-transform: uppercase; }
@@ -121,6 +103,7 @@
         #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.5s ease; }
         .photo-frame img { width: 120px; }
         .start-btn { background: var(--primary); color: white; padding: 15px 50px; border-radius: 30px; font-size: 1.2rem; border: none; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 5px 0 #46a302; }
+        .name-input { margin-top: 20px; padding: 10px; border: 2px solid #ddd; border-radius: 10px; font-size: 1.2rem; text-align: center; width: 70%; font-family: 'Roboto', sans-serif;}
 
         /* MODALES */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
@@ -129,13 +112,18 @@
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
+        /* PERFIL USUARIO */
+        .profile-card { background: white; width: 90%; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--primary); }
+        .profile-avatar { font-size: 4rem; margin-bottom: 10px; }
+        .profile-name { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .p-stat { background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
+        .p-val { font-size: 1.2rem; font-weight: bold; color: var(--secondary); display: block; }
+        .p-lbl { font-size: 0.8rem; color: #777; }
+
         /* CONTENIDO CATEGORÍA */
         .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
-        .vocab-item { 
-            background: white; border-radius: 15px; padding: 10px; text-align: center; 
-            box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; 
-            aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
         .v-icon { font-size: 2.5rem; }
         .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
@@ -153,7 +141,6 @@
         .cw-clue-box { background: #263238; border-left: 6px solid #4FC3F7; padding: 15px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; position: relative; flex-shrink: 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.3); margin: 10px; border-radius: 4px; }
         .cw-clue-text { color: white; font-size: 1rem; font-weight: 500; margin-left: 10px; line-height: 1.2; }
         .fab-check { position: absolute; bottom: 130px; right: 20px; background: #58cc02; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 2rem; box-shadow: 0 6px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
-        
         .cw-pack-grid { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; overflow-y: auto; background: #212121; height: 100%; }
         .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
         .cw-pack-info { padding: 12px; color: white; }
@@ -189,19 +176,22 @@
 
 <div class="app-shell">
     
-    <!-- BIENVENIDA -->
+    <!-- BIENVENIDA (LOGIN) -->
     <div id="welcomeScreen">
         <div class="photo-frame"><img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" style="width:100%"></div>
-        <h1 style="color:var(--primary); margin-bottom: 5px;">¡Bienvenido!</h1>
-        <button class="start-btn" onclick="enterApp()">ENTRAR</button>
+        <h1 style="color:var(--primary); margin-bottom: 5px;" id="welcomeText">¡Bienvenido!</h1>
+        <p style="color:#777;">Escribe tu nombre para empezar:</p>
+        <input type="text" id="usernameInput" class="name-input" placeholder="Tu Nombre" maxlength="12">
+        <button class="start-btn" onclick="registerUser()">ENTRAR</button>
     </div>
 
     <!-- UI PRINCIPAL -->
     <div class="header">
         <h2 class="logo">Magic School</h2>
         <div class="stats">
-            <div class="stat-box">🔥 <span id="streak">1</span></div>
-            <div class="stat-box">⭐ <span id="points">0</span></div>
+            <div class="stat-box">🔥 <span id="userStreak">0</span></div>
+            <div class="stat-box">⭐ <span id="userPoints">0</span></div>
+            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openModal('modalProfile')">👤</div>
         </div>
     </div>
 
@@ -221,38 +211,26 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <!-- BARRA TRADUCTOR VOZ (UNIVERSAL) -->
+        <!-- BARRA TRADUCTOR VOZ -->
         <div class="voice-bar">
             <div class="voice-title">TRADUCTOR UNIVERSAL 🌍</div>
-            
             <div class="voice-controls">
-                <!-- IDIOMA ORIGEN -->
                 <select id="sourceLang" class="lang-select">
                     <option value="es-ES" selected>Hablo: Español 🇪🇸</option>
                     <option value="en-US">Hablo: Inglés 🇺🇸</option>
                     <option value="it-IT">Hablo: Italiano 🇮🇹</option>
                     <option value="fr-FR">Hablo: Francés 🇫🇷</option>
-                    <option value="de-DE">Hablo: Alemán 🇩🇪</option>
                     <option value="pt-BR">Hablo: Portugués 🇧🇷</option>
-                    <option value="pl-PL">Hablo: Polaco 🇵🇱</option>
-                    <option value="ru-RU">Hablo: Ruso 🇷🇺</option>
                 </select>
-                
                 <span style="font-size:1.5rem">➡</span>
-
-                <!-- IDIOMA DESTINO -->
                 <select id="targetLang" class="lang-select">
                     <option value="en">A: Inglés 🇺🇸</option>
                     <option value="es">A: Español 🇪🇸</option>
                     <option value="it">A: Italiano 🇮🇹</option>
                     <option value="fr">A: Francés 🇫🇷</option>
-                    <option value="de">A: Alemán 🇩🇪</option>
                     <option value="pt">A: Portugués 🇧🇷</option>
-                    <option value="pl">A: Polaco 🇵🇱</option>
-                    <option value="ru">A: Ruso 🇷🇺</option>
                 </select>
             </div>
-
             <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
             <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
         </div>
@@ -276,6 +254,26 @@
 </div>
 
 <!-- ================= MODALES ================= -->
+
+<!-- MODAL PERFIL -->
+<div id="modalProfile" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalProfile')">⬅</button><h3>Mi Perfil</h3><div></div></div>
+    <div class="modal-body">
+        <div class="profile-card">
+            <div class="profile-avatar">🎓</div>
+            <div class="profile-name" id="profileName">Estudiante</div>
+            <div style="color:#777; font-size:0.9rem;">Aprendiz de Magia</div>
+            
+            <div class="profile-stats">
+                <div class="p-stat"><span class="p-val" id="pLevel">1</span><span class="p-lbl">Nivel</span></div>
+                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha (Días)</span></div>
+                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos Totales</span></div>
+                <div class="p-stat"><span class="p-val">🏆</span><span class="p-lbl">Liga Bronce</span></div>
+            </div>
+        </div>
+        <button class="start-btn" onclick="logout()">Cerrar Sesión</button>
+    </div>
+</div>
 
 <!-- MODAL CATEGORÍA -->
 <div id="modalCategory" class="modal-overlay">
@@ -333,13 +331,88 @@
 <div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria</h3><div></div></div><div class="modal-body"><div id="memGrid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px; width:100%;"></div></div></div>
 
 <script>
-    let pts = parseInt(localStorage.getItem('pts')) || 0;
-    let unlockedLevel = parseInt(localStorage.getItem('unlockedLevel')) || 1;
+    // --- GESTIÓN DE USUARIOS Y PROGRESO ---
+    let currentUser = JSON.parse(localStorage.getItem('magicUser')) || null;
+
+    // --- INICIALIZACIÓN ---
+    window.onload = () => {
+        if(currentUser) {
+            checkStreak();
+            loadInterface();
+        } else {
+            // Mostrar pantalla bienvenida
+            document.getElementById('welcomeScreen').style.transform = "translateY(0)";
+        }
+        window.speechSynthesis.getVoices();
+    };
+
+    function registerUser() {
+        const name = document.getElementById('usernameInput').value.trim();
+        if(!name) return alert("Por favor escribe tu nombre");
+        
+        currentUser = {
+            name: name,
+            points: 0,
+            level: 1,
+            streak: 0,
+            lastLogin: new Date().toDateString()
+        };
+        localStorage.setItem('magicUser', JSON.stringify(currentUser));
+        playSfx('win');
+        loadInterface();
+    }
+
+    function checkStreak() {
+        const today = new Date().toDateString();
+        if(currentUser.lastLogin !== today) {
+            // Si es un nuevo día (simple logic: si es diferente)
+            // En una app real se compararía diferencia de 1 día exacto
+            currentUser.streak++; 
+            currentUser.lastLogin = today;
+            saveUser();
+        }
+    }
+
+    function loadInterface() {
+        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
+        updateUI();
+        // Cargar primera voz
+        speak(""); 
+    }
+
+    function updateUI() {
+        if(!currentUser) return;
+        document.getElementById('userPoints').innerText = currentUser.points;
+        document.getElementById('userStreak').innerText = currentUser.streak;
+        
+        // Perfil
+        document.getElementById('profileName').innerText = currentUser.name;
+        document.getElementById('pPoints').innerText = currentUser.points;
+        document.getElementById('pLevel').innerText = currentUser.level;
+        document.getElementById('pStreak').innerText = currentUser.streak;
+    }
+
+    function addPts(n) {
+        currentUser.points += n;
+        // Subir de nivel cada 100 puntos
+        currentUser.level = Math.floor(currentUser.points / 100) + 1;
+        saveUser();
+        updateUI();
+    }
+
+    function saveUser() {
+        localStorage.setItem('magicUser', JSON.stringify(currentUser));
+    }
+
+    function logout() {
+        localStorage.removeItem('magicUser');
+        location.reload();
+    }
 
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- BASE DE DATOS ---
+    // --- BASE DE DATOS MASIVA ---
     const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
     const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
 
@@ -370,25 +443,12 @@
     ];
 
     let currentPack=null, selectedCell={r:-1,c:-1}, currentDir='H', gridState=[];
-    let isListening = false;
-    let recognition = null;
+    let isListening = false, recognition = null;
 
-    window.onload = () => {
-        document.getElementById('points').innerText = pts;
-        window.speechSynthesis.getVoices();
-    };
-
-    function enterApp() { 
-        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; 
-        playSfx('win'); 
-        speak(""); 
-    }
-    
     function speak(txt, lang='en-US') {
         window.speechSynthesis.cancel();
         let u = new SpeechSynthesisUtterance(txt);
-        u.lang = lang;
-        u.rate = 0.9;
+        u.lang = lang; u.rate = 0.9;
         window.speechSynthesis.speak(u);
     }
     function openModal(id){document.getElementById(id).style.display='flex';}
@@ -409,78 +469,54 @@
         }
     }
 
-    // --- TRADUCTOR DE VOZ MEJORADO (SEGURIDAD IOS) ---
+    // --- TRADUCTOR DE VOZ ---
     function startVoiceTranslation() {
-        if(isListening) {
-            if(recognition) recognition.stop();
-            resetMic();
-            return;
-        }
-
+        if(isListening) { if(recognition) recognition.stop(); resetMic(); return; }
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!Speech) { alert("Tu celular no soporta voz. Usa Chrome o Safari."); return; }
+        if (!Speech) { alert("Navegador no soporta voz"); return; }
         
         recognition = new Speech();
-        let sourceLang = document.getElementById('sourceLang').value;
-        recognition.lang = sourceLang;
-        recognition.interimResults = false;
+        recognition.lang = document.getElementById('sourceLang').value;
         
         let mic = document.getElementById('micBtn');
         let status = document.getElementById('voiceStatus');
         let targetLang = document.getElementById('targetLang').value;
         
         mic.classList.add('listening');
-        status.innerText = "Escuchando... (Habla ahora)";
+        status.innerText = "Escuchando...";
         isListening = true;
         
-        recognition.onresult = (event) => {
-            const text = event.results[0][0].transcript;
+        recognition.onresult = (e) => {
+            const text = e.results[0][0].transcript;
             translateAndSpeak(text, targetLang);
         };
-        recognition.onerror = (e) => {
-            status.innerText = "No te escuché bien, intenta de nuevo.";
-            resetMic();
-        };
-        recognition.onend = () => {
-            resetMic();
-        };
-
-        try {
-            recognition.start();
-        } catch(e) {
-            resetMic();
-            alert("Error al iniciar micrófono. Refresca la página.");
-        }
+        recognition.onend = resetMic;
+        try { recognition.start(); } catch(e) { resetMic(); }
     }
 
     function resetMic() {
         isListening = false;
         document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('voiceStatus').innerText = "Toca el micro y habla...";
     }
 
-    async function translateAndSpeak(text, targetLang) {
-        try{
-            let sourceLangCode = document.getElementById('sourceLang').value.split('-')[0];
+    async function translateAndSpeak(text, target) {
+        try {
+            const source = document.getElementById('sourceLang').value.split('-')[0];
+            const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`);
+            const j = await r.json();
+            const trans = j[0][0][0];
             
-            // GOOGLE TRANSLATE API (UNOFFICIAL) - MUCH MORE RELIABLE
-            let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLangCode}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
             
-            let r = await fetch(url);
-            let j = await r.json();
-            let trans = j[0][0][0];
+            let speechLang = 'en-US';
+            if(target === 'es') speechLang = 'es-ES';
+            if(target === 'fr') speechLang = 'fr-FR';
+            if(target === 'it') speechLang = 'it-IT';
+            if(target === 'pt') speechLang = 'pt-BR';
             
-            const flags = {en:'🇺🇸', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹', pt:'🇧🇷', ja:'🇯🇵', ru:'🇷🇺', zh:'🇨🇳', es:'🇪🇸'};
-            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans} ${flags[targetLang]||''}`;
-            
-            let voiceLang = targetLang;
-            if(targetLang==='en') voiceLang='en-US'; if(targetLang==='es') voiceLang='es-ES';
-            if(targetLang==='fr') voiceLang='fr-FR'; if(targetLang==='de') voiceLang='de-DE';
-            if(targetLang==='it') voiceLang='it-IT'; if(targetLang==='pt') voiceLang='pt-BR';
-            if(targetLang==='ja') voiceLang='ja-JP'; if(targetLang==='ru') voiceLang='ru-RU';
-            if(targetLang==='zh') voiceLang='zh-CN';
-
-            speak(trans, voiceLang);
-        } catch(e) { speak("Error en traducción"); }
+            speak(trans, speechLang);
+        } catch(e) { speak("Error"); }
     }
 
     // --- CRUCIGRAMA ---
@@ -501,7 +537,7 @@
     function loadCrossword(idx) {
         currentPack = packs[idx];
         document.getElementById('gameTitle').innerText = currentPack.title;
-        document.getElementById('gameScreen').style.display = 'flex';
+        openModal('gameScreen');
         buildBoard(currentPack);
     }
 
@@ -514,35 +550,35 @@
         for(let r=0; r<pack.s; r++) {
             let rowArr = [];
             for(let c=0; c<pack.s; c++) {
-                let char = pack.l[r][c];
-                let cell = document.createElement('div');
+                const char = pack.l[r][c];
+                const cell = document.createElement('div');
                 if(char === '#') cell.className = 'cw-cell black';
                 else {
                     cell.className = 'cw-cell';
-                    let input = document.createElement('input'); 
-                    input.className = 'trans-input'; input.style.border='none'; input.style.height='100%'; input.style.fontSize='1.4rem'; input.style.fontWeight='900'; input.style.textTransform='uppercase'; input.style.background='transparent'; input.maxLength=1;
-                    input.dataset.r=r; input.dataset.c=c;
+                    const input = document.createElement('input');
+                    input.className = 'trans-input'; input.style.background='transparent'; input.style.border='none'; input.maxLength=1; input.style.fontWeight='900'; input.style.textTransform='uppercase';
+                    input.dataset.r = r; input.dataset.c = c;
                     input.onfocus = () => selectCell(r, c);
                     input.onkeyup = (e) => handleInput(e, input);
                     cell.appendChild(input);
                 }
                 board.appendChild(cell);
-                rowArr.push({ el: cell, sol: char });
+                rowArr.push({el:cell, sol:char});
             }
             gridState.push(rowArr);
         }
     }
 
-    function selectCell(r,c){ 
-        selectedCell={r,c};
-        let txt = currentPack.c.join(' | ');
-        document.getElementById('currentClueDisplay').innerText = txt; 
+    function selectCell(r,c) {
+        selectedCell = {r,c};
+        const clue = currentPack.c.join(' | ');
+        document.getElementById('currentClueDisplay').innerText = clue;
     }
 
     function handleInput(e, input) {
         if(e.key.match(/[a-z]/i)) {
-            let all = Array.from(document.querySelectorAll('.cw-cell:not(.black) input'));
-            let idx = all.indexOf(input);
+            const all = Array.from(document.querySelectorAll('.cw-cell:not(.black) input'));
+            const idx = all.indexOf(input);
             if(idx < all.length-1) all[idx+1].focus();
         }
     }
@@ -550,18 +586,28 @@
     function checkCrossword() {
         let correct = true;
         document.querySelectorAll('.cw-cell:not(.black) input').forEach(inp => {
-            let r = inp.dataset.r; let c = inp.dataset.c;
-            let sol = currentPack.sol[`${r}-${c}`];
+            const r = inp.dataset.r; const c = inp.dataset.c;
+            const sol = currentPack.sol[`${r}-${c}`];
             if(inp.value.toUpperCase() === sol) { inp.style.color="green"; inp.parentElement.style.background="#e8f5e9"; }
             else { inp.style.color="red"; inp.parentElement.style.background="#ffebee"; correct=false; }
         });
-        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame,2000); }
+        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame, 2000); }
     }
 
-    // --- OTROS FUNCIONES ---
-    async function doTranslate(){let t=document.getElementById('transIn').value; if(!t)return; try{let r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(t)}&langpair=es|en`); let j=await r.json(); document.getElementById('transOut').innerText=j.responseData.translatedText;}catch(e){}}
+    // --- OTROS ---
+    async function doTranslate(){
+        const t=document.getElementById('transIn').value;
+        if(!t)return;
+        try{
+            const r=await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=en&dt=t&q=${encodeURIComponent(t)}`);
+            const j=await r.json();
+            const res=j[0][0][0];
+            document.getElementById('transOut').innerText=res;
+            speak(res);
+        }catch(e){}
+    }
     
-    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=unlockedLevel?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=unlockedLevel?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=unlockedLevel)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
+    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=currentUser.level?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=currentUser.level?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=currentUser.level)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
     let curQ=[], curQI=0;
     function startQuiz(l){
         let s=[...db.animals,...db.fruits,...db.colors]; curQ=[];
@@ -569,7 +615,7 @@
         curQI=0; openModal('modalQuiz'); showQ();
     }
     function showQ(){
-        if(curQI>=10){ playSfx('win'); speak("Level Up!"); if(unlockedLevel<10){unlockedLevel++; localStorage.setItem('unlockedLevel',unlockedLevel);} closeModal('modalQuiz'); openStages(); return; }
+        if(curQI>=10){ playSfx('win'); speak("Level Up!"); addPts(50); closeModal('modalQuiz'); openStages(); return; }
         let q=curQ[curQI]; document.getElementById('quizBar').style.width=((curQI/10)*100)+'%'; document.getElementById('quizPrompt').innerText=q.q;
         let c=document.getElementById('quizOptions'); c.innerHTML='';
         q.o.forEach(t=>{let b=document.createElement('div'); b.className='quiz-option'; b.innerText=t; b.onclick=()=>{if(t===q.a){b.className+=' correct'; playSfx('correct'); speak("Correct"); setTimeout(()=>{curQI++; showQ();},1000);}else{b.className+=' wrong'; playSfx('wrong'); speak("Wrong");}}; c.appendChild(b);});
@@ -577,7 +623,7 @@
 
     function initSoccer(){openModal('modalSoccer'); newKick();}
     function newKick(){document.getElementById('ball').style.bottom="10px"; let q=db.animals[Math.floor(Math.random()*db.animals.length)], w=db.animals[Math.floor(Math.random()*db.animals.length)]; document.getElementById('socQ').innerText=q.s; document.getElementById('socBtns').innerHTML=[`<button class="game-btn" onclick="kick(true,'${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kick(false,'')">${w.e}</button>`].sort(()=>Math.random()-0.5).join('');}
-    function kick(w,t){let b=document.getElementById('ball'), k=document.getElementById('keeper'); if(w){b.style.bottom="180px"; b.style.left="20%"; k.style.left="70%"; speak("Goal! "+t); playSfx('correct'); pts+=20; localStorage.setItem('pts',pts); document.getElementById('points').innerText=pts; setTimeout(newKick,1500);}else{k.style.left="45%"; b.style.bottom="50px"; speak("Wrong"); playSfx('wrong'); setTimeout(newKick,1000);}}
+    function kick(w,t){let b=document.getElementById('ball'), k=document.getElementById('keeper'); if(w){b.style.bottom="180px"; b.style.left="20%"; k.style.left="70%"; speak("Goal! "+t); playSfx('correct'); addPts(20); setTimeout(newKick,1500);}else{k.style.left="45%"; b.style.bottom="50px"; speak("Wrong"); playSfx('wrong'); setTimeout(newKick,1000);}}
 
     let hmT="", hmL=5, hmG=[];
     function initHangman(){openModal('modalHangman'); let i=db.animals[Math.floor(Math.random()*db.animals.length)]; hmT=i.e.toUpperCase(); hmL=5; hmG=[]; document.getElementById('hmHint').innerText="Traduce: "+i.s; rHm(); rHmK();}
@@ -592,8 +638,6 @@
 </script>
 </body>
 </html>
-
-
 
 
 
