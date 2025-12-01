@@ -21,8 +21,6 @@
             --secondary: #ff9600;
             --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
-            
-            /* CRUCIGRAMA DARK */
             --cw-bg: #121212;
             --cw-cell: #eee;
             --cw-highlight: #90CAF9;
@@ -99,7 +97,7 @@
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* CATEGORÍAS INFERIORES */
+        /* CATEGORÍAS */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
         .cat-card {
             background: white; border-radius: 15px; aspect-ratio: 1;
@@ -370,6 +368,8 @@
     ];
 
     let currentPack=null, selectedCell={r:-1,c:-1}, currentDir='H', gridState=[];
+    let isListening = false;
+    let recognition = null;
 
     window.onload = () => {
         document.getElementById('points').innerText = pts;
@@ -379,7 +379,6 @@
     function enterApp() { 
         document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; 
         playSfx('win'); 
-        // TRUCO IPHONE: Reproducir silencio para desbloquear audio
         speak(""); 
     }
     
@@ -408,60 +407,80 @@
         }
     }
 
-    // --- TRADUCTOR DE VOZ MULTILINGÜE ---
+    // --- TRADUCTOR DE VOZ MEJORADO (SEGURIDAD IOS) ---
     function startVoiceTranslation() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if(!SpeechRecognition) { alert("Navegador no soporta voz"); return; }
+        // 1. Reset manual si está trabado
+        if(isListening) {
+            if(recognition) recognition.stop();
+            resetMic();
+            return;
+        }
+
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Speech) { alert("Tu celular no soporta voz. Usa Chrome o Safari."); return; }
         
-        const recognition = new SpeechRecognition();
-        
+        // 2. Configuración
+        recognition = new Speech();
         let sourceLang = document.getElementById('sourceLang').value;
-        recognition.lang = sourceLang; // Escucha en el idioma seleccionado
+        recognition.lang = sourceLang;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
         
         let mic = document.getElementById('micBtn');
         let status = document.getElementById('voiceStatus');
         let targetLang = document.getElementById('targetLang').value;
         
+        // 3. Estado Visual
         mic.classList.add('listening');
-        status.innerText = "Escuchando...";
+        status.innerText = "Escuchando... (Habla ahora)";
+        isListening = true;
         
         recognition.onresult = (event) => {
             const text = event.results[0][0].transcript;
             translateAndSpeak(text, targetLang);
-            mic.classList.remove('listening');
+            // El onend se encargará de limpiar
         };
-        recognition.onerror = () => {
-            status.innerText = "Intenta de nuevo";
-            mic.classList.remove('listening');
+
+        recognition.onerror = (e) => {
+            status.innerText = "No te escuché bien, intenta de nuevo.";
+            resetMic();
         };
-        recognition.start();
+
+        recognition.onend = () => {
+            resetMic();
+        };
+
+        try {
+            recognition.start();
+        } catch(e) {
+            resetMic();
+            alert("Error al iniciar micrófono. Refresca la página.");
+        }
+    }
+
+    function resetMic() {
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('listening');
     }
 
     async function translateAndSpeak(text, targetLang) {
         try{
-            // Detectar idioma origen del select
             let sourceLangCode = document.getElementById('sourceLang').value.split('-')[0];
-            
             let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLangCode}|${targetLang}`);
             let j = await r.json();
             let trans = j.responseData.translatedText;
             
-            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
+            const flags = {en:'🇺🇸', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹', pt:'🇧🇷', ja:'🇯🇵', ru:'🇷🇺', zh:'🇨🇳', es:'🇪🇸'};
+            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans} ${flags[targetLang]||''}`;
             
-            // Asignar voz correcta
             let voiceLang = targetLang;
-            if(targetLang === 'en') voiceLang = 'en-US';
-            if(targetLang === 'es') voiceLang = 'es-ES';
-            if(targetLang === 'fr') voiceLang = 'fr-FR';
-            if(targetLang === 'de') voiceLang = 'de-DE';
-            if(targetLang === 'it') voiceLang = 'it-IT';
-            if(targetLang === 'pt') voiceLang = 'pt-BR';
-            if(targetLang === 'ja') voiceLang = 'ja-JP';
-            if(targetLang === 'ru') voiceLang = 'ru-RU';
-            if(targetLang === 'zh') voiceLang = 'zh-CN';
+            if(targetLang==='en') voiceLang='en-US'; if(targetLang==='fr') voiceLang='fr-FR';
+            if(targetLang==='de') voiceLang='de-DE'; if(targetLang==='it') voiceLang='it-IT';
+            if(targetLang==='pt') voiceLang='pt-BR'; if(targetLang==='ja') voiceLang='ja-JP';
+            if(targetLang==='ru') voiceLang='ru-RU'; if(targetLang==='es') voiceLang='es-ES';
 
             speak(trans, voiceLang);
-        } catch(e) { speak("Error"); }
+        } catch(e) { speak("Error en traducción"); }
     }
 
     // --- CRUCIGRAMA ---
@@ -573,6 +592,7 @@
 </script>
 </body>
 </html>
+
 
 
 
