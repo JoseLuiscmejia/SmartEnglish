@@ -21,6 +21,8 @@
             --secondary: #ff9600;
             --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
+            
+            /* CRUCIGRAMA DARK */
             --cw-bg: #121212;
             --cw-cell: #eee;
             --cw-highlight: #90CAF9;
@@ -97,7 +99,7 @@
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* CATEGORÍAS */
+        /* CATEGORÍAS INFERIORES */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
         .cat-card {
             background: white; border-radius: 15px; aspect-ratio: 1;
@@ -337,7 +339,7 @@
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- BASE DE DATOS MASIVA ---
+    // --- BASE DE DATOS ---
     const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
     const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
 
@@ -409,7 +411,6 @@
 
     // --- TRADUCTOR DE VOZ MEJORADO (SEGURIDAD IOS) ---
     function startVoiceTranslation() {
-        // 1. Reset manual si está trabado
         if(isListening) {
             if(recognition) recognition.stop();
             resetMic();
@@ -419,18 +420,15 @@
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!Speech) { alert("Tu celular no soporta voz. Usa Chrome o Safari."); return; }
         
-        // 2. Configuración
         recognition = new Speech();
         let sourceLang = document.getElementById('sourceLang').value;
         recognition.lang = sourceLang;
         recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
         
         let mic = document.getElementById('micBtn');
         let status = document.getElementById('voiceStatus');
         let targetLang = document.getElementById('targetLang').value;
         
-        // 3. Estado Visual
         mic.classList.add('listening');
         status.innerText = "Escuchando... (Habla ahora)";
         isListening = true;
@@ -438,14 +436,11 @@
         recognition.onresult = (event) => {
             const text = event.results[0][0].transcript;
             translateAndSpeak(text, targetLang);
-            // El onend se encargará de limpiar
         };
-
         recognition.onerror = (e) => {
             status.innerText = "No te escuché bien, intenta de nuevo.";
             resetMic();
         };
-
         recognition.onend = () => {
             resetMic();
         };
@@ -466,18 +461,23 @@
     async function translateAndSpeak(text, targetLang) {
         try{
             let sourceLangCode = document.getElementById('sourceLang').value.split('-')[0];
-            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLangCode}|${targetLang}`);
+            
+            // GOOGLE TRANSLATE API (UNOFFICIAL) - MUCH MORE RELIABLE
+            let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLangCode}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+            
+            let r = await fetch(url);
             let j = await r.json();
-            let trans = j.responseData.translatedText;
+            let trans = j[0][0][0];
             
             const flags = {en:'🇺🇸', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹', pt:'🇧🇷', ja:'🇯🇵', ru:'🇷🇺', zh:'🇨🇳', es:'🇪🇸'};
             document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans} ${flags[targetLang]||''}`;
             
             let voiceLang = targetLang;
-            if(targetLang==='en') voiceLang='en-US'; if(targetLang==='fr') voiceLang='fr-FR';
-            if(targetLang==='de') voiceLang='de-DE'; if(targetLang==='it') voiceLang='it-IT';
-            if(targetLang==='pt') voiceLang='pt-BR'; if(targetLang==='ja') voiceLang='ja-JP';
-            if(targetLang==='ru') voiceLang='ru-RU'; if(targetLang==='es') voiceLang='es-ES';
+            if(targetLang==='en') voiceLang='en-US'; if(targetLang==='es') voiceLang='es-ES';
+            if(targetLang==='fr') voiceLang='fr-FR'; if(targetLang==='de') voiceLang='de-DE';
+            if(targetLang==='it') voiceLang='it-IT'; if(targetLang==='pt') voiceLang='pt-BR';
+            if(targetLang==='ja') voiceLang='ja-JP'; if(targetLang==='ru') voiceLang='ru-RU';
+            if(targetLang==='zh') voiceLang='zh-CN';
 
             speak(trans, voiceLang);
         } catch(e) { speak("Error en traducción"); }
