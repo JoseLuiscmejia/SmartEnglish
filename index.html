@@ -62,19 +62,23 @@
         .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
         .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
 
-        /* TRADUCTOR DE VOZ MULTILINGÜE */
+        /* TRADUCTOR DE VOZ UNIVERSAL */
         .voice-bar {
             background: linear-gradient(135deg, #1565c0, #1e88e5);
             border-radius: 15px; padding: 15px; text-align: center;
             color: white; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.4);
             display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
-        .voice-title { font-size: 1.1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+        .voice-title { font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+        
+        .voice-controls {
+            display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px;
+        }
         
         .lang-select {
             background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
-            color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold;
-            font-size: 0.9rem; margin-bottom: 5px; outline: none;
+            color: white; padding: 5px; border-radius: 10px; font-weight: bold;
+            font-size: 0.85rem; outline: none; flex: 1; text-align: center;
         }
         .lang-select option { color: #333; }
 
@@ -82,7 +86,7 @@
             background: white; color: #1565c0; width: 65px; height: 65px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+            transition: transform 0.1s; margin-top: 10px;
         }
         .voice-icon:active { transform: scale(0.9); }
         .voice-icon.listening { background: #f44336; color: white; animation: pulse 1s infinite; }
@@ -217,21 +221,40 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <!-- BARRA TRADUCTOR VOZ (MULTILINGÜE) -->
+        <!-- BARRA TRADUCTOR VOZ (UNIVERSAL) -->
         <div class="voice-bar">
-            <div class="voice-title">TRADUCTOR DE VOZ</div>
-            <select id="targetLang" class="lang-select">
-                <option value="en">🇺🇸 Inglés</option>
-                <option value="fr">🇫🇷 Francés</option>
-                <option value="de">🇩🇪 Alemán</option>
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="pt">🇧🇷 Portugués</option>
-                <option value="ja">🇯🇵 Japonés</option>
-                <option value="ru">🇷🇺 Ruso</option>
-                <option value="zh">🇨🇳 Chino</option>
-            </select>
+            <div class="voice-title">TRADUCTOR UNIVERSAL 🌍</div>
+            
+            <div class="voice-controls">
+                <!-- IDIOMA ORIGEN -->
+                <select id="sourceLang" class="lang-select">
+                    <option value="es-ES" selected>Hablo: Español 🇪🇸</option>
+                    <option value="en-US">Hablo: Inglés 🇺🇸</option>
+                    <option value="it-IT">Hablo: Italiano 🇮🇹</option>
+                    <option value="fr-FR">Hablo: Francés 🇫🇷</option>
+                    <option value="de-DE">Hablo: Alemán 🇩🇪</option>
+                    <option value="pt-BR">Hablo: Portugués 🇧🇷</option>
+                    <option value="pl-PL">Hablo: Polaco 🇵🇱</option>
+                    <option value="ru-RU">Hablo: Ruso 🇷🇺</option>
+                </select>
+                
+                <span style="font-size:1.5rem">➡</span>
+
+                <!-- IDIOMA DESTINO -->
+                <select id="targetLang" class="lang-select">
+                    <option value="en">A: Inglés 🇺🇸</option>
+                    <option value="es">A: Español 🇪🇸</option>
+                    <option value="it">A: Italiano 🇮🇹</option>
+                    <option value="fr">A: Francés 🇫🇷</option>
+                    <option value="de">A: Alemán 🇩🇪</option>
+                    <option value="pt">A: Portugués 🇧🇷</option>
+                    <option value="pl">A: Polaco 🇵🇱</option>
+                    <option value="ru">A: Ruso 🇷🇺</option>
+                </select>
+            </div>
+
             <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
-            <div class="voice-text" id="voiceStatus">Toca el micro, habla en español y escucha...</div>
+            <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
         </div>
 
         <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
@@ -316,7 +339,7 @@
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- BASE DE DATOS ---
+    // --- BASE DE DATOS MASIVA ---
     const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
     const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
 
@@ -385,13 +408,15 @@
         }
     }
 
-    // --- TRADUCTOR DE VOZ MULTI ---
+    // --- TRADUCTOR DE VOZ MULTILINGÜE ---
     function startVoiceTranslation() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if(!SpeechRecognition) { alert("Navegador no soporta voz"); return; }
         
         const recognition = new SpeechRecognition();
-        recognition.lang = 'es-ES';
+        
+        let sourceLang = document.getElementById('sourceLang').value;
+        recognition.lang = sourceLang; // Escucha en el idioma seleccionado
         
         let mic = document.getElementById('micBtn');
         let status = document.getElementById('voiceStatus');
@@ -414,17 +439,19 @@
 
     async function translateAndSpeak(text, targetLang) {
         try{
-            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|${targetLang}`);
+            // Detectar idioma origen del select
+            let sourceLangCode = document.getElementById('sourceLang').value.split('-')[0];
+            
+            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLangCode}|${targetLang}`);
             let j = await r.json();
             let trans = j.responseData.translatedText;
             
-            // Flags para display
-            const flags = {en:'🇺🇸', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹', pt:'🇧🇷', ja:'🇯🇵', ru:'🇷🇺', zh:'🇨🇳'};
-            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans} ${flags[targetLang]}`;
+            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
             
-            // Convertir código lang para voz (ej: 'en' -> 'en-US')
+            // Asignar voz correcta
             let voiceLang = targetLang;
             if(targetLang === 'en') voiceLang = 'en-US';
+            if(targetLang === 'es') voiceLang = 'es-ES';
             if(targetLang === 'fr') voiceLang = 'fr-FR';
             if(targetLang === 'de') voiceLang = 'de-DE';
             if(targetLang === 'it') voiceLang = 'it-IT';
@@ -546,6 +573,7 @@
 </script>
 </body>
 </html>
+
 
 
 
