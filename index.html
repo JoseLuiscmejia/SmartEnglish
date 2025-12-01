@@ -19,6 +19,7 @@
             --bg-body: #00bcd4;
             --primary: #58cc02;
             --secondary: #ff9600;
+            --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
             
             /* CRUCIGRAMA DARK */
@@ -61,7 +62,7 @@
         .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
         .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
 
-        /* TRADUCTOR DE VOZ (NUEVA BARRA AZUL) */
+        /* TRADUCTOR DE VOZ MULTILINGÜE */
         .voice-bar {
             background: linear-gradient(135deg, #1565c0, #1e88e5);
             border-radius: 15px; padding: 15px; text-align: center;
@@ -69,11 +70,18 @@
             display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
         .voice-title { font-size: 1.1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
-        .voice-subtitle { font-size: 0.8rem; opacity: 0.9; margin-bottom: 5px; }
+        
+        .lang-select {
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
+            color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold;
+            font-size: 0.9rem; margin-bottom: 5px; outline: none;
+        }
+        .lang-select option { color: #333; }
+
         .voice-icon {
-            background: white; color: #1565c0; width: 60px; height: 60px;
+            background: white; color: #1565c0; width: 65px; height: 65px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
             transition: transform 0.1s;
         }
         .voice-icon:active { transform: scale(0.9); }
@@ -209,12 +217,21 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <!-- BARRA TRADUCTOR VOZ -->
+        <!-- BARRA TRADUCTOR VOZ (MULTILINGÜE) -->
         <div class="voice-bar">
             <div class="voice-title">TRADUCTOR DE VOZ</div>
-            <div class="voice-subtitle">Habla en Español 🇪🇸 ➡ Escucha en Inglés 🇺🇸</div>
+            <select id="targetLang" class="lang-select">
+                <option value="en">🇺🇸 Inglés</option>
+                <option value="fr">🇫🇷 Francés</option>
+                <option value="de">🇩🇪 Alemán</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="pt">🇧🇷 Portugués</option>
+                <option value="ja">🇯🇵 Japonés</option>
+                <option value="ru">🇷🇺 Ruso</option>
+                <option value="zh">🇨🇳 Chino</option>
+            </select>
             <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
-            <div class="voice-text" id="voiceStatus">Toca el micrófono y di una palabra...</div>
+            <div class="voice-text" id="voiceStatus">Toca el micro, habla en español y escucha...</div>
         </div>
 
         <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
@@ -299,9 +316,9 @@
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- BASE DE DATOS MASIVA ---
+    // --- BASE DE DATOS ---
     const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
-    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: l}));
+    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
 
     const db = {
         greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🌇',e:'Good Afternoon',s:'Buenas tardes'},{i:'🌙',e:'Good Night',s:'Buenas noches'},{i:'🙏',e:'Thank you',s:'Gracias'},{i:'😊',e:'Please',s:'Por favor'},{i:'❓',e:'How are you?',s:'¿Cómo estás?'}],
@@ -321,10 +338,10 @@
 
     // --- PACKS CRUCIGRAMA ---
     const packs = [
-        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color sangre","2. Animal ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
-        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal miau","2. Animal salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
+        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color de la sangre","2. Animal que ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
+        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal que dice miau","2. Animal verde que salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
         { id:2, title:"Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10","2. Número 2","3. Número 9"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} },
-        { id:3, title:"Familia", diff:"Medio", s:5, l:[['M','O','M','#','#'],['#','#','O','#','#'],['#','#','T','#','#'],['#','#','H','#','#'],['#','#','E','R','#']], c:["1. Mamá (Corto)","2. Madre (Largo)"], sol:{'0-0':'M','0-1':'O','0-2':'M','1-2':'O','2-2':'T','3-2':'H','4-2':'E','4-3':'R'} },
+        { id:3, title:"Familia", diff:"Medio", s:5, l:[['M','O','M','#','#'],['#','#','O','#','#'],['#','#','T','#','#'],['#','#','H','#','#'],['#','#','E','R','#']], c:["1. Mamá (Forma corta)","2. Madre (Forma larga)"], sol:{'0-0':'M','0-1':'O','0-2':'M','1-2':'O','2-2':'T','3-2':'H','4-2':'E','4-3':'R'} },
         { id:4, title:"Cuerpo", diff:"Difícil", s:7, l:[['H','A','N','D','#','#','#'],['E','#','#','#','L','#','#'],['A','#','#','#','E','#','#'],['D','#','#','#','G','#','#'],['#','#','#','#','#','#','#'],['#','N','O','S','E','#','#'],['#','#','#','#','#','#','#']], c:["1. Mano (5 dedos)","2. Nariz para oler","3. Cabeza","4. Pierna"], sol:{'0-0':'H','0-1':'A','0-2':'N','0-3':'D', '5-1':'N','5-2':'O','5-3':'S','5-4':'E', '0-0':'H','1-0':'E','2-0':'A','3-0':'D', '1-4':'L','2-4':'E','3-4':'G'} },
         { id:5, title:"Frutas", diff:"Difícil", s:6, l:[['A','P','P','L','E','#'],['#','#','E','#','#','#'],['#','#','A','#','#','#'],['#','#','R','#','#','#'],['#','#','#','#','#','#'],['#','#','#','#','#','#']], c:["1. Fruta roja","2. Fruta verde"], sol:{'0-0':'A','0-1':'P','0-2':'P','0-3':'L','0-4':'E','1-2':'E','2-2':'A','3-2':'R'} }
     ];
@@ -336,11 +353,17 @@
         window.speechSynthesis.getVoices();
     };
 
-    function enterApp() { document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; playSfx('win'); speak(""); }
-    function speak(txt) {
+    function enterApp() { 
+        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)"; 
+        playSfx('win'); 
+        // TRUCO IPHONE: Reproducir silencio para desbloquear audio
+        speak(""); 
+    }
+    
+    function speak(txt, lang='en-US') {
         window.speechSynthesis.cancel();
         let u = new SpeechSynthesisUtterance(txt);
-        u.lang = 'en-US'; 
+        u.lang = lang;
         u.rate = 0.9;
         window.speechSynthesis.speak(u);
     }
@@ -362,22 +385,24 @@
         }
     }
 
-    // --- TRADUCTOR DE VOZ ---
+    // --- TRADUCTOR DE VOZ MULTI ---
     function startVoiceTranslation() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if(!SpeechRecognition) { alert("Tu navegador no soporta voz. Intenta en Chrome/Safari"); return; }
+        if(!SpeechRecognition) { alert("Navegador no soporta voz"); return; }
+        
         const recognition = new SpeechRecognition();
         recognition.lang = 'es-ES';
         
         let mic = document.getElementById('micBtn');
         let status = document.getElementById('voiceStatus');
+        let targetLang = document.getElementById('targetLang').value;
         
         mic.classList.add('listening');
         status.innerText = "Escuchando...";
         
         recognition.onresult = (event) => {
             const text = event.results[0][0].transcript;
-            translateAndSpeak(text);
+            translateAndSpeak(text, targetLang);
             mic.classList.remove('listening');
         };
         recognition.onerror = () => {
@@ -387,13 +412,28 @@
         recognition.start();
     }
 
-    async function translateAndSpeak(text) {
+    async function translateAndSpeak(text, targetLang) {
         try{
-            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|en`);
+            let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|${targetLang}`);
             let j = await r.json();
             let trans = j.responseData.translatedText;
-            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
-            speak(trans);
+            
+            // Flags para display
+            const flags = {en:'🇺🇸', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹', pt:'🇧🇷', ja:'🇯🇵', ru:'🇷🇺', zh:'🇨🇳'};
+            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans} ${flags[targetLang]}`;
+            
+            // Convertir código lang para voz (ej: 'en' -> 'en-US')
+            let voiceLang = targetLang;
+            if(targetLang === 'en') voiceLang = 'en-US';
+            if(targetLang === 'fr') voiceLang = 'fr-FR';
+            if(targetLang === 'de') voiceLang = 'de-DE';
+            if(targetLang === 'it') voiceLang = 'it-IT';
+            if(targetLang === 'pt') voiceLang = 'pt-BR';
+            if(targetLang === 'ja') voiceLang = 'ja-JP';
+            if(targetLang === 'ru') voiceLang = 'ru-RU';
+            if(targetLang === 'zh') voiceLang = 'zh-CN';
+
+            speak(trans, voiceLang);
         } catch(e) { speak("Error"); }
     }
 
@@ -504,18 +544,9 @@
     function chessAnswer(c){if(c){speak("Correct"); playSfx('correct'); setTimeout(()=>closeModal('modalChess'),2000);}else{speak("Wrong"); playSfx('wrong');}}
     function confetti() { for(let i=0; i<20; i++){let d=document.createElement('div'); d.innerHTML='🎉'; d.className='confetti'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(Math.random()*2+1)+'s'; document.body.appendChild(d); setTimeout(()=>d.remove(),3000);} }
 </script>
-
-    <!-- Tus scripts actuales -->
-<script src="js/otroScript.js"></script>
-
-<!-- Aquí pegas el código que te pasé -->
-<script>
-  // TODO el código JS que te di
-</script>
-</body>
-
 </body>
 </html>
+
 
 
 
