@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#212121">
+    <title>Magic School Pro</title>
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
+    
+    <!-- CONEXIÓN CON TUS CARPETAS -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app-shell">
+    
+    <!-- BIENVENIDA -->
+    <div id="welcomeScreen">
+        <div class="photo-frame"><img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" style="width:100%"></div>
+        <h1 class="welcome-title">¡Bienvenido! 🔊</h1>
+        <p style="color:#777; margin-bottom: 30px;">Magic School Pro</p>
+        <button class="start-btn" id="btnEnter">ENTRAR</button>
+    </div>
+
+    <!-- UI PRINCIPAL -->
+    <div class="header">
+        <h2 class="logo">Magic School</h2>
+        <div class="stats">
+            <div class="stat-box">🔥 <span id="streak">1</span></div>
+            <div class="stat-box">⭐ <span id="points">0</span></div>
+        </div>
+    </div>
+
+    <div class="scroll-area">
+        <!-- TRADUCTOR TEXTO -->
+        <div class="translator-card">
+            <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
+            <button class="btn-trans" id="btnTranslate">TRADUCIR</button>
+            <div id="transOut" style="text-align:center; margin-top:5px; font-weight:bold; color:var(--primary);">...</div>
+        </div>
+
+        <!-- MENÚ SUPERIOR -->
+        <div class="menu-row">
+            <div class="menu-btn" style="border-bottom-color:#42a5f5" id="btnOpenStages"><div class="menu-icon">🗺️</div><div class="menu-label">Etapas</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ef5350" id="btnOpenCrossword"><div class="menu-icon">🧩</div><div class="menu-label">Crucigrama</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ab47bc" id="btnOpenChess"><div class="menu-icon">♟️</div><div class="menu-label">Lógica</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ffca28" id="btnOpenGames"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
+        </div>
+
+        <!-- BARRA TRADUCTOR VOZ -->
+        <div class="voice-bar">
+            <div class="voice-title">TRADUCTOR UNIVERSAL 🌍</div>
+            <div class="voice-controls">
+                <select id="sourceLang" class="lang-select">
+                    <option value="es-ES" selected>Hablo: Español 🇪🇸</option>
+                    <option value="en-US">Hablo: Inglés 🇺🇸</option>
+                    <option value="it-IT">Hablo: Italiano 🇮🇹</option>
+                    <option value="fr-FR">Hablo: Francés 🇫🇷</option>
+                    <option value="pt-BR">Hablo: Portugués 🇧🇷</option>
+                </select>
+                <span style="font-size:1.5rem">➡</span>
+                <select id="targetLang" class="lang-select">
+                    <option value="en">A: Inglés 🇺🇸</option>
+                    <option value="es">A: Español 🇪🇸</option>
+                    <option value="it">A: Italiano 🇮🇹</option>
+                    <option value="fr">A: Francés 🇫🇷</option>
+                    <option value="pt">A: Portugués 🇧🇷</option>
+                </select>
+            </div>
+            <div class="voice-icon" id="micBtn">🎤</div>
+            <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
+        </div>
+
+        <!-- CATEGORÍAS (Rejilla inferior) -->
+        <div class="categories-grid" id="catGridContainer"></div>
+    </div>
+</div>
+
+<!-- MODALES -->
+<div id="modalCategory" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn close-modal" data-target="modalCategory">⬅</button><span class="modal-title" id="catTitle">...</span><div style="width:35px"></div></div>
+    <div class="modal-body"><div class="cat-detail-grid" id="catDetailGrid"></div></div>
+</div>
+
+<div id="packsScreen" class="cw-screen">
+    <div class="cw-header"><button class="cw-close-btn close-modal" data-target="packsScreen">⬅</button><span class="cw-title">NIVELES</span><div style="width:30px"></div></div>
+    <div class="cw-pack-grid" id="packsGrid"></div>
+</div>
+
+<div id="gameScreen" class="cw-screen" style="z-index:250">
+    <div class="cw-header"><button class="cw-close-btn" id="btnCloseGame">✖</button><span class="cw-title" id="gameTitle">Nivel</span><div style="width:30px"></div></div>
+    <div class="cw-board-area"><div id="gridTable" class="cw-table"></div></div>
+    <button class="fab-check" id="btnCheckCw">✓</button>
+    <div class="cw-clue-box"><div class="cw-clue-label" id="clueNumLabel">PISTA</div><div class="cw-clue-text" id="currentClueDisplay">Selecciona...</div></div>
+    <input type="text" id="hiddenInput" autocomplete="off">
+</div>
+
+<!-- MODALES EXTRAS -->
+<div id="modalGeneric" class="modal-overlay"><div class="modal-header"><button class="back-btn close-modal" data-target="modalGeneric">⬅</button><h3 id="genTitle">Juegos</h3><div></div></div><div class="modal-body" id="genBody"></div></div>
+<div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn close-modal" data-target="modalStages">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
+<div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn close-modal" data-target="modalQuiz">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
+
+<!-- CONEXIÓN CON LA LÓGICA -->
+<script type="module" src="js/main.js"></script>
+
+</body>
+</html>
