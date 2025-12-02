@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#212121">
-    <title>Magic School Pro V2</title>
+    <title>Magic School Pro</title>
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
 
@@ -21,8 +21,6 @@
             --secondary: #ff9600;
             --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
-            
-            /* CRUCIGRAMA DARK */
             --cw-bg: #121212;
             --cw-cell: #eee;
             --cw-highlight: #90CAF9;
@@ -50,16 +48,10 @@
         }
 
         /* --- UI PRINCIPAL --- */
-        /* CAMBIO VISUAL PARA NOTAR ACTUALIZACIÓN: DEGRADADO MORADO */
-        .header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px; background: linear-gradient(to right, #6a1b9a, #8e24aa); 
-            color: white; border-bottom: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .logo { margin: 0; color: white; font-size: 1.4rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; border-bottom: 2px solid #ddd; }
+        .logo { margin: 0; color: #6200ea; font-size: 1.4rem; }
         .stats { display: flex; gap: 8px; font-weight: bold; font-size: 0.9rem; }
-        .stat-box { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.4); color: white; }
+        .stat-box { background: #FFD700; padding: 4px 10px; border-radius: 12px; border: 2px solid #ffca28; color: #e65100; }
 
         .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
@@ -76,49 +68,27 @@
             display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
         .voice-title { font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-        
-        .voice-controls {
-            display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px;
-        }
-        
-        .lang-select {
-            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
-            color: white; padding: 5px; border-radius: 10px; font-weight: bold;
-            font-size: 0.85rem; outline: none; flex: 1; text-align: center;
-        }
+        .voice-controls { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px; }
+        .lang-select { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; outline: none; flex: 1; text-align: center; }
         .lang-select option { color: #333; }
-
-        .voice-icon {
-            background: white; color: #1565c0; width: 65px; height: 65px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            transition: transform 0.1s; margin-top: 10px;
-        }
+        .voice-icon { background: white; color: #1565c0; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: transform 0.1s; margin-top: 10px; }
         .voice-icon:active { transform: scale(0.9); }
         .voice-icon.listening { background: #f44336; color: white; animation: pulse 1s infinite; }
         .voice-text { font-size: 0.9rem; font-weight: bold; min-height: 1.2em; margin-top: 5px; }
 
-
-        /* MENU PRINCIPAL */
+        /* MENÚ SUPERIOR */
         .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
         .menu-btn { background: white; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 0 #e0e0e0; border: 2px solid #eee; }
         .menu-btn:active { transform: translateY(4px); box-shadow: none; }
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* --- NUEVA ZONA INFERIOR (CATEGORÍAS) --- */
+        /* CATEGORÍAS */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
-        .cat-card {
-            background: white; border-radius: 15px; aspect-ratio: 1;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee;
-            transition: transform 0.1s;
-        }
-        .cat-card:active { transform: translateY(4px); box-shadow: none; border-bottom: 2px solid #eee; }
+        .cat-card { background: white; border-radius: 15px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee; }
+        .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
         .cat-icon { font-size: 2.5rem; margin-bottom: 5px; }
         .cat-title { font-size: 0.75rem; font-weight: bold; color: #444; text-transform: uppercase; }
-
-        /* Colores para categorías */
         .c-blue { border-bottom-color: #42a5f5; }
         .c-green { border-bottom-color: #66bb6a; }
         .c-orange { border-bottom-color: #ffa726; }
@@ -139,7 +109,7 @@
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* PERFIL USUARIO */
+        /* PERFIL */
         .profile-card { background: white; width: 90%; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--primary); }
         .profile-avatar { font-size: 4rem; margin-bottom: 10px; }
         .profile-name { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
@@ -149,7 +119,7 @@
         .p-lbl { font-size: 0.8rem; color: #777; }
         .fav-item { background: #fff3e0; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid #ff9800; width: 100%; text-align: left; cursor: pointer;}
 
-        /* CONTENIDO CATEGORÍA */
+        /* GRID CONTENIDO */
         .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
         .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
@@ -173,7 +143,7 @@
         .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
         .cw-pack-info { padding: 12px; color: white; }
 
-        /* Otros Juegos */
+        /* JUEGOS */
         .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; }
         .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
         .goalkeeper { font-size: 3rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
@@ -191,9 +161,22 @@
         .mem-card { aspect-ratio: 1; background: var(--accent); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; font-size: 0; transition: 0.3s; }
         .mem-card.flipped { background: white; border: 2px solid var(--accent); color: #333; font-size: 1.5rem; }
         .game-select-card { width: 90%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        
+        /* PANTALLA DE VICTORIA */
+        .win-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 500; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            color: white; animation: fadeIn 0.5s;
+        }
+        .win-title { font-size: 3rem; font-weight: 900; color: #FFD700; text-shadow: 0 0 10px orange; }
+        .win-points { font-size: 1.5rem; margin: 20px 0; }
+        .win-btn { background: #58cc02; color: white; padding: 15px 40px; border-radius: 30px; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #46a302; margin-top: 20px; }
+        .win-btn-exit { background: #f44336; margin-top: 10px; box-shadow: 0 5px 0 #d32f2f; }
 
         #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
         .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
@@ -204,7 +187,7 @@
 
 <div class="app-shell">
     
-    <!-- BIENVENIDA (LOGIN) -->
+    <!-- BIENVENIDA -->
     <div id="welcomeScreen">
         <div class="photo-frame"><img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" style="width:100%"></div>
         <h1 style="color:var(--primary); margin-bottom: 5px;" id="welcomeText">¡Bienvenido!</h1>
@@ -219,7 +202,7 @@
         <div class="stats">
             <div class="stat-box">🔥 <span id="userStreak">0</span></div>
             <div class="stat-box">⭐ <span id="userPoints">0</span></div>
-            <div class="stat-box" style="background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); cursor:pointer; color:white;" onclick="openModal('modalProfile')">👤</div>
+            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openModal('modalProfile')">👤</div>
         </div>
     </div>
 
@@ -249,7 +232,10 @@
                     <option value="it-IT">Hablo: Italiano 🇮🇹</option>
                     <option value="fr-FR">Hablo: Francés 🇫🇷</option>
                     <option value="pt-BR">Hablo: Portugués 🇧🇷</option>
+                    <option value="pl-PL">Hablo: Polaco 🇵🇱</option>
                     <option value="ru-RU">Hablo: Ruso 🇷🇺</option>
+                    <option value="ja-JP">Hablo: Japonés 🇯🇵</option>
+                    <option value="de-DE">Hablo: Alemán 🇩🇪</option>
                 </select>
                 <span style="font-size:1.5rem">➡</span>
                 <select id="targetLang" class="lang-select">
@@ -258,14 +244,17 @@
                     <option value="it">A: Italiano 🇮🇹</option>
                     <option value="fr">A: Francés 🇫🇷</option>
                     <option value="pt">A: Portugués 🇧🇷</option>
+                    <option value="pl">A: Polaco 🇵🇱</option>
                     <option value="ru">A: Ruso 🇷🇺</option>
+                    <option value="ja">A: Japonés 🇯🇵</option>
+                    <option value="de">A: Alemán 🇩🇪</option>
                 </select>
             </div>
             <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
             <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
         </div>
 
-        <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
+        <!-- REJILLA DE CATEGORÍAS -->
         <div class="categories-grid">
             <div class="cat-card c-blue" onclick="openCategory('verbs', 'Verbos')"><div class="cat-icon">🏃</div><div class="cat-title">Verbos</div></div>
             <div class="cat-card c-green" onclick="openCategory('abc', 'Abecedario')"><div class="cat-icon">🔤</div><div class="cat-title">Abecedario</div></div>
@@ -279,69 +268,58 @@
             <div class="cat-card c-orange" onclick="openCategory('colors', 'Colores')"><div class="cat-icon">🎨</div><div class="cat-title">Colores</div></div>
             <div class="cat-card c-red" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
             <div class="cat-card c-teal" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
+            <div class="cat-card c-blue" onclick="openCategory('school', 'Escuela')"><div class="cat-icon">✏️</div><div class="cat-title">Escuela</div></div>
         </div>
     </div>
 </div>
 
-<!-- ================= MODALES ================= -->
-
-<!-- MODAL PERFIL -->
+<!-- MODALES -->
 <div id="modalProfile" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalProfile')">⬅</button><h3>Mi Perfil</h3><div></div></div>
     <div class="modal-body">
         <div class="profile-card">
             <div class="profile-avatar">🎓</div>
             <div class="profile-name" id="profileName">Estudiante</div>
-            <div style="color:#777; font-size:0.9rem;">Aprendiz de Magia</div>
             <div class="profile-stats">
                 <div class="p-stat"><span class="p-val" id="pLevel">1</span><span class="p-lbl">Nivel</span></div>
                 <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha (Días)</span></div>
-                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos Totales</span></div>
+                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos</span></div>
             </div>
+            <h4 style="margin-top:20px; text-align:left;">⭐ Favoritos:</h4>
+            <div id="favList" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
         </div>
         <button class="start-btn" onclick="logout()">Cerrar Sesión</button>
     </div>
 </div>
 
-<!-- MODAL CATEGORÍA -->
 <div id="modalCategory" class="modal-overlay">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeModal('modalCategory')">⬅</button>
-        <span class="modal-title" id="catTitle">...</span>
-        <div style="width:35px"></div>
-    </div>
-    <div class="modal-body">
-        <div class="cat-detail-grid" id="catGrid"></div>
-    </div>
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalCategory')">⬅</button><span class="modal-title" id="catTitle">...</span><div style="width:35px"></div></div>
+    <div class="modal-body"><div class="cat-detail-grid" id="catGrid"></div></div>
 </div>
 
-<!-- CRUCIGRAMA PRO SYSTEM -->
 <div id="packsScreen" class="cw-screen">
-    <div class="cw-header">
-        <button class="cw-close-btn" onclick="closePacks()">⬅</button>
-        <span style="font-weight:bold; font-size:1.1rem; text-transform:uppercase;">Niveles</span>
-        <div style="width:30px"></div>
-    </div>
+    <div class="cw-header"><button class="cw-close-btn" onclick="closePacks()">⬅</button><span style="font-weight:bold; font-size:1.1rem; text-transform:uppercase;">Niveles</span><div style="width:30px"></div></div>
     <div class="cw-pack-grid" id="packsGrid"></div>
 </div>
 
 <div id="gameScreen" class="cw-screen" style="z-index:250">
-    <div class="cw-header">
-        <button class="cw-close-btn" onclick="closeGame()">✖</button>
-        <span style="font-weight:bold;" id="gameTitle">Nivel 1</span>
-        <div style="width:30px"></div>
-    </div>
-    <div class="cw-board-area">
-        <div id="gridTable" class="cw-table"></div>
-    </div>
+    <div class="cw-header"><button class="cw-close-btn" onclick="closeGame()">✖</button><span style="font-weight:bold;" id="gameTitle">Nivel 1</span><div style="width:30px"></div></div>
+    <div class="cw-board-area"><div id="gridTable" class="cw-table"></div></div>
     <button class="fab-check" onclick="checkCrossword()">✓</button>
-    <div class="cw-clue-box">
-        <div class="cw-clue-text" id="currentClueDisplay">Selecciona una casilla...</div>
-    </div>
+    <div class="cw-clue-box"><div class="cw-clue-text" id="currentClueDisplay">Selecciona una casilla...</div></div>
     <input type="text" id="hiddenInput" autocomplete="off">
 </div>
 
-<!-- OTROS MODALES -->
+<!-- PANTALLA VICTORIA (OVERLAY) -->
+<div id="winScreen" class="win-screen">
+    <div class="win-title">¡VICTORIA!</div>
+    <div style="font-size:5rem;">🏆</div>
+    <div class="win-points">+50 Puntos</div>
+    <button class="win-btn" onclick="closeWinScreen()">Jugar de Nuevo</button>
+    <button class="win-btn win-btn-exit" onclick="exitGame()">Menú Principal</button>
+</div>
+
+<!-- OTROS JUEGOS -->
 <div id="modalGamesMenu" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
     <div class="modal-body">
@@ -359,7 +337,6 @@
 <div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria</h3><div></div></div><div class="modal-body"><div id="memGrid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px; width:100%;"></div></div></div>
 
 <script>
-    // --- GESTIÓN DE USUARIOS ---
     let currentUser = JSON.parse(localStorage.getItem('magicUser')) || null;
 
     window.onload = () => {
@@ -375,6 +352,7 @@
     function registerUser() {
         const name = document.getElementById('usernameInput').value.trim();
         if(!name) return alert("Por favor escribe tu nombre");
+        
         currentUser = { name: name, points: 0, level: 1, streak: 0, lastLogin: new Date().toDateString(), favs: [] };
         localStorage.setItem('magicUser', JSON.stringify(currentUser));
         playSfx('win');
@@ -392,6 +370,7 @@
     function loadInterface() {
         document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
         updateUI();
+        // Desbloqueo audio iOS
         speak(""); 
     }
 
@@ -400,7 +379,6 @@
         document.getElementById('userPoints').innerText = currentUser.points;
         document.getElementById('userStreak').innerText = currentUser.streak;
         
-        // Perfil
         document.getElementById('profileName').innerText = currentUser.name;
         document.getElementById('pPoints').innerText = currentUser.points;
         document.getElementById('pLevel').innerText = currentUser.level;
@@ -418,34 +396,52 @@
 
     function openProfile() {
         updateUI();
+        const list = document.getElementById('favList'); list.innerHTML = '';
+        if(currentUser.favs) {
+            currentUser.favs.forEach(f => {
+                let d = document.createElement('div'); d.className='fav-item'; d.innerText = f;
+                d.onclick = () => speak(f, 'en-US');
+                list.appendChild(d);
+            });
+        }
         openModal('modalProfile');
     }
 
-    // --- TRADUCTOR MEJORADO ---
-    let isListening = false, recognition = null;
+    function saveFav() {
+        const txt = document.getElementById('transOut').innerText;
+        if(!txt || txt==='...') return;
+        if(!currentUser.favs) currentUser.favs = [];
+        if(!currentUser.favs.includes(txt)) {
+            currentUser.favs.push(txt);
+            saveUser();
+            alert("Guardado ⭐");
+        }
+    }
 
+    // --- TRADUCTOR ---
+    let isRec = false, rec = null;
     async function doTranslate() {
         const txt = document.getElementById('transIn').value;
         if(!txt) return;
-        document.getElementById('transOut').innerText = "...";
-        // Traduccion directa por Google Translate API
+        const src = document.getElementById('sourceLang').value.split('-')[0];
+        const tgt = document.getElementById('targetLang').value;
+        
         try {
-            const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${encodeURIComponent(txt)}`);
+            const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
             const j = await r.json();
             const res = j[0][0][0];
             document.getElementById('transOut').innerText = res;
-            speak(res);
+            speak(res, getVoiceLang(tgt));
         } catch(e) {}
     }
 
     function startVoiceTranslation() {
-        if(isListening) { if(recognition) recognition.stop(); resetMic(); return; }
-        
+        if(isRec) { if(rec) rec.stop(); resetMic(); return; }
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
         if(!Speech) return alert("No soportado");
         
-        recognition = new Speech();
-        recognition.lang = document.getElementById('sourceLang').value;
+        rec = new Speech();
+        rec.lang = document.getElementById('sourceLang').value;
         
         const mic = document.getElementById('micBtn');
         const status = document.getElementById('voiceStatus');
@@ -453,18 +449,18 @@
         
         mic.classList.add('listening');
         status.innerText = "Escuchando...";
-        isListening = true;
+        isRec = true;
         
-        recognition.onresult = (e) => {
+        rec.onresult = (e) => {
             const txt = e.results[0][0].transcript;
             translateAndSpeak(txt, targetLang);
         };
-        recognition.onend = resetMic;
-        recognition.start();
+        rec.onend = () => { isRec = false; mic.classList.remove('listening'); status.innerText = "Toca y habla..."; };
+        rec.start();
     }
 
     function resetMic() {
-        isListening = false;
+        isRec = false;
         document.getElementById('micBtn').classList.remove('listening');
         document.getElementById('voiceStatus').innerText = "Toca y habla...";
     }
@@ -482,7 +478,7 @@
     }
 
     function getVoiceLang(code) {
-        const map = {en:'en-US', es:'es-ES', fr:'fr-FR', it:'it-IT', pt:'pt-BR', de:'de-DE', ru:'ru-RU'};
+        const map = {en:'en-US', es:'es-ES', fr:'fr-FR', it:'it-IT', pt:'pt-BR', de:'de-DE', ru:'ru-RU', ko:'ko-KR', ja:'ja-JP', pl:'pl-PL'};
         return map[code] || 'en-US';
     }
 
@@ -496,7 +492,7 @@
     const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
     function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
-    // --- DATA ---
+    // --- BASE DE DATOS ---
     const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
     const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
 
@@ -512,7 +508,7 @@
         family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'},{i:'👴',e:'Grandpa',s:'Abuelo'},{i:'👵',e:'Grandma',s:'Abuela'},{i:'👶',e:'Baby',s:'Bebé'}],
         numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},{i:'6️⃣',e:'Six',s:'6'},{i:'7️⃣',e:'Seven',s:'7'},{i:'8️⃣',e:'Eight',s:'8'},{i:'9️⃣',e:'Nine',s:'9'},{i:'🔟',e:'Ten',s:'10'}],
         home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'},{i:'🪟',e:'Window',s:'Ventana'},{i:'🛋️',e:'Sofa',s:'Sofá'},{i:'🛏️',e:'Bed',s:'Cama'}],
-        body: [{i:'👤',e:'Head',s:'Cabeza'},{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'💪',e:'Arm',s:'Brazo'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦵',e:'Leg',s:'Pierna'},{i:'🦶',e:'Foot',s:'Pie'}],
+        body: [{i:'👤',e:'Head',s:'Cabeza'},{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'},{i:'👂',e:'Ear',s:'Oreja'},{i:'💪',e:'Arm',s:'Brazo'},{i:'✋',e:'Hand',s:'Mano'},{i:'🦵',e:'Leg',s:'Pierna'},{i:'🦶',e:'Foot',s:'Pie'},{i:'🦷',e:'Teeth',s:'Dientes'}],
         school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'},{i:'🎒',e:'Backpack',s:'Mochila'},{i:'📖',e:'Book',s:'Libro'}]
     };
 
@@ -560,6 +556,8 @@
     }
     function closePacks() { document.getElementById('packsScreen').style.display='none'; }
     function closeGame() { document.getElementById('gameScreen').style.display='none'; }
+    function closeWinScreen() { document.getElementById('winScreen').style.display='none'; }
+    function exitGame() { closeWinScreen(); closeGame(); }
 
     function loadCrossword(idx) {
         currentPack = packs[idx];
@@ -618,11 +616,15 @@
             if(inp.value.toUpperCase() === sol) { inp.style.color="green"; inp.parentElement.style.background="#e8f5e9"; }
             else { inp.style.color="red"; inp.parentElement.style.background="#ffebee"; correct=false; }
         });
-        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame, 2000); }
+        if(correct) { 
+            playSfx('win'); 
+            document.getElementById('winScreen').style.display = 'flex'; 
+            addPts(50);
+        }
     }
 
-    // --- ETAPAS ---
-    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=currentUser.level?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=currentUser.level?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=currentUser.level)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
+    // --- OTROS FUNCIONES ---
+    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=unlockedLevel?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=unlockedLevel?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=unlockedLevel)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
     let curQ=[], curQI=0;
     function startQuiz(l){
         let s=[...db.animals,...db.fruits,...db.colors]; curQ=[];
@@ -630,7 +632,14 @@
         curQI=0; openModal('modalQuiz'); showQ();
     }
     function showQ(){
-        if(curQI>=10){ playSfx('win'); speak("Level Up!"); addPts(50); closeModal('modalQuiz'); openStages(); return; }
+        if(curQI>=10){ 
+            playSfx('win'); 
+            if(unlockedLevel<10){unlockedLevel++; localStorage.setItem('unlockedLevel',unlockedLevel);}
+            document.getElementById('winScreen').style.display = 'flex';
+            addPts(50);
+            closeModal('modalQuiz');
+            return; 
+        }
         let q=curQ[curQI]; document.getElementById('quizBar').style.width=((curQI/10)*100)+'%'; document.getElementById('quizPrompt').innerText=q.q;
         let c=document.getElementById('quizOptions'); c.innerHTML='';
         q.o.forEach(t=>{let b=document.createElement('div'); b.className='quiz-option'; b.innerText=t; b.onclick=()=>{if(t===q.a){b.className+=' correct'; playSfx('correct'); speak("Correct"); setTimeout(()=>{curQI++; showQ();},1000);}else{b.className+=' wrong'; playSfx('wrong'); speak("Wrong");}}; c.appendChild(b);});
@@ -653,6 +662,7 @@
 </script>
 </body>
 </html>
+
 
 
 
