@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#212121">
-    <title>Magic School Ultimate</title>
+    <title>Magic School Pro</title>
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
 
@@ -16,7 +16,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
 
         :root {
-            /* APP COLORS */
             --bg-body: #00bcd4;
             --primary: #58cc02;
             --secondary: #ff9600;
@@ -63,7 +62,7 @@
         .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
         .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
 
-        /* TRADUCTOR DE VOZ */
+        /* TRADUCTOR DE VOZ UNIVERSAL */
         .voice-bar {
             background: linear-gradient(135deg, #1565c0, #1e88e5);
             border-radius: 15px; padding: 15px; text-align: center;
@@ -86,7 +85,7 @@
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* CATEGORÍAS */
+        /* CATEGORÍAS INFERIORES */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
         .cat-card { background: white; border-radius: 15px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee; }
         .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
@@ -107,7 +106,7 @@
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* PERFIL Y PREMIOS */
+        /* PERFIL USUARIO */
         .profile-card { background: white; width: 90%; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--primary); }
         .profile-avatar { font-size: 4rem; margin-bottom: 10px; }
         .profile-name { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
@@ -115,9 +114,14 @@
         .p-stat { background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
         .p-val { font-size: 1.2rem; font-weight: bold; color: var(--secondary); display: block; }
         .p-lbl { font-size: 0.8rem; color: #777; }
-        .rewards-box { margin-top: 20px; text-align: left; width: 100%; }
-        .reward-item { background: #fff8e1; padding: 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem; border: 1px solid #ffe082; display:flex; align-items:center; gap:10px;}
-        .reward-item.locked { opacity: 0.5; filter: grayscale(1); }
+        .fav-item { background: #fff3e0; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid #ff9800; width: 100%; text-align: left; cursor: pointer;}
+
+        /* CONTENIDO CATEGORÍA */
+        .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
+        .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
+        .v-icon { font-size: 2.5rem; }
+        .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
 
         /* CRUCIGRAMA PRO */
         .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 200; display: none; flex-direction: column; }
@@ -136,44 +140,33 @@
         .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
         .cw-pack-info { padding: 12px; color: white; }
 
-        /* FÚTBOL PRO */
-        .soccer-container { text-align: center; width: 100%; }
-        .soccer-bg { background: #43a047; height: 200px; border-radius: 15px; position: relative; margin-bottom: 15px; border: 3px solid white; overflow: hidden; }
-        .goal-area { width: 60%; height: 60px; border: 6px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
-        .keeper { font-size: 4rem; position: absolute; top: 40px; left: 42%; transition: 0.4s; }
-        .ball-pro { font-size: 3rem; position: absolute; bottom: 10px; left: 45%; transition: 0.6s; z-index: 5; }
-        .soccer-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .soccer-btn { background: #0277bd; color: white; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; border: none; font-size: 1.1rem; box-shadow: 0 4px 0 #01579b; }
-        .soccer-btn:active { transform: translateY(4px); box-shadow: none; }
-
-        /* MEMORIA PRO */
-        .mem-pro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; margin-top: 10px; }
-        .mem-pro-card { aspect-ratio: 1; background: #29b6f6; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 0; color: transparent; transition: transform 0.3s; box-shadow: 0 3px 0 #0288d1; }
-        .mem-pro-card.flipped { background: white; color: #333; font-size: 1.2rem; transform: rotateY(180deg); font-weight: bold; border: 2px solid #29b6f6; }
-        .mem-pro-card.matched { visibility: hidden; }
-
-        /* GLOBOS (DROP) */
-        .balloon-area { height: 300px; background: #e1f5fe; border-radius: 15px; position: relative; overflow: hidden; border: 2px solid #81d4fa; margin-bottom: 10px; }
-        .balloon { position: absolute; width: 60px; height: 70px; background: #ff4081; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 0.9rem; cursor: pointer; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2); }
-        .balloon::after { content:''; position: absolute; bottom: -5px; left: 28px; width: 4px; height: 10px; background: #333; }
-
-        /* LISTAS & OTROS */
-        .game-select-card { width: 100%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
-        .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
-        .quiz-container { width: 100%; display: flex; flex-direction: column; height: 100%; }
-        .quiz-option { background: white; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; padding: 15px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; color: #4b4b4b; cursor: pointer; text-align: center; margin-bottom: 10px; }
+        /* ====== NUEVOS JUEGOS PREMIUM ESTILOS ====== */
+        .game-card { background:#fff; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center; width: 90%; margin: 0 auto;}
+        .game-input { width:80%; padding:10px; margin:15px 0; border-radius:8px; border:1px solid #ccc; font-size:18px; text-align: center;}
+        .game-progress { height:10px; width:100%; background:#eee; border-radius:10px; margin-top:15px; overflow: hidden;}
+        .game-progress .bar { height:100%; background:#4caf50; width: 0%; transition: width 0.3s; }
         
+        /* MEMORY */
+        .memory-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:20px; }
+        .memory-card { aspect-ratio: 1; border-radius:10px; background:#29b6f6; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; color: transparent; transition: 0.3s; box-shadow: 0 4px 0 #0288d1;}
+        .memory-card.flipped { background: white; color: #333; transform: rotateY(180deg); border: 2px solid #29b6f6; }
+        
+        /* GAME MENU CARDS */
+        .game-select-card { width: 100%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+
         #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
     </style>
 </head>
 <body>
 
 <div class="app-shell">
     
-    <!-- LOGIN -->
+    <!-- BIENVENIDA (LOGIN) -->
     <div id="welcomeScreen">
         <div class="photo-frame"><img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" style="width:100%"></div>
         <h1 style="color:var(--primary); margin-bottom: 5px;" id="welcomeText">¡Bienvenido!</h1>
@@ -182,25 +175,25 @@
         <button class="start-btn" onclick="registerUser()">ENTRAR</button>
     </div>
 
-    <!-- HEADER -->
+    <!-- UI PRINCIPAL -->
     <div class="header">
         <h2 class="logo">Magic School</h2>
         <div class="stats">
             <div class="stat-box">🔥 <span id="userStreak">0</span></div>
             <div class="stat-box">⭐ <span id="userPoints">0</span></div>
-            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openProfile()">👤</div>
+            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openModal('modalProfile')">👤</div>
         </div>
     </div>
 
     <div class="scroll-area">
-        <!-- TRADUCTOR -->
+        <!-- TRADUCTOR TEXTO -->
         <div class="translator-card">
             <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
             <button class="btn-trans" onclick="doTranslate()">TRADUCIR</button>
             <div id="transOut" style="text-align:center; margin-top:5px; font-weight:bold; color:var(--primary);">...</div>
         </div>
 
-        <!-- MENÚ -->
+        <!-- MENÚ SUPERIOR -->
         <div class="menu-row">
             <div class="menu-btn" style="border-bottom-color:#42a5f5" onclick="openStages()"><div class="menu-icon">🗺️</div><div class="menu-label">Etapas</div></div>
             <div class="menu-btn" style="border-bottom-color:#ef5350" onclick="openCrosswordMenu()"><div class="menu-icon">🧩</div><div class="menu-label">Crucigrama</div></div>
@@ -208,19 +201,31 @@
             <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
-        <!-- TRADUCTOR VOZ -->
+        <!-- BARRA TRADUCTOR VOZ -->
         <div class="voice-bar">
             <div class="voice-title">TRADUCTOR UNIVERSAL 🌍</div>
             <div class="voice-controls">
-                <select id="sourceLang" class="lang-select"><option value="es-ES">Hablo: Español 🇪🇸</option><option value="en-US">Hablo: Inglés 🇺🇸</option></select>
+                <select id="sourceLang" class="lang-select">
+                    <option value="es-ES" selected>Hablo: Español 🇪🇸</option>
+                    <option value="en-US">Hablo: Inglés 🇺🇸</option>
+                    <option value="it-IT">Hablo: Italiano 🇮🇹</option>
+                    <option value="fr-FR">Hablo: Francés 🇫🇷</option>
+                    <option value="pt-BR">Hablo: Portugués 🇧🇷</option>
+                </select>
                 <span style="font-size:1.5rem">➡</span>
-                <select id="targetLang" class="lang-select"><option value="en">A: Inglés 🇺🇸</option><option value="es">A: Español 🇪🇸</option><option value="fr">A: Francés 🇫🇷</option></select>
+                <select id="targetLang" class="lang-select">
+                    <option value="en">A: Inglés 🇺🇸</option>
+                    <option value="es">A: Español 🇪🇸</option>
+                    <option value="it">A: Italiano 🇮🇹</option>
+                    <option value="fr">A: Francés 🇫🇷</option>
+                    <option value="pt">A: Portugués 🇧🇷</option>
+                </select>
             </div>
             <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
-            <div class="voice-text" id="voiceStatus">Toca y habla...</div>
+            <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
         </div>
 
-        <!-- CATEGORÍAS -->
+        <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
         <div class="categories-grid">
             <div class="cat-card c-blue" onclick="openCategory('verbs', 'Verbos')"><div class="cat-icon">🏃</div><div class="cat-title">Verbos</div></div>
             <div class="cat-card c-green" onclick="openCategory('abc', 'Abecedario')"><div class="cat-icon">🔤</div><div class="cat-title">Abecedario</div></div>
@@ -231,13 +236,16 @@
             <div class="cat-card c-blue" onclick="openCategory('food', 'Comida')"><div class="cat-icon">🍔</div><div class="cat-title">Comida</div></div>
             <div class="cat-card c-green" onclick="openCategory('numbers', 'Números')"><div class="cat-icon">1️⃣</div><div class="cat-title">Números</div></div>
             <div class="cat-card c-purple" onclick="openCategory('family', 'Familia')"><div class="cat-icon">👪</div><div class="cat-title">Familia</div></div>
+            <div class="cat-card c-orange" onclick="openCategory('colors', 'Colores')"><div class="cat-icon">🎨</div><div class="cat-title">Colores</div></div>
+            <div class="cat-card c-red" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
         </div>
     </div>
 </div>
 
 <!-- ================= MODALES ================= -->
 
-<!-- PERFIL -->
+<!-- MODAL PERFIL -->
 <div id="modalProfile" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalProfile')">⬅</button><h3>Mi Perfil</h3><div></div></div>
     <div class="modal-body">
@@ -245,100 +253,145 @@
             <div class="profile-avatar">🎓</div>
             <div class="profile-name" id="profileName">Estudiante</div>
             <div class="profile-stats">
-                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha</span></div>
-                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos</span></div>
+                <div class="p-stat"><span class="p-val" id="pLevel">1</span><span class="p-lbl">Nivel</span></div>
+                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha (Días)</span></div>
+                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos Totales</span></div>
             </div>
-            <div class="rewards-box" id="rewardsList">
-                <!-- Premios -->
-            </div>
+            <h4 style="margin-top:20px; text-align:left;">⭐ Favoritos:</h4>
+            <div id="favList" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
         </div>
+        <button class="start-btn" onclick="logout()">Cerrar Sesión</button>
     </div>
 </div>
 
-<!-- OTROS -->
-<div id="modalCategory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalCategory')">⬅</button><span class="modal-title" id="catTitle">...</span><div></div></div><div class="modal-body"><div class="cat-detail-grid" id="catGrid"></div></div></div>
-
-<!-- CRUCIGRAMA -->
-<div id="packsScreen" class="cw-screen"><div class="cw-header"><button class="cw-close-btn" onclick="closePacks()">⬅</button><span>NIVELES</span><div></div></div><div class="cw-pack-grid" id="packsGrid"></div></div>
-<div id="gameScreen" class="cw-screen" style="z-index:250"><div class="cw-header"><button class="cw-close-btn" onclick="closeGame()">✖</button><span id="gameTitle">Nivel</span><div></div></div><div class="cw-board-area"><div id="gridTable" class="cw-table"></div></div><button class="fab-check" onclick="checkCrossword()">✓</button><div class="cw-clue-box"><div class="cw-clue-text" id="currentClueDisplay">...</div></div><input type="text" id="hiddenInput" autocomplete="off"></div>
-
-<!-- JUEGOS HUB -->
-<div id="modalGamesMenu" class="modal-overlay">
-    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Arcade Pro</h3><div></div></div>
+<!-- MODAL CATEGORÍA -->
+<div id="modalCategory" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalCategory')">⬅</button>
+        <span class="modal-title" id="catTitle">...</span>
+        <div style="width:35px"></div>
+    </div>
     <div class="modal-body">
-        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="initSoccerPro()"><div><b>⚽ Fútbol Pro</b><br><small>Goles y Vidas</small></div><div style="font-size:2.5rem">🥅</div></div>
-        <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="initGlobos()"><div><b>🎈 Globos (Drop)</b><br><small>Atrapa la palabra</small></div><div style="font-size:2.5rem">🎈</div></div>
-        <div class="game-select-card" style="border-left:8px solid #ef5350" onclick="initMemoryPro()"><div><b>🧠 Memoria Pro</b><br><small>Parejas Inglés-Español</small></div><div style="font-size:2.5rem">🃏</div></div>
+        <div class="cat-detail-grid" id="catGrid"></div>
     </div>
 </div>
 
-<!-- JUEGO FÚTBOL PRO -->
-<div id="modalSoccer" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol Pro</h3><div></div></div><div class="modal-body"><div style="text-align:center; width:100%;"><h3>Vidas: <span id="socLives">❤️❤️❤️</span></h3><div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div><h2 id="socQ">...</h2><div id="socBtns" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div></div></div></div>
+<!-- CRUCIGRAMA PRO SYSTEM -->
+<div id="packsScreen" class="cw-screen">
+    <div class="cw-header">
+        <button class="cw-close-btn" onclick="closePacks()">⬅</button>
+        <span style="font-weight:bold; font-size:1.1rem; text-transform:uppercase;">Niveles</span>
+        <div style="width:30px"></div>
+    </div>
+    <div class="cw-pack-grid" id="packsGrid"></div>
+</div>
 
-<!-- JUEGO GLOBOS -->
-<div id="modalGlobos" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalGlobos')">⬅</button><h3>Globos</h3><div></div></div><div class="modal-body"><h3 id="dropTarget" style="text-align:center;">Traduce: GATO</h3><div class="balloon-area" id="balloonArea"></div></div></div>
+<div id="gameScreen" class="cw-screen" style="z-index:250">
+    <div class="cw-header">
+        <button class="cw-close-btn" onclick="closeGame()">✖</button>
+        <span style="font-weight:bold;" id="gameTitle">Nivel 1</span>
+        <div style="width:30px"></div>
+    </div>
+    <div class="cw-board-area">
+        <div id="gridTable" class="cw-table"></div>
+    </div>
+    <button class="fab-check" onclick="checkCrossword()">✓</button>
+    <div class="cw-clue-box">
+        <div class="cw-clue-text" id="currentClueDisplay">Selecciona una casilla...</div>
+    </div>
+    <input type="text" id="hiddenInput" autocomplete="off">
+</div>
 
-<!-- JUEGO MEMORIA PRO -->
-<div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria Pro</h3><div></div></div><div class="modal-body"><div id="memProGrid" class="mem-pro-grid"></div></div></div>
+<!-- OTROS MODALES -->
+<div id="modalGamesMenu" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
+    <div class="modal-body">
+        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="startWriteGame()"><div><b>📝 Escribe</b><br><small>Traduce al inglés</small></div><div style="font-size:2.5rem">✏️</div></div>
+        <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="startMemoryGame()"><div><b>🧠 Memoria</b><br><small>Encuentra parejas</small></div><div style="font-size:2.5rem">🃏</div></div>
+    </div>
+</div>
+
+<!-- GAME CONTAINER GENERICO -->
+<div id="modalGenericGame" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGenericGame')">⬅</button><h3>Jugar</h3><div></div></div>
+    <div class="modal-body">
+        <div id="gameContainer" style="width:100%;"></div>
+    </div>
+</div>
+
+<div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalStages')">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
+<div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalQuiz')">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
+<div id="modalChess" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div><div class="modal-body" style="text-align:center;"><div style="font-size:4rem; margin:20px;">♟️</div><p>Sigue la serie: 2, 4, 6...</p><button class="btn-trans" onclick="alert('Correcto!')">8</button><button class="btn-trans" style="background:#ef5350" onclick="alert('Incorrecto')">9</button></div></div>
 
 <script>
-    // --- USUARIO & PREMIOS ---
+    // --- GESTIÓN DE USUARIOS ---
     let currentUser = JSON.parse(localStorage.getItem('magicUser')) || null;
-    const rewards = [
-        {id:1, name:"Bronce", req:3}, {id:2, name:"Plata", req:7}, {id:3, name:"Oro", req:15}
-    ];
 
     window.onload = () => {
-        if(currentUser) { checkStreak(); loadInterface(); }
-        else { document.getElementById('welcomeScreen').style.transform = "translateY(0)"; }
+        if(currentUser) {
+            checkStreak();
+            loadInterface();
+        } else {
+            document.getElementById('welcomeScreen').style.transform = "translateY(0)";
+        }
         window.speechSynthesis.getVoices();
     };
 
     function registerUser() {
         const name = document.getElementById('usernameInput').value.trim();
-        if(!name) return;
-        currentUser = { name: name, points: 0, streak: 0, lastLogin: new Date().toDateString() };
+        if(!name) return alert("Por favor escribe tu nombre");
+        
+        currentUser = {
+            name: name,
+            points: 0,
+            level: 1,
+            streak: 0,
+            lastLogin: new Date().toDateString(),
+            favs: []
+        };
         localStorage.setItem('magicUser', JSON.stringify(currentUser));
+        playSfx('win');
         loadInterface();
     }
 
     function checkStreak() {
         const today = new Date().toDateString();
         if(currentUser.lastLogin !== today) {
-            const last = new Date(currentUser.lastLogin);
-            const now = new Date();
-            const diff = (now - last) / (1000 * 60 * 60 * 24);
-            if(diff < 2) currentUser.streak++; else currentUser.streak = 1;
+            currentUser.streak++; 
             currentUser.lastLogin = today;
             saveUser();
         }
     }
 
-    function openProfile() {
-        document.getElementById('profileName').innerText = currentUser.name;
-        document.getElementById('pPoints').innerText = currentUser.points;
-        document.getElementById('pStreak').innerText = currentUser.streak;
-        
-        const rList = document.getElementById('rewardsList'); rList.innerHTML = '';
-        rewards.forEach(r => {
-            let d = document.createElement('div');
-            d.className = currentUser.streak >= r.req ? 'reward-item' : 'reward-item locked';
-            d.innerHTML = `<div>${currentUser.streak >= r.req ? '🏆' : '🔒'}</div><div><b>Medalla ${r.name}</b><br><small>${r.req} días seguidos</small></div>`;
-            rList.appendChild(d);
-        });
-        openModal('modalProfile');
-    }
-
     function loadInterface() {
         document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
+        updateUI();
+        speak(""); 
+    }
+
+    function updateUI() {
+        if(!currentUser) return;
         document.getElementById('userPoints').innerText = currentUser.points;
         document.getElementById('userStreak').innerText = currentUser.streak;
-        speak("");
+        
+        // Perfil
+        document.getElementById('profileName').innerText = currentUser.name;
+        document.getElementById('pPoints').innerText = currentUser.points;
+        document.getElementById('pLevel').innerText = currentUser.level;
+        document.getElementById('pStreak').innerText = currentUser.streak;
     }
-    function saveUser(){ localStorage.setItem('magicUser', JSON.stringify(currentUser)); }
-    function addPts(n){ currentUser.points += n; saveUser(); document.getElementById('userPoints').innerText = currentUser.points; }
+
+    function addPts(n) {
+        currentUser.points += n;
+        // Subir de nivel cada 100 puntos
+        currentUser.level = Math.floor(currentUser.points / 100) + 1;
+        saveUser();
+        updateUI();
+    }
+
+    function saveUser() { localStorage.setItem('magicUser', JSON.stringify(currentUser)); }
     function logout() { localStorage.removeItem('magicUser'); location.reload(); }
-    
+
     // --- TRADUCTOR ---
     let isRec = false, rec = null;
     async function doTranslate() {
@@ -346,42 +399,82 @@
         if(!txt) return;
         const src = document.getElementById('sourceLang').value.split('-')[0];
         const tgt = document.getElementById('targetLang').value;
+        
         try {
             const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
             const j = await r.json();
-            document.getElementById('transOut').innerText = j[0][0][0];
-            speak(j[0][0][0], getVoiceLang(tgt));
+            const res = j[0][0][0];
+            document.getElementById('transOut').innerText = res;
+            speak(res, getVoiceLang(tgt));
         } catch(e) {}
     }
+
     function startVoiceTranslation() {
         if(isRec) { if(rec) rec.stop(); resetMic(); return; }
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if(!Speech) return;
-        rec = new Speech(); rec.lang = document.getElementById('sourceLang').value;
+        if (!Speech) { alert("Navegador no soporta voz"); return; }
+        
+        rec = new Speech();
+        rec.lang = document.getElementById('sourceLang').value;
+        
         const mic = document.getElementById('micBtn');
-        mic.classList.add('listening'); document.getElementById('voiceStatus').innerText = "Escuchando..."; isRec = true;
-        rec.onresult = (e) => { translateAndSpeak(e.results[0][0].transcript, document.getElementById('targetLang').value); };
-        rec.onend = resetMic;
-        try{rec.start();}catch(e){resetMic();}
+        const status = document.getElementById('voiceStatus');
+        const targetLang = document.getElementById('targetLang').value;
+        
+        mic.classList.add('listening');
+        status.innerText = "Escuchando...";
+        isRec = true;
+        
+        rec.onresult = (e) => {
+            const txt = e.results[0][0].transcript;
+            translateAndSpeak(txt, targetLang);
+        };
+        rec.onend = () => { resetMic(); };
+        try { rec.start(); } catch(e) { resetMic(); }
     }
-    function resetMic(){ isRec=false; document.getElementById('micBtn').classList.remove('listening'); document.getElementById('voiceStatus').innerText="..."; }
-    async function translateAndSpeak(txt, tgt) {
-        const src = document.getElementById('sourceLang').value.split('-')[0];
-        const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
-        const j = await r.json(); const res = j[0][0][0];
-        document.getElementById('voiceStatus').innerText = `${txt} ➝ ${res}`;
-        speak(res, getVoiceLang(tgt));
-    }
-    function getVoiceLang(c){ const m={en:'en-US',es:'es-ES',fr:'fr-FR',it:'it-IT',pt:'pt-BR'}; return m[c]||'en-US'; }
-    function speak(t, l='en-US'){ window.speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(t); u.lang=l; u.rate=0.9; window.speechSynthesis.speak(u); }
-    function openModal(id){document.getElementById(id).style.display='flex';}
-    function closeModal(id){document.getElementById(id).style.display='none';}
 
-    // --- DB & GAMES DATA ---
+    function resetMic() {
+        isRec = false;
+        document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('voiceStatus').innerText = "Toca y habla...";
+    }
+
+    async function translateAndSpeak(text, target) {
+        try{
+            const source = document.getElementById('sourceLang').value.split('-')[0];
+            let r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`);
+            let j = await r.json();
+            let trans = j[0][0][0];
+            
+            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
+            speak(trans, getVoiceLang(target));
+        } catch(e) { speak("Error"); }
+    }
+
+    function getVoiceLang(code) {
+        const map = {en:'en-US', es:'es-ES', fr:'fr-FR', it:'it-IT', pt:'pt-BR'};
+        return map[code] || 'en-US';
+    }
+
+    function speak(txt, lang='en-US') {
+        window.speechSynthesis.cancel();
+        let u = new SpeechSynthesisUtterance(txt);
+        u.lang = lang; u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+    }
+    
+    const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
+    function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
+
+    // --- BASE DE DATOS ---
+    const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
+    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
+
     const db = {
         greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'}],
-        abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l=>({i:l,e:l,s:l})),
-        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'}],
+        abc: abcList,
+        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'}],
+        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'}],
         fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'}],
         food: [{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'}],
         colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'}],
@@ -390,144 +483,226 @@
         numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'}],
         home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'}],
         body: [{i:'👀',e:'Eyes',s:'Ojos'},{i:'👃',e:'Nose',s:'Nariz'}],
-        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'📖',e:'Book',s:'Libro'}],
-        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🏊',e:'Swim',s:'Nadar'}]
+        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'📖',e:'Book',s:'Libro'}]
     };
 
-    // --- CATEGORY ---
-    function openCategory(c, t){
-        document.getElementById('catTitle').innerText=t; const g=document.getElementById('catGrid'); g.innerHTML='';
-        if(db[c]) db[c].forEach(i=>{let d=document.createElement('div'); d.className='vocab-item'; d.innerHTML=`<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`; d.onclick=()=>speak(i.e); g.appendChild(d);});
+    // --- JUEGOS PREMIUM (INTEGRADOS) ---
+    const writeGame = {
+        words: [ {en:"dog", es:"perro"}, {en:"cat", es:"gato"}, {en:"house", es:"casa"}, {en:"sun", es:"sol"} ],
+        index: 0,
+        start() {
+            this.index = 0;
+            openModal('modalGenericGame');
+            this.render();
+        },
+        render() {
+            if(this.index >= this.words.length) {
+                document.getElementById("gameContainer").innerHTML = `<div class="game-card"><h2>🎉 ¡Felicidades!</h2><button onclick="closeModal('modalGenericGame')">Volver</button></div>`;
+                addPts(50);
+                playSfx('win');
+                return;
+            }
+            const w = this.words[this.index];
+            document.getElementById("gameContainer").innerHTML = `
+                <div class="game-card">
+                    <h3>Traduce al inglés:</h3>
+                    <h1>${w.es}</h1>
+                    <input id="gameInput" class="game-input" placeholder="Escribe aquí...">
+                    <button class="btn-trans" onclick="writeGame.check()">Verificar</button>
+                    <div class="game-progress"><div class="bar" style="width:${(this.index/this.words.length)*100}%"></div></div>
+                </div>`;
+        },
+        check() {
+            const ans = document.getElementById("gameInput").value.toLowerCase().trim();
+            if(ans === this.words[this.index].en) {
+                playSfx('correct');
+                speak(this.words[this.index].en);
+                this.index++;
+                setTimeout(() => this.render(), 1000);
+            } else {
+                playSfx('wrong');
+                speak("Wrong");
+            }
+        }
+    };
+
+    const memoryGame = {
+        cards: [ {en:"dog", img:"🐶"}, {en:"cat", img:"🐱"}, {en:"sun", img:"☀️"}, {en:"car", img:"🚗"} ],
+        flipped: [],
+        matched: 0,
+        start() {
+            openModal('modalGenericGame');
+            this.matched = 0;
+            this.flipped = [];
+            let d = [...this.cards, ...this.cards].sort(() => Math.random() - 0.5);
+            let h = `<div class="mem-grid">`;
+            d.forEach((c,i) => h += `<div class="mem-card" id="c${i}" onclick="memoryGame.flip(${i}, '${c.img}')">${c.img}</div>`);
+            h += `</div>`;
+            document.getElementById("gameContainer").innerHTML = h;
+            // Ocultar al inicio
+            setTimeout(() => document.querySelectorAll('.mem-card').forEach(c => c.classList.add('hidden-card')), 2000);
+        },
+        flip(i, val) {
+            let c = document.getElementById(`c${i}`);
+            if(c.classList.contains('matched') || this.flipped.length === 2) return;
+            c.classList.remove('hidden-card');
+            this.flipped.push({id:i, val:val});
+            if(this.flipped.length === 2) {
+                setTimeout(() => this.check(), 800);
+            }
+        },
+        check() {
+            let [a, b] = this.flipped;
+            if(a.val === b.val) {
+                document.getElementById(`c${a.id}`).classList.add('matched');
+                document.getElementById(`c${b.id}`).classList.add('matched');
+                playSfx('correct');
+                this.matched++;
+            } else {
+                document.getElementById(`c${a.id}`).classList.add('hidden-card');
+                document.getElementById(`c${b.id}`).classList.add('hidden-card');
+                playSfx('wrong');
+            }
+            this.flipped = [];
+            if(this.matched === this.cards.length) {
+                addPts(50);
+                playSfx('win');
+                speak("You won!");
+            }
+        }
+    };
+
+    function startWriteGame() { writeGame.start(); }
+    function initMemory() { memoryGame.start(); }
+
+    // --- PACKS CRUCIGRAMA ---
+    const packs = [
+        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color de la sangre","2. Animal que ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
+        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal que dice miau","2. Animal verde que salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
+        { id:2, title:"Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10","2. Número 2","3. Número 9"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} }
+    ];
+
+    let currentPack=null, selectedCell={r:-1,c:-1}, currentDir='H', gridState=[];
+
+    function openModal(id){document.getElementById(id).style.display='flex';}
+    function closeModal(id){document.getElementById(id).style.display='none';}
+
+    // --- LOGICA CATEGORIAS ---
+    function openCategory(cat, title) {
         openModal('modalCategory');
-    }
-
-    // --- FUTBOL PRO ---
-    let socLives = 3;
-    function initSoccerPro() {
-        socLives = 3; updateSocLives();
-        openModal('modalSoccer');
-        newKick();
-    }
-    function updateSocLives() {
-        let h = ""; for(let i=0;i<socLives;i++) h+="❤️";
-        document.getElementById('socLives').innerText = h;
-    }
-    function newKick() {
-        if(socLives<=0) { alert("Game Over"); closeModal('modalSoccer'); return; }
-        document.getElementById('ball').style.bottom="10px";
-        
-        const all = [...db.animals, ...db.fruits];
-        const q = all[Math.floor(Math.random()*all.length)];
-        const w = all[Math.floor(Math.random()*all.length)];
-        
-        document.getElementById('socQ').innerText = q.s;
-        const btns = [
-            `<button class="game-btn" onclick="kickPro(true, '${q.e}')">${q.e}</button>`,
-            `<button class="game-btn" style="background:#ff9100" onclick="kickPro(false)">${w.e}</button>`
-        ].sort(()=>Math.random()-0.5).join('');
-        
-        document.getElementById('socBtns').innerHTML = btns;
-    }
-    function kickPro(win, w) {
-        if(win) {
-            document.getElementById('ball').style.bottom="180px";
-            document.getElementById('keeper').style.left="80%";
-            speak("Goal! "+w); addPts(20);
-        } else {
-            document.getElementById('keeper').style.left="45%";
-            speak("Missed"); socLives--; updateSocLives();
+        document.getElementById('catTitle').innerText = title;
+        let g = document.getElementById('catGrid'); g.innerHTML = '';
+        if(db[cat]) {
+            db[cat].forEach(i => {
+                let d = document.createElement('div'); d.className='vocab-item';
+                d.innerHTML = `<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`;
+                d.onclick = () => speak(i.sound || i.e);
+                g.appendChild(d);
+            });
         }
-        setTimeout(newKick, 1500);
     }
 
-    // --- GLOBOS (DROP) ---
-    let dropInterval;
-    function initGlobos() {
-        openModal('modalGlobos');
-        const area = document.getElementById('balloonArea');
-        area.innerHTML = '';
-        
-        const all = [...db.colors, ...db.numbers];
-        const target = all[Math.floor(Math.random()*all.length)];
-        document.getElementById('dropTarget').innerText = "Traduce: " + target.s;
-        
-        const opts = [target, all[Math.floor(Math.random()*all.length)]];
-        
-        opts.forEach((o, i) => {
-            let b = document.createElement('div');
-            b.className = "balloon";
-            b.innerText = o.e;
-            b.style.left = (i*50 + 20) + "%";
-            b.style.top = "0px";
-            b.onclick = () => {
-                if(o.e === target.e) { speak("Correct!"); addPts(10); clearInterval(dropInterval); setTimeout(initGlobos, 1000); }
-                else { speak("Wrong"); b.style.display='none'; }
-            };
-            area.appendChild(b);
+    // --- CRUCIGRAMA ---
+    function openCrosswordMenu() {
+        openModal('packsScreen');
+        let g = document.getElementById('packsGrid'); g.innerHTML = '';
+        packs.forEach((cw, idx) => {
+            let col = cw.diff==="Fácil"?'#4caf50':(cw.diff==="Medio"?'#ff9800':'#f44336');
+            let c = document.createElement('div'); c.className = 'cw-pack-card';
+            c.innerHTML = `<div class="cw-pack-stripe" style="background:${col}"></div><div class="cw-pack-info"><div class="cw-pack-title">${cw.title}</div><div class="cw-pack-meta">${cw.s}x${cw.s} • ${cw.diff}</div></div>`;
+            c.onclick = () => loadCrossword(idx);
+            g.appendChild(c);
         });
-        
-        let pos = 0;
-        dropInterval = setInterval(() => {
-            pos += 2;
-            document.querySelectorAll('.balloon').forEach(b => b.style.top = pos + "px");
-            if(pos > 250) { clearInterval(dropInterval); setTimeout(initGlobos, 500); }
-        }, 50);
+    }
+    function closePacks() { document.getElementById('packsScreen').style.display='none'; }
+    function closeGame() { document.getElementById('gameScreen').style.display='none'; }
+
+    function loadCrossword(idx) {
+        currentPack = packs[idx];
+        document.getElementById('gameTitle').innerText = currentPack.title;
+        openModal('gameScreen');
+        buildBoard(currentPack);
     }
 
-    // --- MEMORIA PRO ---
-    let mSel = [];
-    function initMemoryPro() {
-        openModal('modalMemory');
-        const g = document.getElementById('memProGrid'); g.innerHTML = '';
-        const items = [...db.animals, ...db.fruits].sort(()=>Math.random()-0.5).slice(0, 6);
-        let cards = [];
-        items.forEach(i => {
-            cards.push({id:i.e, content:i.i, type:'img'});
-            cards.push({id:i.e, content:i.e, type:'txt'});
-        });
-        cards.sort(()=>Math.random()-0.5);
-        
-        cards.forEach(c => {
-            let div = document.createElement('div');
-            div.className = 'mem-pro-card';
-            div.onclick = () => {
-                if(mSel.length < 2 && !div.classList.contains('flipped')) {
-                    div.classList.add('flipped'); div.innerText = c.content;
-                    mSel.push({el:div, id:c.id});
-                    if(mSel.length === 2) checkMemPro();
+    function buildBoard(pack) {
+        const board = document.getElementById('gridTable');
+        board.style.gridTemplateColumns = `repeat(${pack.s}, 1fr)`;
+        board.innerHTML = '';
+        gridState = [];
+
+        for(let r=0; r<pack.s; r++) {
+            let rowArr = [];
+            for(let c=0; c<pack.s; c++) {
+                const char = pack.l[r][c];
+                const cell = document.createElement('div');
+                if(char === '#') cell.className = 'cw-cell black';
+                else {
+                    cell.className = 'cw-cell';
+                    const input = document.createElement('input');
+                    input.className = 'trans-input'; input.style.background='transparent'; input.style.border='none'; input.maxLength=1; input.style.fontWeight='900'; input.style.textTransform='uppercase';
+                    input.dataset.r = r; input.dataset.c = c;
+                    input.onfocus = () => selectCell(r, c);
+                    input.onkeyup = (e) => handleInput(e, input);
+                    cell.appendChild(input);
                 }
-            };
-            g.appendChild(div);
-        });
-    }
-    function checkMemPro() {
-        if(mSel[0].id === mSel[1].id) {
-            speak("Match!"); addPts(15);
-            mSel[0].el.classList.add('matched'); mSel[1].el.classList.add('matched');
-            mSel = [];
-        } else {
-            setTimeout(() => {
-                mSel[0].el.classList.remove('flipped'); mSel[0].el.innerText = "";
-                mSel[1].el.classList.remove('flipped'); mSel[1].el.innerText = "";
-                mSel = [];
-            }, 1000);
+                board.appendChild(cell);
+                rowArr.push({el:cell, sol:char});
+            }
+            gridState.push(rowArr);
         }
     }
 
-    // --- CRUCIGRAMA (Mantenido) ---
-    const packs=[{id:0,title:"Básico",diff:"Fácil",s:3,l:[['R','E','D'],['#','#','O'],['#','#','G']],c:["Color sangre","Animal ladra"],sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'}}];
-    let curPack, selCell, curDir='H', grState=[];
-    function openCrosswordMenu(){openModal('packsScreen'); let g=document.getElementById('packsGrid'); g.innerHTML=''; packs.forEach(p=>{let d=document.createElement('div'); d.className='cw-pack-card'; d.innerHTML=`<div class="cw-pack-info">${p.title}</div>`; d.onclick=()=>loadCw(p); g.appendChild(d);});}
-    function closePacks(){closeModal('packsScreen');} function closeGame(){closeModal('gameScreen');}
-    function loadCw(p){curPack=p; document.getElementById('gameTitle').innerText=p.title; openModal('gameScreen'); buildCw(p);}
-    function buildCw(p){const b=document.getElementById('gridTable'); b.style.gridTemplateColumns=`repeat(${p.s},1fr)`; b.innerHTML=''; grState=[]; for(let r=0;r<p.s;r++){let row=[]; for(let c=0;c<p.s;c++){let ch=p.l[r][c]; let d=document.createElement('div'); if(ch==='#')d.className='cw-cell black'; else {d.className='cw-cell'; let i=document.createElement('input'); i.className='trans-input'; i.style.background='transparent'; i.maxLength=1; i.dataset.r=r; i.dataset.c=c; i.onfocus=()=>selCw(r,c); i.onkeyup=(e)=>inpCw(e,i); d.appendChild(i);} b.appendChild(d); row.push({el:d,sol:ch});} grState.push(row);}}
-    function selCw(r,c){selCell={r,c}; document.getElementById('currentClueDisplay').innerText=curPack.c[0];}
-    function inpCw(e,i){if(e.key.match(/[a-z]/i)) i.parentElement.nextElementSibling?.querySelector('input')?.focus();}
-    function checkCrossword(){document.querySelectorAll('.cw-cell input').forEach(i=>{let r=i.dataset.r,c=i.dataset.c,s=curPack.sol[`${r}-${c}`]; if(i.value.toUpperCase()===s)i.style.color='green'; else i.style.color='red';});}
+    function selectCell(r,c) {
+        selectedCell = {r,c};
+        const clue = currentPack.c.join(' | ');
+        document.getElementById('currentClueDisplay').innerText = clue;
+    }
 
+    function handleInput(e, input) {
+        if(e.key.match(/[a-z]/i)) {
+            const all = Array.from(document.querySelectorAll('.cw-cell:not(.black) input'));
+            const idx = all.indexOf(input);
+            if(idx < all.length-1) all[idx+1].focus();
+        }
+    }
+
+    function checkCrossword() {
+        let correct = true;
+        document.querySelectorAll('.cw-cell:not(.black) input').forEach(inp => {
+            const r = inp.dataset.r; const c = inp.dataset.c;
+            const sol = currentPack.sol[`${r}-${c}`];
+            if(inp.value.toUpperCase() === sol) { inp.style.color="green"; inp.parentElement.style.background="#e8f5e9"; }
+            else { inp.style.color="red"; inp.parentElement.style.background="#ffebee"; correct=false; }
+        });
+        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame, 2000); }
+    }
+
+    // --- ETAPAS ---
+    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=currentUser.level?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=currentUser.level?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=currentUser.level)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
+    
+    let curQ=[], curQI=0;
+    function startQuiz(l){
+        let s=[...db.animals,...db.fruits,...db.colors]; curQ=[];
+        for(let i=0;i<10;i++){ let c=s[Math.floor(Math.random()*s.length)], w1=s[Math.floor(Math.random()*s.length)], w2=s[Math.floor(Math.random()*s.length)]; curQ.push({q:`¿Cómo se dice ${c.s}?`, a:c.e, o:[c.e,w1.e,w2.e].sort(()=>Math.random()-0.5)}); }
+        curQI=0; openModal('modalQuiz'); showQ();
+    }
+    function showQ(){
+        if(curQI>=10){ playSfx('win'); speak("Level Up!"); addPts(50); closeModal('modalQuiz'); openStages(); return; }
+        let q=curQ[curQI]; document.getElementById('quizBar').style.width=((curQI/10)*100)+'%'; document.getElementById('quizPrompt').innerText=q.q;
+        let c=document.getElementById('quizOptions'); c.innerHTML='';
+        q.o.forEach(t=>{let b=document.createElement('div'); b.className='quiz-option'; b.innerText=t; b.onclick=()=>{if(t===q.a){b.className+=' correct'; playSfx('correct'); speak("Correct"); setTimeout(()=>{curQI++; showQ();},1000);}else{b.className+=' wrong'; playSfx('wrong'); speak("Wrong");}}; c.appendChild(b);});
+    }
+
+    // --- JUEGOS VIEJOS (Placeholders) ---
+    function initSoccer(){ alert("Pronto: Fútbol Pro"); }
+    function initHangman(){ alert("Pronto: Ahorcado Pro"); }
+    function initChess(){ openModal('modalChess'); }
+
+    function confetti() { for(let i=0; i<20; i++){let d=document.createElement('div'); d.innerHTML='🎉'; d.className='confetti'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(Math.random()*2+1)+'s'; document.body.appendChild(d); setTimeout(()=>d.remove(),3000);} }
 </script>
 </body>
 </html>
+
 
 
 
