@@ -8,227 +8,172 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#a1c4fd">
-    <title>Magic School Pro</title>
+    <title>Magic School 2.0</title>
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
 
     <style>
-        /* IMPORTAR FUENTE POPPINS (Más moderna) */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
         :root {
+            --bg-grad-1: #a1c4fd;
+            --bg-grad-2: #c2e9fb;
+            --card-bg: #ffffff;
+            --text-main: #3a3a3a;
             --primary: #4facfe;
-            --primary-dark: #00f2fe;
             --accent: #ff9a9e;
-            --text-dark: #3a3a3a;
-            --text-light: #777;
-            --white: #ffffff;
-            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --shadow: 0 8px 20px rgba(0,0,0,0.1);
             
-            /* CRUCIGRAMA DARK MODE (Se mantiene oscuro por contraste) */
+            /* Crucigrama Dark */
             --cw-bg: #1a1a1a;
             --cw-cell: #eee;
             --cw-highlight: #64b5f6;
             --cw-selected: #ffeb3b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        /* MODO OSCURO */
+        body.dark {
+            --bg-grad-1: #1e1e2f;
+            --bg-grad-2: #2c2c3e;
+            --card-bg: #2c2c3e;
+            --text-main: #f0f0f0;
+            --primary: #00f2fe;
+            --shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+
         body {
-            background: linear-gradient(to bottom, #a1c4fd 0%, #c2e9fb 100%);
+            background: linear-gradient(to bottom, var(--bg-grad-1), var(--bg-grad-2));
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            color: var(--text-main);
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
         /* HEADER */
         header {
-            background-color: var(--white);
+            background-color: var(--card-bg);
             padding: 15px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 10;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
+            transition: background 0.5s ease;
         }
 
-        header h1 {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        header h1 { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        
+        #user-stats { display: flex; gap: 10px; font-size: 0.85rem; align-items: center;}
+        .stat-pill { background: rgba(0,0,0,0.05); padding: 5px 12px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(0,0,0,0.1); }
+        #theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-left: 5px;}
 
-        #user-stats {
-            display: flex;
-            gap: 10px;
-            font-size: 0.9rem;
-        }
+        /* MAIN */
+        main { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 25px; }
 
-        .stat-pill {
-            background: #f0f8ff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            color: var(--text-dark);
-            border: 1px solid #dbeafe;
-        }
-
-        /* MAIN CONTENT */
-        main {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        /* CARD GENÉRICA (Estilo Moderno) */
+        /* CARDS */
         .modern-card {
-            background-color: var(--white);
+            background-color: var(--card-bg);
             border-radius: 20px;
             padding: 20px;
             box-shadow: var(--shadow);
-            transition: transform 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.5);
+            transition: transform 0.2s ease, background 0.5s ease;
         }
-        .modern-card:active { transform: scale(0.98); }
 
         /* TRADUCTOR */
-        .translator-section {
-            display: flex; flex-direction: column; gap: 10px;
-        }
         .trans-input {
             width: 100%; border: none; font-size: 1.2rem; outline: none;
-            border-bottom: 2px solid #eee; text-align: center; color: var(--text-dark);
+            border-bottom: 2px solid #eee; text-align: center; color: var(--text-main);
             padding: 10px; background: transparent; font-weight: 600;
         }
         .trans-btn {
             background: linear-gradient(45deg, #4facfe, #00f2fe);
             color: white; border: none; padding: 12px; border-radius: 12px;
-            font-weight: 600; cursor: pointer; font-size: 1rem;
+            font-weight: 600; cursor: pointer; font-size: 1rem; width: 100%; margin-top: 10px;
             box-shadow: 0 4px 10px rgba(79, 172, 254, 0.4);
         }
 
-        /* MINIJUEGOS (GRID) */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
+        /* GAMES GRID */
+        .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .game-card {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 130px;
+            background: var(--card-bg); padding: 20px; border-radius: 20px;
+            box-shadow: var(--shadow); text-align: center; cursor: pointer;
+            transition: transform 0.2s ease, background 0.5s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 130px;
         }
         .game-card:active { transform: translateY(5px); }
         .game-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .game-title { font-weight: 700; color: var(--text-dark); font-size: 0.9rem; }
-        .game-desc { font-size: 0.7rem; color: var(--text-light); }
+        .game-title { font-weight: 700; font-size: 0.9rem; }
+        .game-desc { font-size: 0.7rem; opacity: 0.7; }
 
-        /* TRADUCTOR DE VOZ (Card Especial) */
-        .voice-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; text-align: center;
-        }
-        .voice-controls {
-            display: flex; justify-content: space-between; width: 100%; margin-bottom: 15px;
-        }
-        .lang-select {
-            background: rgba(255,255,255,0.2); border: none; color: white;
-            padding: 5px 10px; border-radius: 10px; font-weight: 600; outline: none;
-        }
+        /* VOICE CARD */
+        .voice-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; }
+        .voice-controls { display: flex; justify-content: space-between; width: 100%; margin-bottom: 15px; }
+        .lang-select { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 10px; font-weight: 600; outline: none; font-size: 0.8rem; width: 45%;}
         .lang-select option { color: #333; }
-        .mic-btn {
-            background: white; color: #764ba2; width: 70px; height: 70px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            cursor: pointer; transition: 0.2s;
-        }
-        .mic-btn:active { transform: scale(0.9); }
+        .mic-btn { background: white; color: #764ba2; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; transition: 0.2s; }
         .mic-btn.listening { background: #ff4b4b; color: white; animation: pulse 1s infinite; }
 
-        /* CATEGORÍAS (Chips/Burbujas) */
-        .cat-container {
-            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-        }
+        /* CHIPS VOCABULARIO */
+        .cat-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
         .cat-chip {
-            background: var(--white); padding: 10px 20px; border-radius: 25px;
-            font-weight: 600; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            cursor: pointer; display: flex; align-items: center; gap: 8px; border: 1px solid transparent;
+            background: var(--card-bg); padding: 10px 20px; border-radius: 25px;
+            font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer; display: flex; align-items: center; gap: 8px; 
+            border: 1px solid rgba(0,0,0,0.05); transition: transform 0.1s;
         }
-        .cat-chip:active { background: #e0f2f1; transform: scale(0.95); }
-        .cat-chip.active { border-color: var(--primary); background: #f0f9ff; }
+        .cat-chip:active { transform: scale(0.95); }
 
         /* FOOTER */
-        footer {
-            background: rgba(255,255,255,0.8);
-            text-align: center; padding: 15px;
-            font-size: 0.8rem; color: var(--text-light);
-            backdrop-filter: blur(10px);
-        }
+        footer { background: rgba(255,255,255,0.5); text-align: center; padding: 15px; font-size: 0.8rem; color: var(--text-main); backdrop-filter: blur(10px); }
 
         /* BIENVENIDA */
         #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.5s ease; }
         .start-btn { background: linear-gradient(45deg, #4facfe, #00f2fe); color: white; padding: 15px 60px; border-radius: 50px; font-size: 1.5rem; border: none; font-weight: bold; margin-top: 30px; cursor: pointer; box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4); }
 
-        /* --- MODALES & JUEGOS (Funcionalidad intacta, diseño adaptado) --- */
-        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
-        .modal-header { background: white; padding: 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .modal-title { font-weight: 800; color: var(--text-dark); font-size: 1.2rem; }
-        .close-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; }
-        .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+        /* MODALES */
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 150; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
+        .modal-content { width: 90%; max-width: 400px; background: var(--card-bg); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .modal-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .modal-body { padding: 20px; overflow-y: auto; }
+        .close-btn { background: #eee; border: none; width: 35px; height: 35px; border-radius: 50%; font-weight: bold; cursor: pointer; color: #333; }
 
-        /* Grid Detalle Categoría */
-        .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .detail-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: var(--shadow); cursor: pointer; }
-        .detail-card:active { transform: scale(0.95); }
+        /* GRID DETALLE */
+        .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .detail-card { background: rgba(0,0,0,0.03); border-radius: 15px; padding: 10px; text-align: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); }
+        .detail-card:active { background: rgba(0,0,0,0.1); }
 
-        /* Crucigrama Dark */
-        .cw-screen { background: var(--cw-bg); color: white; position: absolute; top:0; left:0; width:100%; height:100%; z-index:200; display:none; flex-direction:column; }
-        .cw-header { background: #111; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
-        .cw-grid-area { flex:1; display:flex; justify-content:center; align-items:center; overflow:auto; padding:10px; }
-        .cw-table { display:grid; gap:2px; background:#000; padding:2px; border:2px solid #333; }
-        .cw-cell { width:38px; height:38px; background:var(--cw-cell); display:flex; justify-content:center; align-items:center; font-weight:900; font-size:1.2rem; color:#111; position:relative; cursor:pointer; }
-        .cw-cell.black { background:transparent; pointer-events:none; }
-        .cw-cell.active-word { background:var(--cw-highlight) !important; }
-        .cw-cell.selected { background:var(--cw-selected) !important; }
-        .cw-clue-box { background:#263238; padding:15px; border-top:4px solid #4fc3f7; color:white; text-align:center; }
-        .cw-input-hidden { position:absolute; opacity:0; top:-1000px; }
+        /* CRUCIGRAMA DARK PRO */
+        .cw-screen { background: #121212; position: absolute; top:0; left:0; width:100%; height:100%; z-index:200; display:none; flex-direction:column; color: white; }
+        .cw-header { background: #1e1e1e; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .cw-grid-area { flex:1; display:flex; justify-content:center; align-items:center; overflow:auto; padding:10px; background: #000; }
+        .cw-table { display:grid; gap:1px; background:#333; padding:1px; border:1px solid #444; }
+        .cw-cell { width:36px; height:36px; background:#eee; display:flex; justify-content:center; align-items:center; font-weight:900; font-size:1.2rem; color:#111; position:relative; cursor:pointer; }
+        .cw-cell.black { background:#121212; pointer-events:none; }
+        .cw-cell.active-word { background:var(--cw-highlight) !important; color: #000;}
+        .cw-cell.selected { background:var(--cw-selected) !important; color: #000;}
+        .cw-clue-box { background:#263238; padding:15px; border-left:5px solid #4fc3f7; color:white; display:flex; align-items:center; min-height:80px; }
+        .fab-check { position:absolute; bottom:100px; right:20px; background:#58cc02; color:white; width:60px; height:60px; border-radius:50%; font-size:2rem; border:none; box-shadow:0 5px 15px rgba(0,0,0,0.5); cursor:pointer; z-index:50; display:flex; justify-content:center; align-items:center;}
+        .cw-pack-grid { padding:20px; display:grid; grid-template-columns:1fr 1fr; gap:15px; overflow-y:auto; background:#121212; height:100%; }
+        .cw-pack-card { background:#1e1e1e; border-radius:10px; overflow:hidden; cursor:pointer; border-bottom:4px solid #000; }
 
-        /* Animaciones */
-        @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
-        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
-        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        /* ACHIEVEMENT MODAL */
+        #achievement-modal { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.8); z-index:1000; }
+        .ach-content { background:white; padding:30px; border-radius:20px; text-align:center; animation: bounceIn 0.5s; }
         
-        /* Etapas Duolingo Style */
-        .path-container { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 40px; }
-        .level-node { width: 70px; height: 70px; border-radius: 50%; background: #58cc02; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.8rem; box-shadow: 0 6px 0 #46a302; cursor: pointer; transition: 0.1s; position: relative; z-index: 2; }
-        .level-node:active { transform: translateY(4px); box-shadow: 0 2px 0 #46a302; }
-        .level-node.locked { background: #e5e5e5; box-shadow: 0 6px 0 #cfcfcf; color: #aaa; pointer-events: none; }
-        .path-line { width: 8px; height: 20px; background: #e5e5e5; margin: -5px 0; z-index: 1; }
+        /* CANVAS CONFETTI */
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+        #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
+
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        @keyframes bounceIn { from {transform:scale(0.5);} to {transform:scale(1);} }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
 
     </style>
 </head>
@@ -236,11 +181,10 @@
 
 <div class="app-shell">
     
-    <!-- PANTALLA DE BIENVENIDA -->
+    <!-- BIENVENIDA -->
     <div id="welcomeScreen">
         <img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" width="120" style="margin-bottom:20px">
-        <h1 style="color:#333; font-weight:800;">Magic School Pro</h1>
-        <p style="color:#777;">Aprende inglés jugando</p>
+        <h1 style="color:#333; font-weight:800;">Magic School 2.0</h1>
         <button class="start-btn" onclick="enterApp()">COMENZAR 🚀</button>
     </div>
 
@@ -250,58 +194,54 @@
         <div id="user-stats">
             <div class="stat-pill">🔥 <span id="streak">1</span></div>
             <div class="stat-pill">⭐ <span id="points">0</span></div>
+            <button id="theme-toggle">🌙</button>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main>
-        
-        <!-- SECCIÓN JUEGOS (GRID) -->
+        <!-- JUEGOS PRINCIPALES -->
         <section class="games-grid">
-            <div class="game-card" onclick="openStages()">
+            <div class="game-card" onclick="alert('Abre Etapas en el menú')">
                 <div class="game-icon">🗺️</div>
                 <div class="game-title">Etapas</div>
-                <div class="game-desc">Camino de aprendizaje</div>
             </div>
             <div class="game-card" onclick="openCrosswordMenu()">
                 <div class="game-icon">🧩</div>
                 <div class="game-title">Crucigrama</div>
-                <div class="game-desc">Reto de palabras</div>
             </div>
-            <div class="game-card" onclick="alert('Pronto más niveles')">
+            <div class="game-card" onclick="alert('Próximamente')">
                 <div class="game-icon">♟️</div>
                 <div class="game-title">Lógica</div>
-                <div class="game-desc">Entrena tu mente</div>
             </div>
-            <div class="game-card" onclick="openModal('modalGamesMenu')">
+            <div class="game-card" onclick="alert('Próximamente')">
                 <div class="game-icon">🎮</div>
                 <div class="game-title">Arcade</div>
-                <div class="game-desc">Minijuegos rápidos</div>
             </div>
         </section>
 
-        <!-- TRADUCTOR DE VOZ PRO -->
+        <!-- TRADUCTOR DE VOZ -->
         <section class="modern-card voice-card">
             <div class="voice-controls">
                 <select id="sourceLang" class="lang-select">
-                    <option value="es-ES">Hablo Español 🇪🇸</option>
-                    <option value="en-US">Speak English 🇺🇸</option>
+                    <option value="es-ES">Español 🇪🇸</option>
+                    <option value="en-US">English 🇺🇸</option>
                 </select>
                 <span>➡</span>
                 <select id="targetLang" class="lang-select">
                     <option value="en">Inglés 🇺🇸</option>
                     <option value="fr">Francés 🇫🇷</option>
                     <option value="it">Italiano 🇮🇹</option>
-                    <option value="de">Alemán 🇩🇪</option>
+                    <option value="pt">Portugués 🇧🇷</option>
                 </select>
             </div>
             <div class="mic-btn" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
             <p id="voiceStatus" style="margin-top:15px; font-size:0.9rem; font-weight:600;">Toca y habla...</p>
         </section>
 
-        <!-- CATEGORÍAS RÁPIDAS (CHIPS) -->
+        <!-- CATEGORÍAS -->
         <section>
-            <h3 style="color:#555; margin-bottom:15px;">📚 Vocabulario</h3>
+            <h3 style="margin-bottom:15px; font-size:0.9rem; opacity:0.7;">VOCABULARIO</h3>
             <div class="cat-container">
                 <div class="cat-chip" onclick="openCategory('greetings', 'Saludos')">👋 Saludos</div>
                 <div class="cat-chip" onclick="openCategory('animals', 'Animales')">🐶 Animales</div>
@@ -313,109 +253,90 @@
                 <div class="cat-chip" onclick="openCategory('verbs', 'Verbos')">🏃 Verbos</div>
             </div>
         </section>
-
     </main>
 
-    <!-- FOOTER -->
     <footer>
-        <p>Magic School Pro © 2025 - Aprende divirtiéndote</p>
+        <p>Magic School Pro © 2025</p>
     </footer>
 
 </div>
 
-<!-- ================= MODALES ================= -->
+<!-- CANVAS CONFETI -->
+<canvas id="confetti-canvas"></canvas>
 
-<!-- MODAL CATEGORÍA -->
+<!-- MODAL LOGRO -->
+<div id="achievement-modal">
+    <div class="ach-content">
+        <div style="font-size:3rem;">🏆</div>
+        <h2>¡Nivel Superado!</h2>
+        <p>Has ganado 50 puntos</p>
+        <button class="start-btn" style="margin-top:10px; font-size:1rem;" onclick="document.getElementById('achievement-modal').style.display='none'">Genial</button>
+    </div>
+</div>
+
+<!-- MODAL CATEGORIA -->
 <div id="modalCategory" class="modal-overlay">
-    <div class="modal-header">
-        <button class="close-btn" onclick="closeModal('modalCategory')">⬅</button>
-        <span class="modal-title" id="catTitle">...</span>
-        <div style="width:40px"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-title" id="catTitle">...</span>
+            <button class="close-btn" onclick="closeModal('modalCategory')">✖</button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-grid" id="catDetailGrid"></div>
+        </div>
     </div>
-    <div class="modal-body">
-        <div class="detail-grid" id="catDetailGrid"></div>
-    </div>
 </div>
 
-<!-- MODAL MAPA ETAPAS -->
-<div id="modalStages" class="modal-overlay">
-    <div class="modal-header"><button class="close-btn" onclick="closeModal('modalStages')">⬅</button><span class="modal-title">TU CAMINO</span><div></div></div>
-    <div class="modal-body"><div id="pathContainer" class="path-container"></div></div>
+<!-- CRUCIGRAMA PACKS -->
+<div id="packsScreen" class="cw-screen">
+    <div class="cw-header"><button class="cw-close-btn" onclick="closePacks()">⬅</button><span>NIVELES</span><div></div></div>
+    <div class="cw-pack-grid" id="packsGrid"></div>
 </div>
 
-<!-- MODAL PACKS CRUCIGRAMA -->
-<div id="packsScreen" class="cw-screen" style="background:#212121">
-    <div class="cw-header"><button class="cw-close-btn" onclick="closePacks()">⬅</button><span style="font-weight:bold">NIVELES</span><div></div></div>
-    <div class="cw-pack-grid" id="packsGrid" style="padding:20px; display:grid; gap:15px;"></div>
-</div>
-
-<!-- JUEGO CRUCIGRAMA -->
+<!-- CRUCIGRAMA GAME -->
 <div id="gameScreen" class="cw-screen" style="z-index:250">
-    <div class="cw-header"><button class="cw-close-btn" onclick="closeGame()">✖</button><span id="gameTitle" style="font-weight:bold">Nivel 1</span><div></div></div>
-    <div class="cw-board-area"><div id="gridTable" class="cw-table"></div></div>
-    <div class="cw-clue-box">
-        <div style="font-size:0.8rem; color:#4fc3f7; font-weight:bold; margin-bottom:5px;">PISTA</div>
-        <div id="currentClueDisplay" style="font-size:1.1rem; font-weight:bold;">Selecciona una casilla...</div>
-    </div>
+    <div class="cw-header"><button class="cw-close-btn" onclick="closeGame()">✖</button><span id="gameTitle">Nivel</span><div></div></div>
+    <div class="cw-grid-area"><div id="gridTable" class="cw-table"></div></div>
+    <button class="fab-check" onclick="checkCrossword()">✓</button>
+    <div class="cw-clue-box"><div id="currentClueDisplay" style="font-size:1.1rem; font-weight:bold;">Selecciona...</div></div>
     <input type="text" id="hiddenInput" autocomplete="off" class="cw-input-hidden">
 </div>
 
-<!-- MODAL QUIZ (EXAMEN) -->
-<div id="modalQuiz" class="modal-overlay" style="z-index:300;">
-    <div class="modal-header"><button class="close-btn" onclick="closeModal('modalQuiz')">✖</button><h3 style="color:#333">Quiz</h3></div>
-    <div class="modal-body" style="display:flex; flex-direction:column; justify-content:center;">
-        <h2 id="quizPrompt" style="text-align:center; margin-bottom:30px; color:#333; font-size:1.5rem;">...</h2>
-        <div id="quizOptions" style="display:flex; flex-direction:column; gap:15px;"></div>
-    </div>
-</div>
-
-<!-- MENU JUEGOS EXTRA -->
-<div id="modalGamesMenu" class="modal-overlay">
-    <div class="modal-header"><button class="close-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Arcade</h3></div>
-    <div class="modal-body" style="display:grid; gap:15px;">
-        <div class="game-card" onclick="alert('Pronto')"><div class="game-icon">⚽</div><div class="game-title">Fútbol</div></div>
-        <div class="game-card" onclick="alert('Pronto')"><div class="game-icon">🧠</div><div class="game-title">Memoria</div></div>
-    </div>
-</div>
-
 <script>
-    let pts = parseInt(localStorage.getItem('pts')) || 0;
-    let unlockedLevel = parseInt(localStorage.getItem('unlockedLevel')) || 1;
+    let pts = 0;
     let isListening = false, recognition = null;
-
-    const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
-    function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
 
     // --- DATA ---
     const db = {
         greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'},{i:'🙏',e:'Thank you',s:'Gracias'}],
         animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'}],
         fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'}],
-        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'}],
+        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'⚫',e:'Black',s:'Negro'},{i:'⚪',e:'White',s:'Blanco'}],
         family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👶',e:'Baby',s:'Bebé'}],
         body: [{i:'👀',e:'Eyes',s:'Ojos'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'}],
         numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'}],
         verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🏊',e:'Swim',s:'Nadar'},{i:'📖',e:'Read',s:'Leer'}]
     };
 
-    // --- PACKS CRUCIGRAMA (5 NIVELES) ---
+    // --- CRUCIGRAMAS ---
     const packs = [
-        { id:0, title:"Nivel 1: Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color de la sangre","2. Animal que ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
-        { id:1, title:"Nivel 2: Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal que dice miau","2. Animal verde que salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
-        { id:2, title:"Nivel 3: Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10","2. Número 2","3. Número 9"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} },
-        { id:3, title:"Nivel 4: Familia", diff:"Medio", s:5, l:[['M','O','M','#','#'],['#','#','O','#','#'],['#','#','T','#','#'],['#','#','H','#','#'],['#','#','E','R','#']], c:["1. Mamá (Forma corta)","2. Madre (Forma larga)"], sol:{'0-0':'M','0-1':'O','0-2':'M','1-2':'O','2-2':'T','3-2':'H','4-2':'E','4-3':'R'} },
-        { id:4, title:"Nivel 5: Cuerpo", diff:"Difícil", s:7, l:[['H','A','N','D','#','#','#'],['E','#','#','#','L','#','#'],['A','#','#','#','E','#','#'],['D','#','#','#','G','#','#'],['#','#','#','#','#','#','#'],['#','N','O','S','E','#','#'],['#','#','#','#','#','#','#']], c:["1. Mano (5 dedos)","2. Nariz para oler","3. Cabeza","4. Pierna"], sol:{'0-0':'H','0-1':'A','0-2':'N','0-3':'D', '5-1':'N','5-2':'O','5-3':'S','5-4':'E', '0-0':'H','1-0':'E','2-0':'A','3-0':'D', '1-4':'L','2-4':'E','3-4':'G'} }
+        { id:0, title:"Nivel 1", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color de la sangre","2. Animal que ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
+        { id:1, title:"Nivel 2", diff:"Medio", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal miau","2. Animal salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} }
     ];
 
-    // INIT
-    window.onload = () => {
-        document.getElementById('points').innerText = pts;
-    };
+    let currentPack, selectedCell, currentDir='H', gridState;
 
+    // --- INIT ---
     function enterApp() {
         document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
-        playSfx('win');
+        speak("");
     }
+
+    // Dark Mode
+    document.getElementById("theme-toggle").addEventListener("click",()=>{
+        document.body.classList.toggle("dark");
+        document.getElementById("theme-toggle").textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    });
 
     function speak(txt, lang='en-US') {
         window.speechSynthesis.cancel();
@@ -424,8 +345,17 @@
         window.speechSynthesis.speak(u);
     }
 
-    function openModal(id){document.getElementById(id).style.display='flex';}
-    function closeModal(id){document.getElementById(id).style.display='none';}
+    function addPoints(n) {
+        pts += n;
+        document.getElementById('points').innerText = pts;
+        if(pts % 50 === 0) {
+            document.getElementById('achievement-modal').style.display='flex';
+            showConfetti();
+        }
+    }
+
+    function openModal(id){ document.getElementById(id).style.display='flex'; }
+    function closeModal(id){ document.getElementById(id).style.display='none'; }
 
     // --- CATEGORIAS ---
     function openCategory(cat, title) {
@@ -435,7 +365,7 @@
         if(db[cat]) {
             db[cat].forEach(i => {
                 let el = document.createElement('div'); el.className='detail-card';
-                el.innerHTML = `<div style="font-size:2.5rem">${i.i}</div><div style="font-weight:bold;color:#555;margin-top:5px;">${i.s}</div>`;
+                el.innerHTML = `<div style="font-size:2.5rem">${i.i}</div><div style="font-weight:bold;color:var(--text-main);margin-top:5px;">${i.s}</div>`;
                 el.onclick = () => speak(i.e);
                 grid.appendChild(el);
             });
@@ -443,7 +373,7 @@
         openModal('modalCategory');
     }
 
-    // --- TRADUCTOR ---
+    // --- TRADUCTOR VOZ ---
     function startVoiceTranslation() {
         if(isListening) { if(recognition) recognition.stop(); resetMic(); return; }
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -481,21 +411,18 @@
             
             document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
             
-            let langMap = {'en':'en-US','fr':'fr-FR','it':'it-IT','de':'de-DE'};
+            let langMap = {'en':'en-US','fr':'fr-FR','it':'it-IT','de':'de-DE','pt':'pt-BR'};
             speak(trans, langMap[target] || 'en-US');
         } catch(e) { speak("Error"); }
     }
 
     // --- CRUCIGRAMA ---
-    let currentPack, selectedCell, currentDir='H', gridState;
     function openCrosswordMenu() {
         openModal('packsScreen');
         const grid = document.getElementById('packsGrid'); grid.innerHTML = '';
         packs.forEach((p, idx) => {
-            let c = document.createElement('div'); c.className = 'modern-card';
-            c.style.borderLeft = `5px solid ${p.diff==='Fácil'?'#58cc02':'#ff9600'}`;
-            c.style.marginBottom = "10px";
-            c.innerHTML = `<h3 style="margin:0">${p.title}</h3><p style="margin:0;color:#777">${p.diff} • ${p.s}x${p.s}</p>`;
+            let c = document.createElement('div'); c.className = 'cw-pack-card';
+            c.innerHTML = `<div class="cw-pack-info"><div style="font-weight:bold; font-size:1.1rem; color:white;">${p.title}</div><div style="color:#aaa; font-size:0.8rem;">${p.diff}</div></div>`;
             c.onclick = () => loadCrossword(idx);
             grid.appendChild(c);
         });
@@ -529,7 +456,6 @@
                     input.dataset.r = r; input.dataset.c = c;
                     cell.innerHTML = `<span class="val"></span>`;
                     cell.onclick = () => selectCell(r, c);
-                    // Input real oculto
                 }
                 board.appendChild(cell);
                 rowArr.push({el:cell, sol:char, val:''});
@@ -561,7 +487,6 @@
         cell.val = l;
         cell.el.querySelector('.val').innerText = l;
         
-        // Simple auto advance H
         if(selectedCell.c + 1 < currentPack.s && gridState[selectedCell.r][selectedCell.c+1].sol !== '#') {
             selectCell(selectedCell.r, selectedCell.c+1);
         }
@@ -578,40 +503,36 @@
                 }
             }
         }
-        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame, 2000); }
-    }
-
-    // --- ETAPAS ---
-    function openStages() {
-        openModal('modalStages');
-        const cont = document.getElementById('pathContainer');
-        cont.innerHTML = '';
-        for(let i=1; i<=10; i++) {
-            let node = document.createElement('div');
-            node.className = i <= unlockedLevel ? 'level-node' : 'level-node locked';
-            node.innerText = i;
-            if(i <= unlockedLevel) node.onclick = () => startQuiz(i);
-            cont.appendChild(node);
-            if(i<10) {
-                let line = document.createElement('div');
-                line.className = 'path-line';
-                cont.appendChild(line);
-            }
+        if(correct) { 
+            addPoints(50);
+            setTimeout(closeGame, 2000); 
         }
     }
 
-    function startQuiz() {
-        openModal('modalQuiz');
-        // Demo quiz logic
-        document.getElementById('quizPrompt').innerText = "¿Cómo se dice Perro?";
-        const opts = document.getElementById('quizOptions');
-        opts.innerHTML = `<div class="modern-card" onclick="playSfx('correct');alert('Bien!')">Dog</div><div class="modern-card" onclick="playSfx('wrong')">Cat</div>`;
+    // --- CONFETI ---
+    function showConfetti() {
+        const canvas = document.getElementById("confetti-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        
+        const colors = ["#ff0a54","#ff477e","#ff7096","#ff85a1","#fbb1b1"];
+        let particles = [];
+        for(let i=0;i<100;i++){ particles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*6+4, color: colors[Math.floor(Math.random()*colors.length)], speed: Math.random()*3+2 }); }
+        
+        let count=0;
+        function draw(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p=>{
+                ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.color; ctx.fill();
+                p.y += p.speed; if(p.y>canvas.height){p.y=0;}
+            });
+            count++; if(count<100) requestAnimationFrame(draw); else ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+        draw();
     }
 
 </script>
 </body>
 </html>
-
-
 
 
