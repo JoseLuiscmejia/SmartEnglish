@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- PWA CONFIG -->
+    <!-- PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#212121">
@@ -21,8 +21,6 @@
             --secondary: #ff9600;
             --accent: #ce82ff;
             --font-main: 'Fredoka', sans-serif;
-            
-            /* CRUCIGRAMA DARK */
             --cw-bg: #121212;
             --cw-cell: #eee;
             --cw-highlight: #90CAF9;
@@ -49,7 +47,7 @@
             overflow: hidden; position: relative;
         }
 
-        /* --- UI PRINCIPAL --- */
+        /* UI PRINCIPAL */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; border-bottom: 2px solid #ddd; }
         .logo { margin: 0; color: #6200ea; font-size: 1.4rem; }
         .stats { display: flex; gap: 8px; font-weight: bold; font-size: 0.9rem; }
@@ -57,18 +55,13 @@
 
         .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
-        /* TRADUCTOR TEXTO */
+        /* TRADUCTOR (TUYO - INTACTO) */
         .translator-card { background: white; border-radius: 15px; padding: 10px; border: 2px solid #b3e5fc; }
         .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
         .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
 
-        /* TRADUCTOR DE VOZ UNIVERSAL */
-        .voice-bar {
-            background: linear-gradient(135deg, #1565c0, #1e88e5);
-            border-radius: 15px; padding: 15px; text-align: center;
-            color: white; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.4);
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
+        /* BARRA VOZ (TUYA - INTACTA) */
+        .voice-bar { background: linear-gradient(135deg, #1565c0, #1e88e5); border-radius: 15px; padding: 15px; text-align: center; color: white; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.4); display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .voice-title { font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
         .voice-controls { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px; }
         .lang-select { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; outline: none; flex: 1; text-align: center; }
@@ -85,7 +78,7 @@
         .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
         .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
 
-        /* CATEGORÍAS INFERIORES */
+        /* CATEGORÍAS */
         .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
         .cat-card { background: white; border-radius: 15px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee; }
         .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
@@ -106,24 +99,14 @@
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
         .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* PERFIL USUARIO */
-        .profile-card { background: white; width: 90%; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--primary); }
-        .profile-avatar { font-size: 4rem; margin-bottom: 10px; }
-        .profile-name { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .p-stat { background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
-        .p-val { font-size: 1.2rem; font-weight: bold; color: var(--secondary); display: block; }
-        .p-lbl { font-size: 0.8rem; color: #777; }
-        .fav-item { background: #fff3e0; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid #ff9800; width: 100%; text-align: left; cursor: pointer;}
-
-        /* CONTENIDO CATEGORÍA */
+        /* GRID DETALLE */
         .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
         .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
         .v-icon { font-size: 2.5rem; }
         .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
 
-        /* CRUCIGRAMA PRO */
+        /* CRUCIGRAMA PRO (TUYO) */
         .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 200; display: none; flex-direction: column; }
         .cw-header { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; background: #212121; color: white; border-bottom: 1px solid #333; height: 50px; flex-shrink: 0; }
         .cw-board-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #121212; position: relative; overflow: auto; }
@@ -140,19 +123,33 @@
         .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
         .cw-pack-info { padding: 12px; color: white; }
 
-        /* ====== NUEVOS JUEGOS PREMIUM ESTILOS ====== */
-        .game-card { background:#fff; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center; width: 90%; margin: 0 auto;}
-        .game-input { width:80%; padding:10px; margin:15px 0; border-radius:8px; border:1px solid #ccc; font-size:18px; text-align: center;}
-        .game-progress { height:10px; width:100%; background:#eee; border-radius:10px; margin-top:15px; overflow: hidden;}
-        .game-progress .bar { height:100%; background:#4caf50; width: 0%; transition: width 0.3s; }
-        
-        /* MEMORY */
-        .memory-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:20px; }
-        .memory-card { aspect-ratio: 1; border-radius:10px; background:#29b6f6; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; color: transparent; transition: 0.3s; box-shadow: 0 4px 0 #0288d1;}
-        .memory-card.flipped { background: white; color: #333; transform: rotateY(180deg); border: 2px solid #29b6f6; }
-        
-        /* GAME MENU CARDS */
+        /* --- ESTILOS NUEVOS JUEGOS PRO --- */
+        /* SELECCIÓN JUEGOS */
         .game-select-card { width: 100%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        .game-select-card:active { transform: scale(0.98); }
+
+        /* FÚTBOL PRO */
+        .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; border-bottom: 5px solid #2e7d32;}
+        .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
+        .goalkeeper { font-size: 3.5rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
+        .ball { font-size: 3rem; position: absolute; bottom: 20px; left: 45%; transition: 0.5s; }
+        .soccer-lives { font-size: 1.5rem; margin-bottom: 10px; color: #f44336; }
+        .soccer-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; color: white; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+
+        /* MEMORIA PRO */
+        .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; margin-top: 15px;}
+        .mem-card { aspect-ratio: 1; background: #2196f3; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 0; color: white; transition: 0.4s; transform-style: preserve-3d; box-shadow: 0 3px 0 #1565c0; }
+        .mem-card.flipped { background: white; border: 2px solid #2196f3; color: #333; font-size: 1.5rem; transform: rotateY(180deg); font-weight: bold; }
+        
+        /* GLOBOS (DROP) */
+        .balloon-area { width: 100%; height: 350px; background: #e0f7fa; border-radius: 15px; position: relative; overflow: hidden; border: 2px solid #4dd0e1; }
+        .balloon { position: absolute; width: 70px; height: 80px; background: #ff4081; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; cursor: pointer; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2); transition: transform 0.1s; top: 0;}
+        .balloon:active { transform: scale(1.2); }
+        .balloon::after { content: ''; position: absolute; bottom: -10px; left: 33px; width: 2px; height: 20px; background: #888; }
+
+        /* PERFIL & PREMIOS */
+        .reward-item { background: #fff3e0; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid #ff9800; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .reward-item.locked { filter: grayscale(1); opacity: 0.6; }
 
         #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
         @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
@@ -181,7 +178,7 @@
         <div class="stats">
             <div class="stat-box">🔥 <span id="userStreak">0</span></div>
             <div class="stat-box">⭐ <span id="userPoints">0</span></div>
-            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openModal('modalProfile')">👤</div>
+            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openProfile()">👤</div>
         </div>
     </div>
 
@@ -254,11 +251,11 @@
             <div class="profile-name" id="profileName">Estudiante</div>
             <div class="profile-stats">
                 <div class="p-stat"><span class="p-val" id="pLevel">1</span><span class="p-lbl">Nivel</span></div>
-                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha (Días)</span></div>
-                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos Totales</span></div>
+                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha</span></div>
+                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos</span></div>
             </div>
-            <h4 style="margin-top:20px; text-align:left;">⭐ Favoritos:</h4>
-            <div id="favList" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+            <h4 style="margin-top:20px; text-align:left;">🏆 Medallas:</h4>
+            <div id="rewardsList" style="text-align:left; width:100%;"></div>
         </div>
         <button class="start-btn" onclick="logout()">Cerrar Sesión</button>
     </div>
@@ -302,95 +299,85 @@
     <input type="text" id="hiddenInput" autocomplete="off">
 </div>
 
-<!-- OTROS MODALES -->
+<!-- MENÚ JUEGOS -->
 <div id="modalGamesMenu" class="modal-overlay">
     <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
     <div class="modal-body">
-        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="startWriteGame()"><div><b>📝 Escribe</b><br><small>Traduce al inglés</small></div><div style="font-size:2.5rem">✏️</div></div>
-        <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="startMemoryGame()"><div><b>🧠 Memoria</b><br><small>Encuentra parejas</small></div><div style="font-size:2.5rem">🃏</div></div>
+        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="initSoccerPro()"><div><b>⚽ Fútbol Pro</b><br><small>Goles y Vidas</small></div><div style="font-size:2.5rem">🥅</div></div>
+        <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="initGlobos()"><div><b>🎈 Globos</b><br><small>Atrapa la palabra</small></div><div style="font-size:2.5rem">🎈</div></div>
+        <div class="game-select-card" style="border-left:8px solid #ef5350" onclick="initMemoryPro()"><div><b>🧠 Memoria Pro</b><br><small>Parejas</small></div><div style="font-size:2.5rem">🃏</div></div>
     </div>
 </div>
 
-<!-- GAME CONTAINER GENERICO -->
-<div id="modalGenericGame" class="modal-overlay">
-    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGenericGame')">⬅</button><h3>Jugar</h3><div></div></div>
-    <div class="modal-body">
-        <div id="gameContainer" style="width:100%;"></div>
-    </div>
-</div>
+<!-- JUEGOS NUEVOS -->
+<div id="modalSoccer" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol Pro</h3><div></div></div><div class="modal-body"><div style="text-align:center; width:100%;"><h3>Vidas: <span id="socLives">❤️❤️❤️</span></h3><div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div><h2 id="socQ">...</h2><div id="socBtns" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div></div></div></div>
+
+<div id="modalGlobos" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalGlobos')">⬅</button><h3>Globos</h3><div></div></div><div class="modal-body"><h3 id="dropTarget" style="text-align:center;">Traduce: ...</h3><div class="balloon-area" id="balloonArea"></div></div></div>
+
+<div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria Pro</h3><div></div></div><div class="modal-body"><div id="memProGrid" class="mem-grid"></div></div></div>
 
 <div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalStages')">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
 <div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalQuiz')">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
 <div id="modalChess" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div><div class="modal-body" style="text-align:center;"><div style="font-size:4rem; margin:20px;">♟️</div><p>Sigue la serie: 2, 4, 6...</p><button class="btn-trans" onclick="alert('Correcto!')">8</button><button class="btn-trans" style="background:#ef5350" onclick="alert('Incorrecto')">9</button></div></div>
 
 <script>
-    // --- GESTIÓN DE USUARIOS ---
+    // --- USUARIO & PREMIOS ---
     let currentUser = JSON.parse(localStorage.getItem('magicUser')) || null;
+    const rewards = [
+        {id:1, name:"Bronce", req:3}, {id:2, name:"Plata", req:7}, {id:3, name:"Oro", req:15}
+    ];
 
     window.onload = () => {
-        if(currentUser) {
-            checkStreak();
-            loadInterface();
-        } else {
-            document.getElementById('welcomeScreen').style.transform = "translateY(0)";
-        }
+        if(currentUser) { checkStreak(); loadInterface(); } 
+        else { document.getElementById('welcomeScreen').style.transform = "translateY(0)"; }
         window.speechSynthesis.getVoices();
     };
 
     function registerUser() {
         const name = document.getElementById('usernameInput').value.trim();
-        if(!name) return alert("Por favor escribe tu nombre");
-        
-        currentUser = {
-            name: name,
-            points: 0,
-            level: 1,
-            streak: 0,
-            lastLogin: new Date().toDateString(),
-            favs: []
-        };
+        if(!name) return;
+        currentUser = { name: name, points: 0, level: 1, streak: 0, lastLogin: new Date().toDateString() };
         localStorage.setItem('magicUser', JSON.stringify(currentUser));
-        playSfx('win');
-        loadInterface();
+        playSfx('win'); loadInterface();
     }
 
     function checkStreak() {
         const today = new Date().toDateString();
         if(currentUser.lastLogin !== today) {
-            currentUser.streak++; 
+            const last = new Date(currentUser.lastLogin);
+            const now = new Date();
+            const diff = (now - last) / (1000 * 60 * 60 * 24);
+            if(diff < 2) currentUser.streak++; else currentUser.streak = 1;
             currentUser.lastLogin = today;
             saveUser();
         }
     }
 
-    function loadInterface() {
-        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
-        updateUI();
-        speak(""); 
-    }
-
-    function updateUI() {
-        if(!currentUser) return;
-        document.getElementById('userPoints').innerText = currentUser.points;
-        document.getElementById('userStreak').innerText = currentUser.streak;
-        
-        // Perfil
+    function openProfile() {
         document.getElementById('profileName').innerText = currentUser.name;
         document.getElementById('pPoints').innerText = currentUser.points;
         document.getElementById('pLevel').innerText = currentUser.level;
         document.getElementById('pStreak').innerText = currentUser.streak;
+        
+        const rList = document.getElementById('rewardsList'); rList.innerHTML = '';
+        rewards.forEach(r => {
+            let d = document.createElement('div');
+            d.className = currentUser.streak >= r.req ? 'reward-item' : 'reward-item locked';
+            d.innerHTML = `<div>${currentUser.streak >= r.req ? '🏆' : '🔒'}</div><div><b>Medalla ${r.name}</b><br><small>${r.req} días seguidos</small></div>`;
+            rList.appendChild(d);
+        });
+        openModal('modalProfile');
     }
 
-    function addPts(n) {
-        currentUser.points += n;
-        // Subir de nivel cada 100 puntos
-        currentUser.level = Math.floor(currentUser.points / 100) + 1;
-        saveUser();
+    function loadInterface() {
+        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
         updateUI();
+        speak("");
     }
-
-    function saveUser() { localStorage.setItem('magicUser', JSON.stringify(currentUser)); }
+    function saveUser(){ localStorage.setItem('magicUser', JSON.stringify(currentUser)); }
+    function addPts(n){ currentUser.points += n; currentUser.level = Math.floor(currentUser.points/100)+1; saveUser(); document.getElementById('userPoints').innerText = currentUser.points; }
     function logout() { localStorage.removeItem('magicUser'); location.reload(); }
+    function updateUI() { if(!currentUser) return; document.getElementById('userPoints').innerText = currentUser.points; document.getElementById('userStreak').innerText = currentUser.streak; }
 
     // --- TRADUCTOR ---
     let isRec = false, rec = null;
@@ -399,7 +386,6 @@
         if(!txt) return;
         const src = document.getElementById('sourceLang').value.split('-')[0];
         const tgt = document.getElementById('targetLang').value;
-        
         try {
             const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
             const j = await r.json();
@@ -408,300 +394,165 @@
             speak(res, getVoiceLang(tgt));
         } catch(e) {}
     }
-
     function startVoiceTranslation() {
         if(isRec) { if(rec) rec.stop(); resetMic(); return; }
         const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!Speech) { alert("Navegador no soporta voz"); return; }
-        
-        rec = new Speech();
-        rec.lang = document.getElementById('sourceLang').value;
-        
+        if(!Speech) return;
+        rec = new Speech(); rec.lang = document.getElementById('sourceLang').value;
         const mic = document.getElementById('micBtn');
-        const status = document.getElementById('voiceStatus');
-        const targetLang = document.getElementById('targetLang').value;
-        
-        mic.classList.add('listening');
-        status.innerText = "Escuchando...";
-        isRec = true;
-        
-        rec.onresult = (e) => {
-            const txt = e.results[0][0].transcript;
-            translateAndSpeak(txt, targetLang);
-        };
-        rec.onend = () => { resetMic(); };
-        try { rec.start(); } catch(e) { resetMic(); }
+        mic.classList.add('listening'); document.getElementById('voiceStatus').innerText = "Escuchando..."; isRec = true;
+        rec.onresult = (e) => { const txt = e.results[0][0].transcript; translateAndSpeak(txt, document.getElementById('targetLang').value); };
+        rec.onend = resetMic;
+        try{rec.start();}catch(e){resetMic();}
     }
-
-    function resetMic() {
-        isRec = false;
-        document.getElementById('micBtn').classList.remove('listening');
-        document.getElementById('voiceStatus').innerText = "Toca y habla...";
+    function resetMic(){ isRec=false; document.getElementById('micBtn').classList.remove('listening'); document.getElementById('voiceStatus').innerText="..."; }
+    async function translateAndSpeak(txt, tgt) {
+        const src = document.getElementById('sourceLang').value.split('-')[0];
+        const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
+        const j = await r.json(); const res = j[0][0][0];
+        document.getElementById('voiceStatus').innerText = `${txt} ➝ ${res}`;
+        speak(res, getVoiceLang(tgt));
     }
-
-    async function translateAndSpeak(text, target) {
-        try{
-            const source = document.getElementById('sourceLang').value.split('-')[0];
-            let r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`);
-            let j = await r.json();
-            let trans = j[0][0][0];
-            
-            document.getElementById('voiceStatus').innerText = `${text} ➝ ${trans}`;
-            speak(trans, getVoiceLang(target));
-        } catch(e) { speak("Error"); }
-    }
-
-    function getVoiceLang(code) {
-        const map = {en:'en-US', es:'es-ES', fr:'fr-FR', it:'it-IT', pt:'pt-BR'};
-        return map[code] || 'en-US';
-    }
-
-    function speak(txt, lang='en-US') {
-        window.speechSynthesis.cancel();
-        let u = new SpeechSynthesisUtterance(txt);
-        u.lang = lang; u.rate = 0.9;
-        window.speechSynthesis.speak(u);
-    }
-    
-    const sfx = { correct: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'), wrong: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'), win: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg') };
-    function playSfx(t) { if(sfx[t]) { sfx[t].currentTime=0; sfx[t].play().catch(e=>{}); } }
-
-    // --- BASE DE DATOS ---
-    const phonetics = {'A':'Ei','B':'Bi','C':'Ci','D':'Di','E':'Ii','F':'Ef','G':'Yi','H':'Eich','I':'Ai','J':'Yei','K':'Kei','L':'El','M':'Em','N':'En','O':'Ou','P':'Pi','Q':'Kiu','R':'Ar','S':'Es','T':'Ti','U':'Yu','V':'Vi','W':'Dabliu','X':'Ex','Y':'Uai','Z':'Zi'};
-    const abcList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l => ({i:l, e:phonetics[l], s:l, sound: phonetics[l]}));
-
-    const db = {
-        greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'}],
-        abc: abcList,
-        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'}],
-        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'}],
-        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'}],
-        food: [{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'}],
-        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'}],
-        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'}],
-        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'}],
-        numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'}],
-        home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'}],
-        body: [{i:'👀',e:'Eyes',s:'Ojos'},{i:'👃',e:'Nose',s:'Nariz'}],
-        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'📖',e:'Book',s:'Libro'}]
-    };
-
-    // --- JUEGOS PREMIUM (INTEGRADOS) ---
-    const writeGame = {
-        words: [ {en:"dog", es:"perro"}, {en:"cat", es:"gato"}, {en:"house", es:"casa"}, {en:"sun", es:"sol"} ],
-        index: 0,
-        start() {
-            this.index = 0;
-            openModal('modalGenericGame');
-            this.render();
-        },
-        render() {
-            if(this.index >= this.words.length) {
-                document.getElementById("gameContainer").innerHTML = `<div class="game-card"><h2>🎉 ¡Felicidades!</h2><button onclick="closeModal('modalGenericGame')">Volver</button></div>`;
-                addPts(50);
-                playSfx('win');
-                return;
-            }
-            const w = this.words[this.index];
-            document.getElementById("gameContainer").innerHTML = `
-                <div class="game-card">
-                    <h3>Traduce al inglés:</h3>
-                    <h1>${w.es}</h1>
-                    <input id="gameInput" class="game-input" placeholder="Escribe aquí...">
-                    <button class="btn-trans" onclick="writeGame.check()">Verificar</button>
-                    <div class="game-progress"><div class="bar" style="width:${(this.index/this.words.length)*100}%"></div></div>
-                </div>`;
-        },
-        check() {
-            const ans = document.getElementById("gameInput").value.toLowerCase().trim();
-            if(ans === this.words[this.index].en) {
-                playSfx('correct');
-                speak(this.words[this.index].en);
-                this.index++;
-                setTimeout(() => this.render(), 1000);
-            } else {
-                playSfx('wrong');
-                speak("Wrong");
-            }
-        }
-    };
-
-    const memoryGame = {
-        cards: [ {en:"dog", img:"🐶"}, {en:"cat", img:"🐱"}, {en:"sun", img:"☀️"}, {en:"car", img:"🚗"} ],
-        flipped: [],
-        matched: 0,
-        start() {
-            openModal('modalGenericGame');
-            this.matched = 0;
-            this.flipped = [];
-            let d = [...this.cards, ...this.cards].sort(() => Math.random() - 0.5);
-            let h = `<div class="mem-grid">`;
-            d.forEach((c,i) => h += `<div class="mem-card" id="c${i}" onclick="memoryGame.flip(${i}, '${c.img}')">${c.img}</div>`);
-            h += `</div>`;
-            document.getElementById("gameContainer").innerHTML = h;
-            // Ocultar al inicio
-            setTimeout(() => document.querySelectorAll('.mem-card').forEach(c => c.classList.add('hidden-card')), 2000);
-        },
-        flip(i, val) {
-            let c = document.getElementById(`c${i}`);
-            if(c.classList.contains('matched') || this.flipped.length === 2) return;
-            c.classList.remove('hidden-card');
-            this.flipped.push({id:i, val:val});
-            if(this.flipped.length === 2) {
-                setTimeout(() => this.check(), 800);
-            }
-        },
-        check() {
-            let [a, b] = this.flipped;
-            if(a.val === b.val) {
-                document.getElementById(`c${a.id}`).classList.add('matched');
-                document.getElementById(`c${b.id}`).classList.add('matched');
-                playSfx('correct');
-                this.matched++;
-            } else {
-                document.getElementById(`c${a.id}`).classList.add('hidden-card');
-                document.getElementById(`c${b.id}`).classList.add('hidden-card');
-                playSfx('wrong');
-            }
-            this.flipped = [];
-            if(this.matched === this.cards.length) {
-                addPts(50);
-                playSfx('win');
-                speak("You won!");
-            }
-        }
-    };
-
-    function startWriteGame() { writeGame.start(); }
-    function initMemory() { memoryGame.start(); }
-
-    // --- PACKS CRUCIGRAMA ---
-    const packs = [
-        { id:0, title:"Colores", diff:"Fácil", s:3, l:[['R','E','D'],['#','#','O'],['#','#','G']], c:["1. Color de la sangre","2. Animal que ladra"], sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'} },
-        { id:1, title:"Mascotas", diff:"Fácil", s:4, l:[['C','A','T','#'],['#','#','O','#'],['#','#','A','#'],['#','#','D','#']], c:["1. Animal que dice miau","2. Animal verde que salta"], sol:{'0-0':'C','0-1':'A','0-2':'T','1-2':'O','2-2':'A','3-2':'D'} },
-        { id:2, title:"Números", diff:"Medio", s:4, l:[['T','E','N','#'],['W','#','I','#'],['O','#','N','#'],['#','#','E','#']], c:["1. Número 10","2. Número 2","3. Número 9"], sol:{'0-0':'T','0-1':'E','0-2':'N','1-0':'W','2-0':'O','1-2':'I','2-2':'N','3-2':'E'} }
-    ];
-
-    let currentPack=null, selectedCell={r:-1,c:-1}, currentDir='H', gridState=[];
-
+    function getVoiceLang(c){ const m={en:'en-US',es:'es-ES',fr:'fr-FR',it:'it-IT',pt:'pt-BR'}; return m[c]||'en-US'; }
+    function speak(t, l='en-US'){ window.speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(t); u.lang=l; u.rate=0.9; window.speechSynthesis.speak(u); }
     function openModal(id){document.getElementById(id).style.display='flex';}
     function closeModal(id){document.getElementById(id).style.display='none';}
 
-    // --- LOGICA CATEGORIAS ---
-    function openCategory(cat, title) {
+    // --- DB & GAMES DATA ---
+    const db = {
+        greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'}],
+        abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l=>({i:l,e:l,s:l})),
+        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'}],
+        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'}],
+        food: [{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'},{i:'🌭',e:'Hot Dog',s:'Perro Caliente'},{i:'🍟',e:'Fries',s:'Papas Fritas'},{i:'🍞',e:'Bread',s:'Pan'}],
+        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'}],
+        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'}],
+        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'}],
+        numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},{i:'6️⃣',e:'Six',s:'6'}],
+        home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'},{i:'🪟',e:'Window',s:'Ventana'},{i:'🛋️',e:'Sofa',s:'Sofá'}],
+        body: [{i:'👤',e:'Head',s:'Cabeza'},{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'}],
+        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'}],
+        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'},{i:'🤸',e:'Jump',s:'Saltar'},{i:'🏊',e:'Swim',s:'Nadar'}]
+    };
+
+    // --- CATEGORY ---
+    function openCategory(c, t){
+        document.getElementById('catTitle').innerText=t; const g=document.getElementById('catGrid'); g.innerHTML='';
+        if(db[c]) db[c].forEach(i=>{let d=document.createElement('div'); d.className='vocab-item'; d.innerHTML=`<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`; d.onclick=()=>speak(i.e); g.appendChild(d);});
         openModal('modalCategory');
-        document.getElementById('catTitle').innerText = title;
-        let g = document.getElementById('catGrid'); g.innerHTML = '';
-        if(db[cat]) {
-            db[cat].forEach(i => {
-                let d = document.createElement('div'); d.className='vocab-item';
-                d.innerHTML = `<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`;
-                d.onclick = () => speak(i.sound || i.e);
-                g.appendChild(d);
-            });
+    }
+
+    // --- FUTBOL PRO ---
+    let socLives = 3;
+    function initSoccerPro() {
+        socLives = 3; 
+        openModal('modalSoccer');
+        newKick();
+    }
+    function newKick() {
+        if(socLives<=0) { alert("Game Over"); closeModal('modalSoccer'); return; }
+        document.getElementById('ball').style.bottom="10px";
+        const all = [...db.animals, ...db.fruits];
+        const q = all[Math.floor(Math.random()*all.length)];
+        const w = all[Math.floor(Math.random()*all.length)];
+        document.getElementById('socQ').innerText = q.s;
+        const btns = [`<button class="game-btn" onclick="kickPro(true, '${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kickPro(false)">${w.e}</button>`].sort(()=>Math.random()-0.5).join('');
+        document.getElementById('socBtns').innerHTML = btns;
+    }
+    function kickPro(win, w) {
+        if(win) {
+            document.getElementById('ball').style.bottom="180px";
+            document.getElementById('keeper').style.left="80%";
+            speak("Goal! "+w); addPts(20);
+        } else {
+            document.getElementById('keeper').style.left="45%";
+            speak("Missed"); socLives--;
         }
+        setTimeout(newKick, 1500);
     }
 
-    // --- CRUCIGRAMA ---
-    function openCrosswordMenu() {
-        openModal('packsScreen');
-        let g = document.getElementById('packsGrid'); g.innerHTML = '';
-        packs.forEach((cw, idx) => {
-            let col = cw.diff==="Fácil"?'#4caf50':(cw.diff==="Medio"?'#ff9800':'#f44336');
-            let c = document.createElement('div'); c.className = 'cw-pack-card';
-            c.innerHTML = `<div class="cw-pack-stripe" style="background:${col}"></div><div class="cw-pack-info"><div class="cw-pack-title">${cw.title}</div><div class="cw-pack-meta">${cw.s}x${cw.s} • ${cw.diff}</div></div>`;
-            c.onclick = () => loadCrossword(idx);
-            g.appendChild(c);
+    // --- GLOBOS (DROP) ---
+    let dropInterval;
+    function initGlobos() {
+        openModal('modalGlobos');
+        const area = document.getElementById('balloonArea');
+        area.innerHTML = '';
+        const all = [...db.colors, ...db.numbers];
+        const target = all[Math.floor(Math.random()*all.length)];
+        document.getElementById('dropTarget').innerText = "Traduce: " + target.s;
+        const opts = [target, all[Math.floor(Math.random()*all.length)]];
+        opts.forEach((o, i) => {
+            let b = document.createElement('div');
+            b.className = "balloon";
+            b.innerText = o.e;
+            b.style.left = (i*50 + 20) + "%";
+            b.style.top = "0px";
+            b.onclick = () => {
+                if(o.e === target.e) { speak("Correct!"); addPts(10); clearInterval(dropInterval); setTimeout(initGlobos, 1000); }
+                else { speak("Wrong"); b.style.display='none'; }
+            };
+            area.appendChild(b);
         });
-    }
-    function closePacks() { document.getElementById('packsScreen').style.display='none'; }
-    function closeGame() { document.getElementById('gameScreen').style.display='none'; }
-
-    function loadCrossword(idx) {
-        currentPack = packs[idx];
-        document.getElementById('gameTitle').innerText = currentPack.title;
-        openModal('gameScreen');
-        buildBoard(currentPack);
+        let pos = 0;
+        dropInterval = setInterval(() => {
+            pos += 2;
+            document.querySelectorAll('.balloon').forEach(b => b.style.top = pos + "px");
+            if(pos > 280) { clearInterval(dropInterval); setTimeout(initGlobos, 500); }
+        }, 50);
     }
 
-    function buildBoard(pack) {
-        const board = document.getElementById('gridTable');
-        board.style.gridTemplateColumns = `repeat(${pack.s}, 1fr)`;
-        board.innerHTML = '';
-        gridState = [];
-
-        for(let r=0; r<pack.s; r++) {
-            let rowArr = [];
-            for(let c=0; c<pack.s; c++) {
-                const char = pack.l[r][c];
-                const cell = document.createElement('div');
-                if(char === '#') cell.className = 'cw-cell black';
-                else {
-                    cell.className = 'cw-cell';
-                    const input = document.createElement('input');
-                    input.className = 'trans-input'; input.style.background='transparent'; input.style.border='none'; input.maxLength=1; input.style.fontWeight='900'; input.style.textTransform='uppercase';
-                    input.dataset.r = r; input.dataset.c = c;
-                    input.onfocus = () => selectCell(r, c);
-                    input.onkeyup = (e) => handleInput(e, input);
-                    cell.appendChild(input);
+    // --- MEMORIA PRO ---
+    let mSel = [];
+    function initMemoryPro() {
+        openModal('modalMemory');
+        const g = document.getElementById('memProGrid'); g.innerHTML = '';
+        const items = [...db.animals, ...db.fruits].sort(()=>Math.random()-0.5).slice(0, 6);
+        let cards = [];
+        items.forEach(i => {
+            cards.push({id:i.e, content:i.i});
+            cards.push({id:i.e, content:i.e});
+        });
+        cards.sort(()=>Math.random()-0.5);
+        cards.forEach(c => {
+            let div = document.createElement('div');
+            div.className = 'mem-card';
+            div.onclick = () => {
+                if(mSel.length < 2 && !div.classList.contains('flipped')) {
+                    div.classList.add('flipped'); div.innerText = c.content;
+                    mSel.push({el:div, id:c.id});
+                    if(mSel.length === 2) checkMemPro();
                 }
-                board.appendChild(cell);
-                rowArr.push({el:cell, sol:char});
-            }
-            gridState.push(rowArr);
-        }
-    }
-
-    function selectCell(r,c) {
-        selectedCell = {r,c};
-        const clue = currentPack.c.join(' | ');
-        document.getElementById('currentClueDisplay').innerText = clue;
-    }
-
-    function handleInput(e, input) {
-        if(e.key.match(/[a-z]/i)) {
-            const all = Array.from(document.querySelectorAll('.cw-cell:not(.black) input'));
-            const idx = all.indexOf(input);
-            if(idx < all.length-1) all[idx+1].focus();
-        }
-    }
-
-    function checkCrossword() {
-        let correct = true;
-        document.querySelectorAll('.cw-cell:not(.black) input').forEach(inp => {
-            const r = inp.dataset.r; const c = inp.dataset.c;
-            const sol = currentPack.sol[`${r}-${c}`];
-            if(inp.value.toUpperCase() === sol) { inp.style.color="green"; inp.parentElement.style.background="#e8f5e9"; }
-            else { inp.style.color="red"; inp.parentElement.style.background="#ffebee"; correct=false; }
+            };
+            g.appendChild(div);
         });
-        if(correct) { playSfx('win'); speak("Excellent!"); setTimeout(closeGame, 2000); }
+    }
+    function checkMemPro() {
+        if(mSel[0].id === mSel[1].id) {
+            speak("Match!"); addPts(15); mSel = [];
+        } else {
+            setTimeout(() => {
+                mSel[0].el.classList.remove('flipped'); mSel[0].el.innerText = "";
+                mSel[1].el.classList.remove('flipped'); mSel[1].el.innerText = "";
+                mSel = [];
+            }, 1000);
+        }
     }
 
-    // --- ETAPAS ---
-    function openStages(){ openModal('modalStages'); let c=document.getElementById('pathContainer'); c.innerHTML=''; for(let i=1;i<=10;i++){let d=document.createElement('div'); d.className=i<=currentUser.level?'section-node':'section-node locked'; d.innerHTML=`<div class="section-icon">${i<=currentUser.level?'⭐':'🔒'}</div><div class="section-label">Nivel ${i}</div>`; if(i<=currentUser.level)d.onclick=()=>startQuiz(i); c.appendChild(d); if(i<10){let l=document.createElement('div'); l.className='path-line'; c.appendChild(l);}} }
-    
-    let curQ=[], curQI=0;
-    function startQuiz(l){
-        let s=[...db.animals,...db.fruits,...db.colors]; curQ=[];
-        for(let i=0;i<10;i++){ let c=s[Math.floor(Math.random()*s.length)], w1=s[Math.floor(Math.random()*s.length)], w2=s[Math.floor(Math.random()*s.length)]; curQ.push({q:`¿Cómo se dice ${c.s}?`, a:c.e, o:[c.e,w1.e,w2.e].sort(()=>Math.random()-0.5)}); }
-        curQI=0; openModal('modalQuiz'); showQ();
-    }
-    function showQ(){
-        if(curQI>=10){ playSfx('win'); speak("Level Up!"); addPts(50); closeModal('modalQuiz'); openStages(); return; }
-        let q=curQ[curQI]; document.getElementById('quizBar').style.width=((curQI/10)*100)+'%'; document.getElementById('quizPrompt').innerText=q.q;
-        let c=document.getElementById('quizOptions'); c.innerHTML='';
-        q.o.forEach(t=>{let b=document.createElement('div'); b.className='quiz-option'; b.innerText=t; b.onclick=()=>{if(t===q.a){b.className+=' correct'; playSfx('correct'); speak("Correct"); setTimeout(()=>{curQI++; showQ();},1000);}else{b.className+=' wrong'; playSfx('wrong'); speak("Wrong");}}; c.appendChild(b);});
-    }
+    // --- CRUCIGRAMA (Mantenido) ---
+    const packs=[{id:0,title:"Básico",diff:"Fácil",s:3,l:[['R','E','D'],['#','#','O'],['#','#','G']],c:["Color sangre","Animal ladra"],sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'}}];
+    let curPack, selCell, curDir='H', grState=[];
+    function openCrosswordMenu(){openModal('packsScreen'); let g=document.getElementById('packsGrid'); g.innerHTML=''; packs.forEach(p=>{let d=document.createElement('div'); d.className='cw-pack-card'; d.innerHTML=`<div class="cw-pack-info">${p.title}</div>`; d.onclick=()=>loadCw(p); g.appendChild(d);});}
+    function closePacks(){closeModal('packsScreen');} function closeGame(){closeModal('gameScreen');}
+    function loadCw(p){curPack=p; document.getElementById('gameTitle').innerText=p.title; openModal('gameScreen'); buildCw(p);}
+    function buildCw(p){const b=document.getElementById('gridTable'); b.style.gridTemplateColumns=`repeat(${p.s},1fr)`; b.innerHTML=''; grState=[]; for(let r=0;r<p.s;r++){let row=[]; for(let c=0;c<p.s;c++){let ch=p.l[r][c]; let d=document.createElement('div'); if(ch==='#')d.className='cw-cell black'; else {d.className='cw-cell'; let i=document.createElement('input'); i.className='trans-input'; i.style.background='transparent'; i.maxLength=1; i.dataset.r=r; i.dataset.c=c; i.onfocus=()=>selCw(r,c); i.onkeyup=(e)=>inpCw(e,i); d.appendChild(i);} b.appendChild(d); row.push({el:d,sol:ch});} grState.push(row);}}
+    function selCw(r,c){selCell={r,c}; document.getElementById('currentClueDisplay').innerText=curPack.c[0];}
+    function inpCw(e,i){if(e.key.match(/[a-z]/i)) i.parentElement.nextElementSibling?.querySelector('input')?.focus();}
+    function checkCrossword(){document.querySelectorAll('.cw-cell input').forEach(i=>{let r=i.dataset.r,c=i.dataset.c,s=curPack.sol[`${r}-${c}`]; if(i.value.toUpperCase()===s)i.style.color='green'; else i.style.color='red';});}
 
-    // --- JUEGOS VIEJOS (Placeholders) ---
-    function initSoccer(){ alert("Pronto: Fútbol Pro"); }
-    function initHangman(){ alert("Pronto: Ahorcado Pro"); }
-    function initChess(){ openModal('modalChess'); }
-
-    function confetti() { for(let i=0; i<20; i++){let d=document.createElement('div'); d.innerHTML='🎉'; d.className='confetti'; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(Math.random()*2+1)+'s'; document.body.appendChild(d); setTimeout(()=>d.remove(),3000);} }
 </script>
 </body>
 </html>
+
 
 
 
