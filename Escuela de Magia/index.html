@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <!-- PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -10,28 +11,174 @@
     <title>Magic School Pro</title>
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063823.png">
-    
-    <!-- CONEXIÓN CON TUS CARPETAS -->
-    <link rel="stylesheet" href="css/estilos.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
+
+        :root {
+            --bg-body: #00bcd4;
+            --primary: #58cc02;
+            --secondary: #ff9600;
+            --accent: #ce82ff;
+            --font-main: 'Fredoka', sans-serif;
+            --cw-bg: #121212;
+            --cw-cell: #eee;
+            --cw-highlight: #90CAF9;
+            --cw-selected: #FFEB3B;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: #00bcd4;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-shell {
+            width: 100%; max-width: 420px; height: 100%;
+            background: #f5f5f5; 
+            display: flex; flex-direction: column;
+            overflow: hidden; position: relative;
+        }
+
+        /* UI PRINCIPAL */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; border-bottom: 2px solid #ddd; }
+        .logo { margin: 0; color: #6200ea; font-size: 1.4rem; }
+        .stats { display: flex; gap: 8px; font-weight: bold; font-size: 0.9rem; }
+        .stat-box { background: #FFD700; padding: 4px 10px; border-radius: 12px; border: 2px solid #ffca28; color: #e65100; }
+
+        .scroll-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* TRADUCTOR (TUYO - INTACTO) */
+        .translator-card { background: white; border-radius: 15px; padding: 10px; border: 2px solid #b3e5fc; }
+        .trans-input { width: 100%; border: none; font-size: 1.2rem; outline: none; border-bottom: 2px solid #eee; text-align: center; color: #333; font-family: 'Roboto', sans-serif;}
+        .btn-trans { width: 100%; background: #039be5; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 5px; cursor: pointer; }
+
+        /* BARRA VOZ (TUYA - INTACTA) */
+        .voice-bar { background: linear-gradient(135deg, #1565c0, #1e88e5); border-radius: 15px; padding: 15px; text-align: center; color: white; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.4); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .voice-title { font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+        .voice-controls { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 5px; }
+        .lang-select { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; outline: none; flex: 1; text-align: center; }
+        .lang-select option { color: #333; }
+        .voice-icon { background: white; color: #1565c0; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: transform 0.1s; margin-top: 10px; }
+        .voice-icon:active { transform: scale(0.9); }
+        .voice-icon.listening { background: #f44336; color: white; animation: pulse 1s infinite; }
+        .voice-text { font-size: 0.9rem; font-weight: bold; min-height: 1.2em; margin-top: 5px; }
+
+        /* MENÚ SUPERIOR */
+        .menu-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+        .menu-btn { background: white; border-radius: 15px; padding: 5px; text-align: center; cursor: pointer; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 0 #e0e0e0; border: 2px solid #eee; }
+        .menu-btn:active { transform: translateY(4px); box-shadow: none; }
+        .menu-icon { font-size: 2.2rem; margin-bottom: 5px; }
+        .menu-label { font-size: 0.7rem; font-weight: bold; color: #555; }
+
+        /* CATEGORÍAS */
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-bottom: 20px; }
+        .cat-card { background: white; border-radius: 15px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; border-bottom: 4px solid #eee; }
+        .cat-card:active { transform: translateY(4px); border-bottom: 2px solid #eee; }
+        .cat-icon { font-size: 2.5rem; margin-bottom: 5px; }
+        .cat-title { font-size: 0.75rem; font-weight: bold; color: #444; text-transform: uppercase; }
+        .c-blue { border-bottom-color: #42a5f5; } .c-green { border-bottom-color: #66bb6a; } .c-orange { border-bottom-color: #ffa726; } .c-purple { border-bottom-color: #ab47bc; } .c-red { border-bottom-color: #ef5350; } .c-teal { border-bottom-color: #26a69a; }
+
+        /* BIENVENIDA */
+        #welcomeScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.5s ease; }
+        .photo-frame img { width: 120px; }
+        .start-btn { background: var(--primary); color: white; padding: 15px 50px; border-radius: 30px; font-size: 1.2rem; border: none; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 5px 0 #46a302; }
+        .name-input { margin-top: 20px; padding: 10px; border: 2px solid #ddd; border-radius: 10px; font-size: 1.2rem; text-align: center; width: 70%; font-family: 'Roboto', sans-serif;}
+
+        /* MODALES */
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f5f5f5; z-index: 150; display: none; flex-direction: column; animation: slideUp 0.3s ease; }
+        .modal-header { background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .modal-title { font-size: 1.2rem; font-weight: bold; color: #444; text-transform: uppercase; }
+        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+        .modal-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+
+        /* GRID DETALLE */
+        .cat-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
+        .vocab-item { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 4px 0 #ddd; border: 1px solid #eee; cursor: pointer; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .vocab-item:active { transform: translateY(4px); box-shadow: none; background: #e3f2fd; }
+        .v-icon { font-size: 2.5rem; }
+        .v-word { font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 5px; }
+
+        /* CRUCIGRAMA PRO (TUYO) */
+        .cw-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 200; display: none; flex-direction: column; }
+        .cw-header { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; background: #212121; color: white; border-bottom: 1px solid #333; height: 50px; flex-shrink: 0; }
+        .cw-board-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #121212; position: relative; overflow: auto; }
+        .cw-table { display: grid; gap: 2px; background: #000; padding: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #333; }
+        .cw-cell { width: 36px; height: 36px; background: var(--cw-cell); position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; color: #222; }
+        .cw-cell.black { background: transparent; pointer-events: none; }
+        .cw-cell.active-word { background: var(--cw-highlight) !important; color: #000; }
+        .cw-cell.selected { background: var(--cw-selected) !important; color: #000; z-index: 10; box-shadow: inset 0 0 0 2px #000; transform: scale(1.1); }
+        .cw-num { position: absolute; top: 1px; left: 2px; font-size: 0.5rem; color: #444; font-weight: bold; line-height: 1; pointer-events: none; }
+        .cw-clue-box { background: #263238; border-left: 6px solid #4FC3F7; padding: 15px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; position: relative; flex-shrink: 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.3); margin: 10px; border-radius: 4px; }
+        .cw-clue-text { color: white; font-size: 1rem; font-weight: 500; margin-left: 10px; line-height: 1.2; }
+        .fab-check { position: absolute; bottom: 130px; right: 20px; background: #58cc02; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 2rem; box-shadow: 0 6px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
+        .cw-pack-grid { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; overflow-y: auto; background: #212121; height: 100%; }
+        .cw-pack-card { background: #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; border-bottom: 4px solid #111; min-height: 120px; }
+        .cw-pack-info { padding: 12px; color: white; }
+
+        /* --- ESTILOS NUEVOS JUEGOS PRO --- */
+        /* SELECCIÓN JUEGOS */
+        .game-select-card { width: 100%; background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 8px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        .game-select-card:active { transform: scale(0.98); }
+
+        /* FÚTBOL PRO */
+        .soccer-field { width: 100%; height: 250px; background: #43a047; border: 4px solid white; border-radius: 15px; position: relative; overflow: hidden; margin-bottom: 15px; border-bottom: 5px solid #2e7d32;}
+        .goal-post { width: 60%; height: 80px; border: 8px solid white; border-bottom: none; position: absolute; left: 20%; top: 0; }
+        .goalkeeper { font-size: 3.5rem; position: absolute; top: 40px; left: 45%; transition: 0.3s; }
+        .ball { font-size: 3rem; position: absolute; bottom: 20px; left: 45%; transition: 0.5s; }
+        .soccer-lives { font-size: 1.5rem; margin-bottom: 10px; color: #f44336; }
+        .soccer-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; color: white; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+
+        /* MEMORIA PRO */
+        .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; margin-top: 15px;}
+        .mem-card { aspect-ratio: 1; background: #2196f3; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 0; color: white; transition: 0.4s; transform-style: preserve-3d; box-shadow: 0 3px 0 #1565c0; }
+        .mem-card.flipped { background: white; border: 2px solid #2196f3; color: #333; font-size: 1.5rem; transform: rotateY(180deg); font-weight: bold; }
+        
+        /* GLOBOS (DROP) */
+        .balloon-area { width: 100%; height: 350px; background: #e0f7fa; border-radius: 15px; position: relative; overflow: hidden; border: 2px solid #4dd0e1; }
+        .balloon { position: absolute; width: 70px; height: 80px; background: #ff4081; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; cursor: pointer; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2); transition: transform 0.1s; top: 0;}
+        .balloon:active { transform: scale(1.2); }
+        .balloon::after { content: ''; position: absolute; bottom: -10px; left: 33px; width: 2px; height: 20px; background: #888; }
+
+        /* PERFIL & PREMIOS */
+        .reward-item { background: #fff3e0; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid #ff9800; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .reward-item.locked { filter: grayscale(1); opacity: 0.6; }
+
+        #hiddenInput { position: absolute; opacity: 0; top: -1000px; }
+        @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; z-index: 300; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+    </style>
 </head>
 <body>
 
 <div class="app-shell">
     
-    <!-- BIENVENIDA -->
+    <!-- BIENVENIDA (LOGIN) -->
     <div id="welcomeScreen">
         <div class="photo-frame"><img src="https://cdn-icons-png.flaticon.com/512/4322/4322992.png" style="width:100%"></div>
-        <h1 class="welcome-title">¡Bienvenido! 🔊</h1>
-        <p style="color:#777; margin-bottom: 30px;">Magic School Pro</p>
-        <button class="start-btn" id="btnEnter">ENTRAR</button>
+        <h1 style="color:var(--primary); margin-bottom: 5px;" id="welcomeText">¡Bienvenido!</h1>
+        <p style="color:#777;">Escribe tu nombre:</p>
+        <input type="text" id="usernameInput" class="name-input" placeholder="Tu Nombre" maxlength="12">
+        <button class="start-btn" onclick="registerUser()">ENTRAR</button>
     </div>
 
     <!-- UI PRINCIPAL -->
     <div class="header">
         <h2 class="logo">Magic School</h2>
         <div class="stats">
-            <div class="stat-box">🔥 <span id="streak">1</span></div>
-            <div class="stat-box">⭐ <span id="points">0</span></div>
+            <div class="stat-box">🔥 <span id="userStreak">0</span></div>
+            <div class="stat-box">⭐ <span id="userPoints">0</span></div>
+            <div class="stat-box" style="background:#fff; border:2px solid #ddd; cursor:pointer;" onclick="openProfile()">👤</div>
         </div>
     </div>
 
@@ -39,16 +186,16 @@
         <!-- TRADUCTOR TEXTO -->
         <div class="translator-card">
             <input type="text" id="transIn" class="trans-input" placeholder="Escribe (Hola)...">
-            <button class="btn-trans" id="btnTranslate">TRADUCIR</button>
+            <button class="btn-trans" onclick="doTranslate()">TRADUCIR</button>
             <div id="transOut" style="text-align:center; margin-top:5px; font-weight:bold; color:var(--primary);">...</div>
         </div>
 
         <!-- MENÚ SUPERIOR -->
         <div class="menu-row">
-            <div class="menu-btn" style="border-bottom-color:#42a5f5" id="btnOpenStages"><div class="menu-icon">🗺️</div><div class="menu-label">Etapas</div></div>
-            <div class="menu-btn" style="border-bottom-color:#ef5350" id="btnOpenCrossword"><div class="menu-icon">🧩</div><div class="menu-label">Crucigrama</div></div>
-            <div class="menu-btn" style="border-bottom-color:#ab47bc" id="btnOpenChess"><div class="menu-icon">♟️</div><div class="menu-label">Lógica</div></div>
-            <div class="menu-btn" style="border-bottom-color:#ffca28" id="btnOpenGames"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
+            <div class="menu-btn" style="border-bottom-color:#42a5f5" onclick="openStages()"><div class="menu-icon">🗺️</div><div class="menu-label">Etapas</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ef5350" onclick="openCrosswordMenu()"><div class="menu-icon">🧩</div><div class="menu-label">Crucigrama</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ab47bc" onclick="openModal('modalChess')"><div class="menu-icon">♟️</div><div class="menu-label">Lógica</div></div>
+            <div class="menu-btn" style="border-bottom-color:#ffca28" onclick="openModal('modalGamesMenu')"><div class="menu-icon">🎮</div><div class="menu-label">Juegos</div></div>
         </div>
 
         <!-- BARRA TRADUCTOR VOZ -->
@@ -71,41 +218,337 @@
                     <option value="pt">A: Portugués 🇧🇷</option>
                 </select>
             </div>
-            <div class="voice-icon" id="micBtn">🎤</div>
+            <div class="voice-icon" id="micBtn" onclick="startVoiceTranslation()">🎤</div>
             <div class="voice-text" id="voiceStatus">Toca el micro y habla...</div>
         </div>
 
-        <!-- CATEGORÍAS (Rejilla inferior) -->
-        <div class="categories-grid" id="catGridContainer"></div>
+        <!-- REJILLA DE CATEGORÍAS (ABAJO) -->
+        <div class="categories-grid">
+            <div class="cat-card c-blue" onclick="openCategory('verbs', 'Verbos')"><div class="cat-icon">🏃</div><div class="cat-title">Verbos</div></div>
+            <div class="cat-card c-green" onclick="openCategory('abc', 'Abecedario')"><div class="cat-icon">🔤</div><div class="cat-title">Abecedario</div></div>
+            <div class="cat-card c-orange" onclick="openCategory('greetings', 'Saludos')"><div class="cat-icon">👋</div><div class="cat-title">Saludos</div></div>
+            <div class="cat-card c-purple" onclick="openCategory('animals', 'Animales')"><div class="cat-icon">🐶</div><div class="cat-title">Animales</div></div>
+            <div class="cat-card c-red" onclick="openCategory('routines', 'Rutina')"><div class="cat-icon">📅</div><div class="cat-title">Rutina</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('fruits', 'Frutas')"><div class="cat-icon">🍎</div><div class="cat-title">Frutas</div></div>
+            <div class="cat-card c-blue" onclick="openCategory('food', 'Comida')"><div class="cat-icon">🍔</div><div class="cat-title">Comida</div></div>
+            <div class="cat-card c-green" onclick="openCategory('numbers', 'Números')"><div class="cat-icon">1️⃣</div><div class="cat-title">Números</div></div>
+            <div class="cat-card c-purple" onclick="openCategory('family', 'Familia')"><div class="cat-icon">👪</div><div class="cat-title">Familia</div></div>
+            <div class="cat-card c-orange" onclick="openCategory('colors', 'Colores')"><div class="cat-icon">🎨</div><div class="cat-title">Colores</div></div>
+            <div class="cat-card c-red" onclick="openCategory('home', 'Hogar')"><div class="cat-icon">🏠</div><div class="cat-title">Hogar</div></div>
+            <div class="cat-card c-teal" onclick="openCategory('body', 'Cuerpo')"><div class="cat-icon">👂</div><div class="cat-title">Cuerpo</div></div>
+        </div>
     </div>
 </div>
 
-<!-- MODALES -->
-<div id="modalCategory" class="modal-overlay">
-    <div class="modal-header"><button class="back-btn close-modal" data-target="modalCategory">⬅</button><span class="modal-title" id="catTitle">...</span><div style="width:35px"></div></div>
-    <div class="modal-body"><div class="cat-detail-grid" id="catDetailGrid"></div></div>
+<!-- ================= MODALES ================= -->
+
+<!-- MODAL PERFIL -->
+<div id="modalProfile" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalProfile')">⬅</button><h3>Mi Perfil</h3><div></div></div>
+    <div class="modal-body">
+        <div class="profile-card">
+            <div class="profile-avatar">🎓</div>
+            <div class="profile-name" id="profileName">Estudiante</div>
+            <div class="profile-stats">
+                <div class="p-stat"><span class="p-val" id="pLevel">1</span><span class="p-lbl">Nivel</span></div>
+                <div class="p-stat"><span class="p-val" id="pStreak">0</span><span class="p-lbl">Racha</span></div>
+                <div class="p-stat"><span class="p-val" id="pPoints">0</span><span class="p-lbl">Puntos</span></div>
+            </div>
+            <h4 style="margin-top:20px; text-align:left;">🏆 Medallas:</h4>
+            <div id="rewardsList" style="text-align:left; width:100%;"></div>
+        </div>
+        <button class="start-btn" onclick="logout()">Cerrar Sesión</button>
+    </div>
 </div>
 
+<!-- MODAL CATEGORÍA -->
+<div id="modalCategory" class="modal-overlay">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modalCategory')">⬅</button>
+        <span class="modal-title" id="catTitle">...</span>
+        <div style="width:35px"></div>
+    </div>
+    <div class="modal-body">
+        <div class="cat-detail-grid" id="catGrid"></div>
+    </div>
+</div>
+
+<!-- CRUCIGRAMA PRO SYSTEM -->
 <div id="packsScreen" class="cw-screen">
-    <div class="cw-header"><button class="cw-close-btn close-modal" data-target="packsScreen">⬅</button><span class="cw-title">NIVELES</span><div style="width:30px"></div></div>
+    <div class="cw-header">
+        <button class="cw-close-btn" onclick="closePacks()">⬅</button>
+        <span style="font-weight:bold; font-size:1.1rem; text-transform:uppercase;">Niveles</span>
+        <div style="width:30px"></div>
+    </div>
     <div class="cw-pack-grid" id="packsGrid"></div>
 </div>
 
 <div id="gameScreen" class="cw-screen" style="z-index:250">
-    <div class="cw-header"><button class="cw-close-btn" id="btnCloseGame">✖</button><span class="cw-title" id="gameTitle">Nivel</span><div style="width:30px"></div></div>
-    <div class="cw-board-area"><div id="gridTable" class="cw-table"></div></div>
-    <button class="fab-check" id="btnCheckCw">✓</button>
-    <div class="cw-clue-box"><div class="cw-clue-label" id="clueNumLabel">PISTA</div><div class="cw-clue-text" id="currentClueDisplay">Selecciona...</div></div>
+    <div class="cw-header">
+        <button class="cw-close-btn" onclick="closeGame()">✖</button>
+        <span style="font-weight:bold;" id="gameTitle">Nivel 1</span>
+        <div style="width:30px"></div>
+    </div>
+    <div class="cw-board-area">
+        <div id="gridTable" class="cw-table"></div>
+    </div>
+    <button class="fab-check" onclick="checkCrossword()">✓</button>
+    <div class="cw-clue-box">
+        <div class="cw-clue-text" id="currentClueDisplay">Selecciona una casilla...</div>
+    </div>
     <input type="text" id="hiddenInput" autocomplete="off">
 </div>
 
-<!-- MODALES EXTRAS -->
-<div id="modalGeneric" class="modal-overlay"><div class="modal-header"><button class="back-btn close-modal" data-target="modalGeneric">⬅</button><h3 id="genTitle">Juegos</h3><div></div></div><div class="modal-body" id="genBody"></div></div>
-<div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn close-modal" data-target="modalStages">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
-<div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn close-modal" data-target="modalQuiz">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
+<!-- MENÚ JUEGOS -->
+<div id="modalGamesMenu" class="modal-overlay">
+    <div class="modal-header"><button class="back-btn" onclick="closeModal('modalGamesMenu')">⬅</button><h3>Juegos</h3><div></div></div>
+    <div class="modal-body">
+        <div class="game-select-card" style="border-left:8px solid #0288d1" onclick="initSoccerPro()"><div><b>⚽ Fútbol Pro</b><br><small>Goles y Vidas</small></div><div style="font-size:2.5rem">🥅</div></div>
+        <div class="game-select-card" style="border-left:8px solid #fbc02d" onclick="initGlobos()"><div><b>🎈 Globos</b><br><small>Atrapa la palabra</small></div><div style="font-size:2.5rem">🎈</div></div>
+        <div class="game-select-card" style="border-left:8px solid #ef5350" onclick="initMemoryPro()"><div><b>🧠 Memoria Pro</b><br><small>Parejas</small></div><div style="font-size:2.5rem">🃏</div></div>
+    </div>
+</div>
 
-<!-- CONEXIÓN CON LA LÓGICA -->
-<script type="module" src="js/main.js"></script>
+<!-- JUEGOS NUEVOS -->
+<div id="modalSoccer" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalSoccer')">⬅</button><h3>Fútbol Pro</h3><div></div></div><div class="modal-body"><div style="text-align:center; width:100%;"><h3>Vidas: <span id="socLives">❤️❤️❤️</span></h3><div class="soccer-field"><div class="goal-post"></div><div class="goalkeeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div></div><h2 id="socQ">...</h2><div id="socBtns" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div></div></div></div>
 
+<div id="modalGlobos" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalGlobos')">⬅</button><h3>Globos</h3><div></div></div><div class="modal-body"><h3 id="dropTarget" style="text-align:center;">Traduce: ...</h3><div class="balloon-area" id="balloonArea"></div></div></div>
+
+<div id="modalMemory" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalMemory')">⬅</button><h3>Memoria Pro</h3><div></div></div><div class="modal-body"><div id="memProGrid" class="mem-grid"></div></div></div>
+
+<div id="modalStages" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalStages')">⬅</button><h3>Etapas</h3><div></div></div><div class="modal-body"><div id="pathContainer" class="path-container"></div></div></div>
+<div id="modalQuiz" class="modal-overlay" style="z-index:300;"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalQuiz')">✖</button><h3>Quiz</h3></div><div class="modal-body"><div style="width:100%; height:10px; background:#ddd; border-radius:5px; margin-bottom:20px;"><div id="quizBar" style="height:100%; background:#58cc02; width:0%; border-radius:5px;"></div></div><h2 id="quizPrompt" style="text-align:center;">...</h2><div id="quizOptions" style="display:flex; flex-direction:column; gap:10px; width:100%;"></div></div></div>
+<div id="modalChess" class="modal-overlay"><div class="modal-header"><button class="back-btn" onclick="closeModal('modalChess')">⬅</button><h3>Lógica</h3><div></div></div><div class="modal-body" style="text-align:center;"><div style="font-size:4rem; margin:20px;">♟️</div><p>Sigue la serie: 2, 4, 6...</p><button class="btn-trans" onclick="alert('Correcto!')">8</button><button class="btn-trans" style="background:#ef5350" onclick="alert('Incorrecto')">9</button></div></div>
+
+<script>
+    // --- USUARIO & PREMIOS ---
+    let currentUser = JSON.parse(localStorage.getItem('magicUser')) || null;
+    const rewards = [
+        {id:1, name:"Bronce", req:3}, {id:2, name:"Plata", req:7}, {id:3, name:"Oro", req:15}
+    ];
+
+    window.onload = () => {
+        if(currentUser) { checkStreak(); loadInterface(); } 
+        else { document.getElementById('welcomeScreen').style.transform = "translateY(0)"; }
+        window.speechSynthesis.getVoices();
+    };
+
+    function registerUser() {
+        const name = document.getElementById('usernameInput').value.trim();
+        if(!name) return;
+        currentUser = { name: name, points: 0, level: 1, streak: 0, lastLogin: new Date().toDateString() };
+        localStorage.setItem('magicUser', JSON.stringify(currentUser));
+        playSfx('win'); loadInterface();
+    }
+
+    function checkStreak() {
+        const today = new Date().toDateString();
+        if(currentUser.lastLogin !== today) {
+            const last = new Date(currentUser.lastLogin);
+            const now = new Date();
+            const diff = (now - last) / (1000 * 60 * 60 * 24);
+            if(diff < 2) currentUser.streak++; else currentUser.streak = 1;
+            currentUser.lastLogin = today;
+            saveUser();
+        }
+    }
+
+    function openProfile() {
+        document.getElementById('profileName').innerText = currentUser.name;
+        document.getElementById('pPoints').innerText = currentUser.points;
+        document.getElementById('pLevel').innerText = currentUser.level;
+        document.getElementById('pStreak').innerText = currentUser.streak;
+        
+        const rList = document.getElementById('rewardsList'); rList.innerHTML = '';
+        rewards.forEach(r => {
+            let d = document.createElement('div');
+            d.className = currentUser.streak >= r.req ? 'reward-item' : 'reward-item locked';
+            d.innerHTML = `<div>${currentUser.streak >= r.req ? '🏆' : '🔒'}</div><div><b>Medalla ${r.name}</b><br><small>${r.req} días seguidos</small></div>`;
+            rList.appendChild(d);
+        });
+        openModal('modalProfile');
+    }
+
+    function loadInterface() {
+        document.getElementById('welcomeScreen').style.transform = "translateY(-100%)";
+        updateUI();
+        speak("");
+    }
+    function saveUser(){ localStorage.setItem('magicUser', JSON.stringify(currentUser)); }
+    function addPts(n){ currentUser.points += n; currentUser.level = Math.floor(currentUser.points/100)+1; saveUser(); document.getElementById('userPoints').innerText = currentUser.points; }
+    function logout() { localStorage.removeItem('magicUser'); location.reload(); }
+    function updateUI() { if(!currentUser) return; document.getElementById('userPoints').innerText = currentUser.points; document.getElementById('userStreak').innerText = currentUser.streak; }
+
+    // --- TRADUCTOR ---
+    let isRec = false, rec = null;
+    async function doTranslate() {
+        const txt = document.getElementById('transIn').value;
+        if(!txt) return;
+        const src = document.getElementById('sourceLang').value.split('-')[0];
+        const tgt = document.getElementById('targetLang').value;
+        try {
+            const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
+            const j = await r.json();
+            const res = j[0][0][0];
+            document.getElementById('transOut').innerText = res;
+            speak(res, getVoiceLang(tgt));
+        } catch(e) {}
+    }
+    function startVoiceTranslation() {
+        if(isRec) { if(rec) rec.stop(); resetMic(); return; }
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(!Speech) return;
+        rec = new Speech(); rec.lang = document.getElementById('sourceLang').value;
+        const mic = document.getElementById('micBtn');
+        mic.classList.add('listening'); document.getElementById('voiceStatus').innerText = "Escuchando..."; isRec = true;
+        rec.onresult = (e) => { const txt = e.results[0][0].transcript; translateAndSpeak(txt, document.getElementById('targetLang').value); };
+        rec.onend = resetMic;
+        try{rec.start();}catch(e){resetMic();}
+    }
+    function resetMic(){ isRec=false; document.getElementById('micBtn').classList.remove('listening'); document.getElementById('voiceStatus').innerText="..."; }
+    async function translateAndSpeak(txt, tgt) {
+        const src = document.getElementById('sourceLang').value.split('-')[0];
+        const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(txt)}`);
+        const j = await r.json(); const res = j[0][0][0];
+        document.getElementById('voiceStatus').innerText = `${txt} ➝ ${res}`;
+        speak(res, getVoiceLang(tgt));
+    }
+    function getVoiceLang(c){ const m={en:'en-US',es:'es-ES',fr:'fr-FR',it:'it-IT',pt:'pt-BR'}; return m[c]||'en-US'; }
+    function speak(t, l='en-US'){ window.speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(t); u.lang=l; u.rate=0.9; window.speechSynthesis.speak(u); }
+    function openModal(id){document.getElementById(id).style.display='flex';}
+    function closeModal(id){document.getElementById(id).style.display='none';}
+
+    // --- DB & GAMES DATA ---
+    const db = {
+        greetings: [{i:'👋',e:'Hello',s:'Hola'},{i:'🚶',e:'Bye',s:'Adiós'},{i:'🌅',e:'Good Morning',s:'Buenos días'}],
+        abc: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').map(l=>({i:l,e:l,s:l})),
+        animals: [{i:'🐶',e:'Dog',s:'Perro'},{i:'🐱',e:'Cat',s:'Gato'},{i:'🦁',e:'Lion',s:'León'},{i:'🐯',e:'Tiger',s:'Tigre'},{i:'🐘',e:'Elephant',s:'Elefante'},{i:'🐵',e:'Monkey',s:'Mono'}],
+        fruits: [{i:'🍎',e:'Apple',s:'Manzana'},{i:'🍌',e:'Banana',s:'Plátano'},{i:'🍇',e:'Grapes',s:'Uvas'},{i:'🍊',e:'Orange',s:'Naranja'},{i:'🍓',e:'Strawberry',s:'Fresa'}],
+        food: [{i:'🍕',e:'Pizza',s:'Pizza'},{i:'🍔',e:'Burger',s:'Hamburguesa'},{i:'🌭',e:'Hot Dog',s:'Perro Caliente'},{i:'🍟',e:'Fries',s:'Papas Fritas'},{i:'🍞',e:'Bread',s:'Pan'}],
+        colors: [{i:'🔴',e:'Red',s:'Rojo'},{i:'🔵',e:'Blue',s:'Azul'},{i:'🟢',e:'Green',s:'Verde'},{i:'🟡',e:'Yellow',s:'Amarillo'},{i:'🟠',e:'Orange',s:'Naranja'},{i:'🟣',e:'Purple',s:'Morado'}],
+        routines: [{i:'🥱',e:'Wake up',s:'Despertar'},{i:'🚿',e:'Shower',s:'Ducha'},{i:'🦷',e:'Brush teeth',s:'Cepillar'}],
+        family: [{i:'👨',e:'Father',s:'Papá'},{i:'👩',e:'Mother',s:'Mamá'},{i:'👦',e:'Brother',s:'Hermano'},{i:'👧',e:'Sister',s:'Hermana'}],
+        numbers: [{i:'1️⃣',e:'One',s:'1'},{i:'2️⃣',e:'Two',s:'2'},{i:'3️⃣',e:'Three',s:'3'},{i:'4️⃣',e:'Four',s:'4'},{i:'5️⃣',e:'Five',s:'5'},{i:'6️⃣',e:'Six',s:'6'}],
+        home: [{i:'🏠',e:'House',s:'Casa'},{i:'🚪',e:'Door',s:'Puerta'},{i:'🪟',e:'Window',s:'Ventana'},{i:'🛋️',e:'Sofa',s:'Sofá'}],
+        body: [{i:'👤',e:'Head',s:'Cabeza'},{i:'👁️',e:'Eye',s:'Ojo'},{i:'👃',e:'Nose',s:'Nariz'},{i:'👄',e:'Mouth',s:'Boca'}],
+        school: [{i:'✏️',e:'Pencil',s:'Lápiz'},{i:'🖊️',e:'Pen',s:'Bolígrafo'},{i:'📏',e:'Ruler',s:'Regla'}],
+        verbs: [{i:'🏃',e:'Run',s:'Correr'},{i:'🚶',e:'Walk',s:'Caminar'},{i:'🤸',e:'Jump',s:'Saltar'},{i:'🏊',e:'Swim',s:'Nadar'}]
+    };
+
+    // --- CATEGORY ---
+    function openCategory(c, t){
+        document.getElementById('catTitle').innerText=t; const g=document.getElementById('catGrid'); g.innerHTML='';
+        if(db[c]) db[c].forEach(i=>{let d=document.createElement('div'); d.className='vocab-item'; d.innerHTML=`<div class="v-icon">${i.i}</div><div class="v-word">${i.s}</div>`; d.onclick=()=>speak(i.e); g.appendChild(d);});
+        openModal('modalCategory');
+    }
+
+    // --- FUTBOL PRO ---
+    let socLives = 3;
+    function initSoccerPro() {
+        socLives = 3; 
+        openModal('modalSoccer');
+        newKick();
+    }
+    function newKick() {
+        if(socLives<=0) { alert("Game Over"); closeModal('modalSoccer'); return; }
+        document.getElementById('ball').style.bottom="10px";
+        const all = [...db.animals, ...db.fruits];
+        const q = all[Math.floor(Math.random()*all.length)];
+        const w = all[Math.floor(Math.random()*all.length)];
+        document.getElementById('socQ').innerText = q.s;
+        const btns = [`<button class="game-btn" onclick="kickPro(true, '${q.e}')">${q.e}</button>`, `<button class="game-btn" style="background:#ff9100" onclick="kickPro(false)">${w.e}</button>`].sort(()=>Math.random()-0.5).join('');
+        document.getElementById('socBtns').innerHTML = btns;
+    }
+    function kickPro(win, w) {
+        if(win) {
+            document.getElementById('ball').style.bottom="180px";
+            document.getElementById('keeper').style.left="80%";
+            speak("Goal! "+w); addPts(20);
+        } else {
+            document.getElementById('keeper').style.left="45%";
+            speak("Missed"); socLives--;
+        }
+        setTimeout(newKick, 1500);
+    }
+
+    // --- GLOBOS (DROP) ---
+    let dropInterval;
+    function initGlobos() {
+        openModal('modalGlobos');
+        const area = document.getElementById('balloonArea');
+        area.innerHTML = '';
+        const all = [...db.colors, ...db.numbers];
+        const target = all[Math.floor(Math.random()*all.length)];
+        document.getElementById('dropTarget').innerText = "Traduce: " + target.s;
+        const opts = [target, all[Math.floor(Math.random()*all.length)]];
+        opts.forEach((o, i) => {
+            let b = document.createElement('div');
+            b.className = "balloon";
+            b.innerText = o.e;
+            b.style.left = (i*50 + 20) + "%";
+            b.style.top = "0px";
+            b.onclick = () => {
+                if(o.e === target.e) { speak("Correct!"); addPts(10); clearInterval(dropInterval); setTimeout(initGlobos, 1000); }
+                else { speak("Wrong"); b.style.display='none'; }
+            };
+            area.appendChild(b);
+        });
+        let pos = 0;
+        dropInterval = setInterval(() => {
+            pos += 2;
+            document.querySelectorAll('.balloon').forEach(b => b.style.top = pos + "px");
+            if(pos > 280) { clearInterval(dropInterval); setTimeout(initGlobos, 500); }
+        }, 50);
+    }
+
+    // --- MEMORIA PRO ---
+    let mSel = [];
+    function initMemoryPro() {
+        openModal('modalMemory');
+        const g = document.getElementById('memProGrid'); g.innerHTML = '';
+        const items = [...db.animals, ...db.fruits].sort(()=>Math.random()-0.5).slice(0, 6);
+        let cards = [];
+        items.forEach(i => {
+            cards.push({id:i.e, content:i.i});
+            cards.push({id:i.e, content:i.e});
+        });
+        cards.sort(()=>Math.random()-0.5);
+        cards.forEach(c => {
+            let div = document.createElement('div');
+            div.className = 'mem-card';
+            div.onclick = () => {
+                if(mSel.length < 2 && !div.classList.contains('flipped')) {
+                    div.classList.add('flipped'); div.innerText = c.content;
+                    mSel.push({el:div, id:c.id});
+                    if(mSel.length === 2) checkMemPro();
+                }
+            };
+            g.appendChild(div);
+        });
+    }
+    function checkMemPro() {
+        if(mSel[0].id === mSel[1].id) {
+            speak("Match!"); addPts(15); mSel = [];
+        } else {
+            setTimeout(() => {
+                mSel[0].el.classList.remove('flipped'); mSel[0].el.innerText = "";
+                mSel[1].el.classList.remove('flipped'); mSel[1].el.innerText = "";
+                mSel = [];
+            }, 1000);
+        }
+    }
+
+    // --- CRUCIGRAMA (Mantenido) ---
+    const packs=[{id:0,title:"Básico",diff:"Fácil",s:3,l:[['R','E','D'],['#','#','O'],['#','#','G']],c:["Color sangre","Animal ladra"],sol:{'0-0':'R','0-1':'E','0-2':'D','1-2':'O','2-2':'G'}}];
+    let curPack, selCell, curDir='H', grState=[];
+    function openCrosswordMenu(){openModal('packsScreen'); let g=document.getElementById('packsGrid'); g.innerHTML=''; packs.forEach(p=>{let d=document.createElement('div'); d.className='cw-pack-card'; d.innerHTML=`<div class="cw-pack-info">${p.title}</div>`; d.onclick=()=>loadCw(p); g.appendChild(d);});}
+    function closePacks(){closeModal('packsScreen');} function closeGame(){closeModal('gameScreen');}
+    function loadCw(p){curPack=p; document.getElementById('gameTitle').innerText=p.title; openModal('gameScreen'); buildCw(p);}
+    function buildCw(p){const b=document.getElementById('gridTable'); b.style.gridTemplateColumns=`repeat(${p.s},1fr)`; b.innerHTML=''; grState=[]; for(let r=0;r<p.s;r++){let row=[]; for(let c=0;c<p.s;c++){let ch=p.l[r][c]; let d=document.createElement('div'); if(ch==='#')d.className='cw-cell black'; else {d.className='cw-cell'; let i=document.createElement('input'); i.className='trans-input'; i.style.background='transparent'; i.maxLength=1; i.dataset.r=r; i.dataset.c=c; i.onfocus=()=>selCw(r,c); i.onkeyup=(e)=>inpCw(e,i); d.appendChild(i);} b.appendChild(d); row.push({el:d,sol:ch});} grState.push(row);}}
+    function selCw(r,c){selCell={r,c}; document.getElementById('currentClueDisplay').innerText=curPack.c[0];}
+    function inpCw(e,i){if(e.key.match(/[a-z]/i)) i.parentElement.nextElementSibling?.querySelector('input')?.focus();}
+    function checkCrossword(){document.querySelectorAll('.cw-cell input').forEach(i=>{let r=i.dataset.r,c=i.dataset.c,s=curPack.sol[`${r}-${c}`]; if(i.value.toUpperCase()===s)i.style.color='green'; else i.style.color='red';});}
+
+</script>
 </body>
 </html>
